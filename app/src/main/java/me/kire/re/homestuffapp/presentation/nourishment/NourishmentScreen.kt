@@ -13,7 +13,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import me.kire.re.homestuffapp.domain.model.Nourishment
 import me.kire.re.homestuffapp.presentation.common.SearchBar
+import me.kire.re.homestuffapp.presentation.nourishment.components.NourishmentList
 
 @Composable
 fun NourishmentScreen(
@@ -25,7 +27,7 @@ fun NourishmentScreen(
 
     Column(
         modifier = Modifier
-            .padding(all = 6.dp)
+            .padding(top = 6.dp, start = 8.dp, end = 8.dp)
     ) {
         Text(text = "Nourishments",
             style = MaterialTheme.typography.displayMedium
@@ -38,9 +40,20 @@ fun NourishmentScreen(
                 text = it
             }
         )
-        Button(onClick = navigateToHome) {
-            Text(text = "Navigate to Home")
-        }
+        NourishmentList(
+            nourishments = listOf(
+                Nourishment(
+                    title = "Orange",
+                    stock = 3,
+                    imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png"
+                ),
+                Nourishment(
+                    title = "Orange",
+                    stock = 3,
+                    imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png"
+                )
+            )
+        )
     }
 }
 

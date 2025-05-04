@@ -1,6 +1,7 @@
 package me.kire.re.homestuffapp.presentation.homestuff_navigator
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -11,6 +12,7 @@ import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
@@ -56,6 +58,7 @@ fun HomeStuffNavigator() {
             hasNews = false
         )
     )
+
     var selectedItem by rememberSaveable {
         mutableIntStateOf(0)
     }
@@ -69,20 +72,21 @@ fun HomeStuffNavigator() {
         else -> 0
     }
 
-
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
             NavigationBar(
                 modifier = Modifier
+                    .fillMaxWidth()
                     .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)),
+                containerColor = MaterialTheme.colorScheme.background,
+                tonalElevation = 10.dp,
             ) {
                 items.forEachIndexed { index, item ->
                     NavigationBarItem(
                         selected = index == selectedItem,
                         onClick = {
                             selectedItem = index
-                            println(index)
                             when (index) {
                                 0 -> navigateToTab(
                                     navController = navController,
