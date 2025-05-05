@@ -28,7 +28,7 @@ import me.kire.re.homestuffapp.domain.model.Nourishment
 fun NourishmentCard(
     modifier: Modifier = Modifier,
     nourishment: Nourishment,
-    onClick: () -> Unit
+    onClick: (() -> Unit)? = null
 ) {
     Card(
         modifier = modifier
@@ -38,7 +38,7 @@ fun NourishmentCard(
             )
             .fillMaxWidth()
             .clip(RoundedCornerShape(10.dp))
-            .clickable { onClick() },
+            .clickable { onClick?.invoke() },
         shape = RoundedCornerShape(10.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
     ) {

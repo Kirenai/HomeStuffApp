@@ -20,6 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -31,6 +32,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import me.kire.re.homestuffapp.domain.model.Nourishment
+import me.kire.re.homestuffapp.presentation.details.DetailsScreen
 import me.kire.re.homestuffapp.presentation.home.HomeScreen
 import me.kire.re.homestuffapp.presentation.nourishment.NourishmentScreen
 
@@ -72,9 +75,15 @@ fun HomeStuffNavigator() {
         else -> 0
     }
 
+    val isBottomBarVisible = remember(key1 = backStackState) {
+        backStackState?.destination?.route == "homeScreen"
+                || backStackState?.destination?.route == "nourishmentScreen"
+    }
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
+            if (!isBottomBarVisible) return@Scaffold
             NavigationBar(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -92,6 +101,7 @@ fun HomeStuffNavigator() {
                                     navController = navController,
                                     route = "homeScreen"
                                 )
+
                                 1 -> navigateToTab(
                                     navController = navController,
                                     route = "nourishmentScreen"
@@ -147,8 +157,27 @@ fun HomeStuffNavigator() {
                             navController = navController,
                             route = "homeScreen"
                         )
+                    },
+                    navigateToDetails = { nourishment ->
+                        navigateToDetails(
+                            navController = navController,
+                            nourishment = nourishment
+                        )
                     }
                 )
+            }
+            composable(route = "detailsScreen") {
+                navController.previousBackStackEntry
+                    ?.savedStateHandle
+                    ?.get<Nourishment?>("nourishment")
+                    ?.let { nourishment ->
+                        DetailsScreen(
+                            nourishment = nourishment,
+                            navigateUp = {
+                                navController.navigateUp()
+                            }
+                        )
+                    }
             }
         }
     }
@@ -164,4 +193,14 @@ private fun navigateToTab(navController: NavHostController, route: String) {
         launchSingleTop = true
         restoreState = true
     }
+}
+
+private fun navigateToDetails(
+    navController: NavHostController,
+    nourishment: Nourishment
+) {
+    navController.currentBackStackEntry?.savedStateHandle?.set("nourishment", nourishment)
+    navController.navigate(
+        route = "detailsScreen"
+    )
 }

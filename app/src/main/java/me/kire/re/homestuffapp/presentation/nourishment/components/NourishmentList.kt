@@ -13,6 +13,7 @@ import me.kire.re.homestuffapp.domain.model.Nourishment
 fun NourishmentList(
     modifier: Modifier = Modifier,
     nourishments: List<Nourishment>,
+    onClick: (Nourishment) -> Unit,
 ) {
     LazyColumn(
         modifier = modifier.fillMaxSize(),
@@ -23,7 +24,10 @@ fun NourishmentList(
             count = nourishments.size
         ) {
             nourishments[it].let { nourishment ->
-                NourishmentCard(nourishment = nourishment, onClick = {})
+                NourishmentCard(
+                    nourishment = nourishment,
+                    onClick = { onClick(nourishment) }
+                )
             }
         }
     }

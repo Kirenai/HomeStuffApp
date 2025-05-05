@@ -18,7 +18,8 @@ import me.kire.re.homestuffapp.presentation.nourishment.components.NourishmentLi
 
 @Composable
 fun NourishmentScreen(
-    navigateToHome: () -> Unit
+    navigateToHome: () -> Unit,
+    navigateToDetails: (Nourishment) -> Unit,
 ) {
     var text by remember {
         mutableStateOf("")
@@ -26,11 +27,12 @@ fun NourishmentScreen(
 
     Column(
         modifier = Modifier
-            .padding(top = 6.dp, start = 8.dp, end = 8.dp)
+            .padding(top = 16.dp, start = 10.dp, end = 10.dp)
     ) {
-        Text(text = "Nourishments",
+        Text(
+            text = "Nourishments",
             style = MaterialTheme.typography.displayMedium
-            )
+        )
         SearchBar(
             modifier = Modifier
                 .padding(top = 15.dp, bottom = 8.dp),
@@ -44,14 +46,16 @@ fun NourishmentScreen(
                 Nourishment(
                     title = "Orange",
                     stock = 3,
-                    imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png"
+                    imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
+                    expirationDate = "5 days"
                 ),
                 Nourishment(
                     title = "Orange",
                     stock = 3,
                     imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png"
                 )
-            )
+            ),
+            onClick = navigateToDetails
         )
     }
 }
@@ -59,5 +63,5 @@ fun NourishmentScreen(
 @Preview(showBackground = true)
 @Composable
 fun NourishmentScreenPreview() {
-    NourishmentScreen(navigateToHome = {})
+    NourishmentScreen(navigateToHome = {}, navigateToDetails = {})
 }
