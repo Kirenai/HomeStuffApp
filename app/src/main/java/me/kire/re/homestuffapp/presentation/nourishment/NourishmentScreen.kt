@@ -18,7 +18,6 @@ import me.kire.re.homestuffapp.presentation.nourishment.components.NourishmentLi
 
 @Composable
 fun NourishmentScreen(
-    navigateToHome: () -> Unit,
     navigateToDetails: (Nourishment) -> Unit,
 ) {
     var text by remember {
@@ -63,5 +62,5 @@ fun NourishmentScreen(
 @Preview(showBackground = true)
 @Composable
 fun NourishmentScreenPreview() {
-    NourishmentScreen(navigateToHome = {}, navigateToDetails = {})
+    NourishmentScreen(navigateToDetails = {})
 }
