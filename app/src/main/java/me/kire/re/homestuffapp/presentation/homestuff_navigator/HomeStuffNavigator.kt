@@ -152,12 +152,6 @@ fun HomeStuffNavigator() {
             }
             composable(route = "nourishmentScreen") {
                 NourishmentScreen(
-                    navigateToHome = {
-                        navigateToTab(
-                            navController = navController,
-                            route = "homeScreen"
-                        )
-                    },
                     navigateToDetails = { nourishment ->
                         navigateToDetails(
                             navController = navController,
