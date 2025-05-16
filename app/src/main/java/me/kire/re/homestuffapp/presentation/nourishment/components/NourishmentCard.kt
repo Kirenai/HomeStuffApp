@@ -63,7 +63,7 @@ fun NourishmentCard(
                 verticalArrangement = Arrangement.SpaceAround,
             ) {
                 Text(
-                    text = nourishment.title,
+                    text = nourishment.name,
                     style = MaterialTheme.typography.titleLarge,
                     maxLines = 1,
                 )

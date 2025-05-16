@@ -36,6 +36,10 @@ import me.kire.re.homestuffapp.domain.model.Nourishment
 import me.kire.re.homestuffapp.presentation.details.DetailsScreen
 import me.kire.re.homestuffapp.presentation.home.HomeScreen
 import me.kire.re.homestuffapp.presentation.nourishment.NourishmentScreen
+import me.kire.re.homestuffapp.presentation.nourishment.NourishmentViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 
 data class BottomNavigationItem(
     val title: String,
@@ -151,13 +155,17 @@ fun HomeStuffNavigator() {
                 })
             }
             composable(route = "nourishmentScreen") {
+                val viewModel: NourishmentViewModel = hiltViewModel()
+                val nourishments: LazyPagingItems<Nourishment> = viewModel.nourishments.collectAsLazyPagingItems()
                 NourishmentScreen(
+                    nourishments = nourishments,
                     navigateToDetails = { nourishment ->
                         navigateToDetails(
                             navController = navController,
                             nourishment = nourishment
                         )
-                    }
+                    },
+                    navigateToSearch = {}
                 )
             }
             composable(route = "detailsScreen") {

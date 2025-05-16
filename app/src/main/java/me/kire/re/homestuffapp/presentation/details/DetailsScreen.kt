@@ -83,7 +83,7 @@ fun DetailsScreen(
                         .padding(vertical = 16.dp)
                 ) {
                     Text(
-                        text = nourishment.title,
+                        text = nourishment.name,
                         style = MaterialTheme.typography.displayMedium
 
                     )

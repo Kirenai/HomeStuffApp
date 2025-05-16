@@ -24,6 +24,7 @@ fun SearchBar(
     modifier: Modifier = Modifier,
     text: String,
     onChangeValue: (String) -> Unit,
+    onSearch: () -> Unit
 ) {
     Box(modifier = modifier) {
         TextField(
@@ -58,7 +59,8 @@ fun SearchBar(
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
             keyboardActions = KeyboardActions(
                 onSearch = {
-                    println("Search action triggered")
+                    defaultKeyboardAction(ImeAction.Done)
+                    onSearch()
                 }
             )
         )
@@ -70,6 +72,7 @@ fun SearchBar(
 fun SearchBarPreview() {
     SearchBar(
         text = "Search",
-        onChangeValue = {}
+        onChangeValue = {},
+        onSearch = {}
     )
 }

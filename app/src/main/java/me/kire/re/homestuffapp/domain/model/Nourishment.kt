@@ -5,8 +5,13 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Nourishment(
-    val title: String,
-    val stock: Int,
+    val nourishmentId: String,
+    val name: String,
+    val title: String? = null,
+    val stock: Int? = null,
     val imageUrl: String,
+    val description: String,
+    val isAvailable: Boolean,
     val expirationDate: String? = null,
+    val type: NourishmentType? = null,
 ) : Parcelable
