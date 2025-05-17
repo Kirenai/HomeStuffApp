@@ -5,12 +5,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
+import androidx.compose.material3.FabPosition
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -27,19 +30,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import me.kire.re.homestuffapp.domain.model.Nourishment
 import me.kire.re.homestuffapp.presentation.details.DetailsScreen
 import me.kire.re.homestuffapp.presentation.home.HomeScreen
 import me.kire.re.homestuffapp.presentation.nourishment.NourishmentScreen
 import me.kire.re.homestuffapp.presentation.nourishment.NourishmentViewModel
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.collectAsLazyPagingItems
+import me.kire.re.homestuffapp.presentation.nourishment.form.NourishmentFormScreen
 
 data class BottomNavigationItem(
     val title: String,
@@ -82,6 +86,10 @@ fun HomeStuffNavigator() {
     val isBottomBarVisible = remember(key1 = backStackState) {
         backStackState?.destination?.route == "homeScreen"
                 || backStackState?.destination?.route == "nourishmentScreen"
+    }
+
+    val isNourishmentScreenVisible = remember(key1 = backStackState) {
+        backStackState?.destination?.route == "nourishmentScreen"
     }
 
     Scaffold(
@@ -138,7 +146,26 @@ fun HomeStuffNavigator() {
                     )
                 }
             }
-        }
+        },
+        floatingActionButton = {
+            when (navController.currentDestination?.route) {
+                "nourishmentScreen" -> {
+                    FloatingActionButton(
+                        onClick = {
+                            navigateToTab(
+                                navController = navController,
+                                route = "nourishmentFormScreen"
+                            )
+                        },
+                        containerColor = MaterialTheme.colorScheme.background,
+                        contentColor = MaterialTheme.colorScheme.primary,
+                    ) {
+                        Icon(imageVector = Icons.Default.Add, contentDescription = "Add")
+                    }
+                }
+            }
+        },
+        floatingActionButtonPosition = FabPosition.End,
     ) {
         val bottomPadding = it.calculateBottomPadding()
         NavHost(
@@ -156,7 +183,8 @@ fun HomeStuffNavigator() {
             }
             composable(route = "nourishmentScreen") {
                 val viewModel: NourishmentViewModel = hiltViewModel()
-                val nourishments: LazyPagingItems<Nourishment> = viewModel.nourishments.collectAsLazyPagingItems()
+                val nourishments: LazyPagingItems<Nourishment> =
+                    viewModel.nourishments.collectAsLazyPagingItems()
                 NourishmentScreen(
                     nourishments = nourishments,
                     navigateToDetails = { nourishment ->
@@ -166,6 +194,14 @@ fun HomeStuffNavigator() {
                         )
                     },
                     navigateToSearch = {}
+                )
+            }
+            composable(route = "nourishmentFormScreen") {
+                NourishmentFormScreen(
+                    navigateUp = {
+                        navController.navigateUp()
+                    },
+                    onSave = {}
                 )
             }
             composable(route = "detailsScreen") {

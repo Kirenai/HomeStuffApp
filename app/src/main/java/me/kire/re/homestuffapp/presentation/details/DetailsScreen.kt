@@ -29,6 +29,7 @@ import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import me.kire.re.homestuffapp.R
 import me.kire.re.homestuffapp.domain.model.Nourishment
+import me.kire.re.homestuffapp.presentation.details.components.TextStock
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -91,7 +92,7 @@ fun DetailsScreen(
 
                 Column(
                     verticalArrangement = Arrangement.spacedBy(10.dp)
-                ){
+                ) {
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -103,10 +104,18 @@ fun DetailsScreen(
                             Text(
                                 text = "In Stock"
                             )
-                            Text(
-                                text = nourishment.stock.toString(),
-                                fontWeight = FontWeight.SemiBold
-                            )
+                            nourishment.type?.unit?.let {
+                                TextStock(
+                                    isAvailable = nourishment.isAvailable,
+                                    stock = it
+                                )
+                            }
+                            nourishment.type?.percentage?.let {
+                                TextStock(
+                                    isAvailable = nourishment.isAvailable,
+                                    stock = it
+                                )
+                            }
                         }
                     }
 
@@ -129,8 +138,25 @@ fun DetailsScreen(
                             }
                         }
                     }
-                }
 
+                    Card(
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .padding(16.dp)
+                        ) {
+                            Text(
+                                text = "Description"
+                            )
+                            Text(
+                                text = nourishment.description,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                        }
+                    }
+
+                }
             }
         }
     }
