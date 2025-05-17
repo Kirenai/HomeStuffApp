@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -34,56 +33,51 @@ fun NourishmentScreen(
         mutableStateOf("")
     }
 
-    Scaffold(
-
+    Column(
+        modifier = Modifier
+            .padding(top = 16.dp, start = 16.dp, end = 16.dp)
+            .fillMaxSize()
     ) {
-        val calculateBottomPadding = it.calculateBottomPadding()
-        Column(
-            modifier = Modifier
-                .padding(top = 16.dp, start = 16.dp, end = 16.dp)
-                .fillMaxSize()
-        ) {
-            Text(
-                text = "Nourishments",
-                style = MaterialTheme.typography.displayMedium
-            )
-            Spacer(modifier = Modifier.height(12.dp))
-            SearchBar(
-                text = text,
-                onChangeValue = {
-                    text = it
-                },
-                onSearch = navigateToSearch
-            )
-            Spacer(modifier = Modifier.height(24.dp))
-            NourishmentList(
-                nourishments = listOf(
-                    Nourishment(
-                        nourishmentId = "1",
-                        name = "Orange",
-                        stock = 3,
-                        imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
-                        description = "Fresh orange",
-                        expirationDate = "5 days",
-                        isAvailable = true,
-                    ),
-                    Nourishment(
-                        nourishmentId = "2",
-                        name = "Orange",
-                        stock = 3,
-                        imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
-                        description = "Fresh orange",
-                        isAvailable = true,
-                    )
+        Text(
+            text = "Nourishments",
+            style = MaterialTheme.typography.displayMedium
+        )
+        Spacer(modifier = Modifier.height(12.dp))
+        SearchBar(
+            text = text,
+            onChangeValue = {
+                text = it
+            },
+            onSearch = navigateToSearch
+        )
+        Spacer(modifier = Modifier.height(24.dp))
+        NourishmentList(
+            nourishments = listOf(
+                Nourishment(
+                    nourishmentId = "1",
+                    name = "Orange",
+                    stock = 3,
+                    imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
+                    description = "Fresh orange",
+                    expirationDate = "5 days",
+                    isAvailable = true,
                 ),
-                onClick = navigateToDetails
-            )
+                Nourishment(
+                    nourishmentId = "2",
+                    name = "Orange",
+                    stock = 3,
+                    imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
+                    description = "Fresh orange",
+                    isAvailable = true,
+                )
+            ),
+            onClick = navigateToDetails
+        )
 
 //        NourishmentList(
 //            nourishments = nourishments,
 //            onClick = navigateToDetails
 //        )
-        }
     }
 
 }
