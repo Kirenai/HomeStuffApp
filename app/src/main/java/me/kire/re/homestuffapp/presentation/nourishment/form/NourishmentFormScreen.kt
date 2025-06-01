@@ -1,6 +1,10 @@
 package me.kire.re.homestuffapp.presentation.nourishment.form
 
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
@@ -35,21 +39,62 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import me.kire.re.homestuffapp.R
 import me.kire.re.homestuffapp.presentation.common.DisplayImage
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NourishmentFormScreen(
     navigateUp: () -> Unit,
-    onSave: () -> Unit,
+    event: (NourishmentFormEvent) -> Unit,
+    state: NourishmentFromState
 ) {
+    val context = LocalContext.current
+    val file = context.createImageFile()
+    val uri = FileProvider.getUriForFile(
+        context,
+        "${context.packageName}.provider",
+        file
+    )
+
+    val capturedImageUri = remember { mutableStateOf<Uri>(Uri.EMPTY) }
+
+    val cameraLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.TakePicture()
+    ) { success: Boolean ->
+        if (success) {
+            println("Before captured image value ${capturedImageUri.value}")
+            capturedImageUri.value = uri
+            println("After captured image value ${capturedImageUri.value}")
+        }
+    }
+
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            Toast.makeText(context, "Camera permission granted", Toast.LENGTH_SHORT)
+                .show()
+            cameraLauncher.launch(uri)
+        } else {
+            Toast.makeText(context, "Camera permission denied", Toast.LENGTH_SHORT)
+                .show()
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -84,8 +129,8 @@ fun NourishmentFormScreen(
         ) {
             item {
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = state.name,
+                    onValueChange = { event(NourishmentFormEvent.NameChanged(it)) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 16.dp),
@@ -105,14 +150,6 @@ fun NourishmentFormScreen(
                     ),
                 )
 
-                val imageUri = remember { mutableStateOf<Uri?>(null) }
-
-                val launcher = rememberLauncherForActivityResult(
-                    contract = ActivityResultContracts.GetContent()
-                ) { uri: Uri? ->
-                    imageUri.value = uri
-                }
-
                 Spacer(Modifier.height(16.dp))
 
                 Button(
@@ -120,31 +157,43 @@ fun NourishmentFormScreen(
                         .fillMaxWidth(),
                     shape = MaterialTheme.shapes.small,
                     onClick = {
-                        launcher.launch("image/*")
+                        val permissionResult =
+                            ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
+                        if (permissionResult == PackageManager.PERMISSION_GRANTED) {
+                            cameraLauncher.launch(uri)
+                        } else {
+                            permissionLauncher.launch(Manifest.permission.CAMERA)
+                        }
                     }
                 ) {
                     Text(
-                        text = "Select Image",
+                        text = "Capture Image From Camera",
                     )
                 }
 
-                imageUri.value?.let { uri ->
-                    DisplayImage(
+                if (capturedImageUri.value.path?.isNotEmpty() == true) {
+                    Box(
                         modifier = Modifier
-                            .size(200.dp)
                             .padding(16.dp)
-                            .clip(RoundedCornerShape(8.dp)),
-                        image = uri,
-                        contentDescription = "Selected Image",
-                    )
+                            .fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        DisplayImage(
+                            modifier = Modifier
+                                .size(200.dp)
+                                .clip(RoundedCornerShape(8.dp)),
+                            image = capturedImageUri.value,
+                            contentDescription = "Selected Image",
+                        )
 
-                    val imageUrl = uri.toString()
-                    println("Image Url $imageUrl")
+                        val imageUrl = capturedImageUri.toString()
+                        println("Image Url $imageUrl")
+                    }
                 }
 
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = state.description,
+                    onValueChange = { event(NourishmentFormEvent.DescriptionChanged(it)) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 16.dp),
@@ -246,10 +295,36 @@ fun NourishmentFormScreen(
                         )
                     }
                 }
+
+                Button(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp),
+                    shape = MaterialTheme.shapes.small,
+                    onClick = {
+                        event(NourishmentFormEvent.SaveNourishment)
+                    }
+                ) {
+                    Text(
+                        text = "Save",
+                    )
+                }
             }
 
         }
     }
+}
+
+fun Context.createImageFile(): File {
+    // Create an image file name
+    val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+    val imageFileName = "JPEG_" + timeStamp + "_"
+    val image = File.createTempFile(
+        imageFileName, /* prefix */
+        ".jpg", /* suffix */
+        externalCacheDir      /* directory */
+    )
+    return image
 }
 
 @Preview(showBackground = true)
@@ -257,6 +332,7 @@ fun NourishmentFormScreen(
 fun NourishmentFormScreenPreview() {
     NourishmentFormScreen(
         navigateUp = {},
-        onSave = {}
+        event = {},
+        state = NourishmentFromState()
     )
 }

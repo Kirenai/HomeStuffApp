@@ -21,6 +21,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -44,6 +45,7 @@ import me.kire.re.homestuffapp.presentation.home.HomeScreen
 import me.kire.re.homestuffapp.presentation.nourishment.NourishmentScreen
 import me.kire.re.homestuffapp.presentation.nourishment.NourishmentViewModel
 import me.kire.re.homestuffapp.presentation.nourishment.form.NourishmentFormScreen
+import me.kire.re.homestuffapp.presentation.nourishment.form.NourishmentFormViewModel
 
 data class BottomNavigationItem(
     val title: String,
@@ -86,10 +88,6 @@ fun HomeStuffNavigator() {
     val isBottomBarVisible = remember(key1 = backStackState) {
         backStackState?.destination?.route == "homeScreen"
                 || backStackState?.destination?.route == "nourishmentScreen"
-    }
-
-    val isNourishmentScreenVisible = remember(key1 = backStackState) {
-        backStackState?.destination?.route == "nourishmentScreen"
     }
 
     Scaffold(
@@ -197,11 +195,13 @@ fun HomeStuffNavigator() {
                 )
             }
             composable(route = "nourishmentFormScreen") {
+                val viewModel: NourishmentFormViewModel = hiltViewModel()
                 NourishmentFormScreen(
                     navigateUp = {
                         navController.navigateUp()
                     },
-                    onSave = {}
+                    event = viewModel::onEvent,
+                    state = viewModel.state.collectAsState().value,
                 )
             }
             composable(route = "detailsScreen") {
