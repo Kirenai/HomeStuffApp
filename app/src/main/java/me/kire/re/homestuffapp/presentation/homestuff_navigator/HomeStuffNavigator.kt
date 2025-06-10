@@ -24,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -43,6 +44,7 @@ import me.kire.re.homestuffapp.domain.model.Nourishment
 import me.kire.re.homestuffapp.presentation.details.DetailsScreen
 import me.kire.re.homestuffapp.presentation.home.HomeScreen
 import me.kire.re.homestuffapp.presentation.homestuff_navigator.components.TopAppBar
+import me.kire.re.homestuffapp.presentation.navigation.Route
 import me.kire.re.homestuffapp.presentation.nourishment.NourishmentScreen
 import me.kire.re.homestuffapp.presentation.nourishment.NourishmentViewModel
 import me.kire.re.homestuffapp.presentation.nourishment.form.NourishmentFormScreen
@@ -81,23 +83,35 @@ fun HomeStuffNavigator() {
     val backStackState = navController.currentBackStackEntryAsState().value
 
     selectedItem = when (backStackState?.destination?.route) {
-        "homeScreen" -> 0
-        "nourishmentScreen" -> 1
-        "detailsScreen" -> 2
-        "nourishmentFormScreen" -> 3
+        Route.HomeScreen.route -> 0
+        Route.NourishmentScreen.route -> 1
+        Route.DetailsScreen.route -> 2
+        Route.NourishmentFormScreen.route -> 3
         else -> 0
     }
 
     val isBottomBarVisible = remember(key1 = backStackState) {
-        backStackState?.destination?.route == "homeScreen"
-                || backStackState?.destination?.route == "nourishmentScreen"
+        backStackState?.destination?.route == Route.HomeScreen.route
+                || backStackState?.destination?.route == Route.NourishmentScreen.route
+    }
+
+    var title by remember {
+        mutableStateOf(backStackState?.destination?.route ?: "")
+    }
+
+    title = when (backStackState?.destination?.route) {
+        Route.HomeScreen.route -> "Home"
+        Route.NourishmentScreen.route -> "Nourishment"
+        Route.DetailsScreen.route -> "Details"
+        Route.NourishmentFormScreen.route -> "Nourishment Form"
+        else -> ""
     }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
-                title = "Home Stuff",
+                title = title,
                 navigateUp = {
                     navController.navigateUp()
                 },
@@ -124,12 +138,12 @@ fun HomeStuffNavigator() {
                             when (index) {
                                 0 -> navigateToTab(
                                     navController = navController,
-                                    route = "homeScreen"
+                                    route = Route.HomeScreen.route
                                 )
 
                                 1 -> navigateToTab(
                                     navController = navController,
-                                    route = "nourishmentScreen"
+                                    route = Route.NourishmentScreen.route
                                 )
                             }
                         },
@@ -162,12 +176,12 @@ fun HomeStuffNavigator() {
         },
         floatingActionButton = {
             when (navController.currentDestination?.route) {
-                "nourishmentScreen" -> {
+                Route.NourishmentScreen.route -> {
                     FloatingActionButton(
                         onClick = {
                             navigateToTab(
                                 navController = navController,
-                                route = "nourishmentFormScreen"
+                                route = Route.NourishmentFormScreen.route
                             )
                         },
                         containerColor = MaterialTheme.colorScheme.background,
@@ -182,18 +196,18 @@ fun HomeStuffNavigator() {
     ) {
         NavHost(
             navController = navController,
-            startDestination = "nourishmentScreen",
+            startDestination = Route.NourishmentScreen.route,
             modifier = Modifier.padding(it)
         ) {
-            composable(route = "homeScreen") {
+            composable(route = Route.HomeScreen.route) {
                 HomeScreen(navigateToNourishment = {
                     navigateToTab(
                         navController = navController,
-                        route = "nourishmentScreen"
+                        route = Route.NourishmentScreen.route
                     )
                 })
             }
-            composable(route = "nourishmentScreen") {
+            composable(route = Route.NourishmentScreen.route) {
                 val viewModel: NourishmentViewModel = hiltViewModel()
                 val nourishments: LazyPagingItems<Nourishment> =
                     viewModel.nourishments.collectAsLazyPagingItems()
@@ -208,14 +222,14 @@ fun HomeStuffNavigator() {
                     navigateToSearch = {}
                 )
             }
-            composable(route = "nourishmentFormScreen") {
+            composable(route = Route.NourishmentFormScreen.route) {
                 val viewModel: NourishmentFormViewModel = hiltViewModel()
                 NourishmentFormScreen(
                     event = viewModel::onEvent,
                     state = viewModel.state.collectAsState().value,
                 )
             }
-            composable(route = "detailsScreen") {
+            composable(route = Route.DetailsScreen.route) {
                 navController.previousBackStackEntry
                     ?.savedStateHandle
                     ?.get<Nourishment?>("nourishment")
@@ -247,6 +261,6 @@ private fun navigateToDetails(
 ) {
     navController.currentBackStackEntry?.savedStateHandle?.set("nourishment", nourishment)
     navController.navigate(
-        route = "detailsScreen"
+        route = Route.DetailsScreen.route
     )
 }

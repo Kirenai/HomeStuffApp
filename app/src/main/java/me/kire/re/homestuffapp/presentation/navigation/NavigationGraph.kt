@@ -11,13 +11,13 @@ import me.kire.re.homestuffapp.presentation.homestuff_navigator.HomeStuffNavigat
 fun NavigationGraph() {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "homeStuffNavigation") {
+    NavHost(navController = navController, startDestination = Route.HomeStuffNavigation.route) {
         navigation(
-            route = "homeStuffNavigation",
-            startDestination = "homeStuffNavigator"
+            route = Route.HomeStuffNavigation.route,
+            startDestination = Route.HomeStuffNavigator.route
         ) {
             composable(
-                route = "homeStuffNavigator",
+                route = Route.HomeStuffNavigator.route,
             ) {
                 HomeStuffNavigator()
             }

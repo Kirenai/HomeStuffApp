@@ -33,10 +33,9 @@ fun NourishmentScreen(
 
     Column(
         modifier = Modifier
-            .padding(top = 16.dp, start = 16.dp, end = 16.dp)
+            .padding(start = 16.dp, end = 16.dp)
             .fillMaxSize()
     ) {
-        Spacer(modifier = Modifier.height(12.dp))
         SearchBar(
             text = text,
             onChangeValue = {
@@ -63,58 +62,7 @@ fun NourishmentScreen(
                     imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
                     description = "Fresh orange",
                     isAvailable = true,
-                ),
-                Nourishment(
-                    nourishmentId = "1",
-                    name = "Orange",
-                    stock = 3,
-                    imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
-                    description = "Fresh orange",
-                    expirationDate = "5 days",
-                    isAvailable = true,
-                ),
-                Nourishment(
-                    nourishmentId = "2",
-                    name = "Orange",
-                    stock = 3,
-                    imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
-                    description = "Fresh orange",
-                    isAvailable = true,
-                ),
-                Nourishment(
-                    nourishmentId = "1",
-                    name = "Orange",
-                    stock = 3,
-                    imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
-                    description = "Fresh orange",
-                    expirationDate = "5 days",
-                    isAvailable = true,
-                ),
-                Nourishment(
-                    nourishmentId = "2",
-                    name = "Orange",
-                    stock = 3,
-                    imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
-                    description = "Fresh orange",
-                    isAvailable = true,
-                ),
-                Nourishment(
-                    nourishmentId = "1",
-                    name = "Orange",
-                    stock = 3,
-                    imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
-                    description = "Fresh orange",
-                    expirationDate = "5 days",
-                    isAvailable = true,
-                ),
-                Nourishment(
-                    nourishmentId = "2",
-                    name = "Orange",
-                    stock = 3,
-                    imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
-                    description = "Fresh orange",
-                    isAvailable = true,
-                ),
+                )
             ),
             onClick = navigateToDetails
         )
