@@ -11,31 +11,23 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
-import me.kire.re.homestuffapp.R
 import me.kire.re.homestuffapp.domain.model.Nourishment
 import me.kire.re.homestuffapp.presentation.details.components.TextStock
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailsScreen(
-    nourishment: Nourishment,
-    navigateUp: () -> Unit
+    nourishment: Nourishment
 ) {
     LocalContext.current
     Column(
@@ -43,20 +35,6 @@ fun DetailsScreen(
             .fillMaxSize()
             .statusBarsPadding()
     ) {
-        TopAppBar(
-            modifier = Modifier
-                .fillMaxWidth(),
-            title = {},
-            navigationIcon = {
-                IconButton(onClick = navigateUp) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_back_arrow),
-                        contentDescription = null
-                    )
-                }
-            },
-            actions = {}
-        )
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth(),

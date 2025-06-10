@@ -42,6 +42,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import me.kire.re.homestuffapp.domain.model.Nourishment
 import me.kire.re.homestuffapp.presentation.details.DetailsScreen
 import me.kire.re.homestuffapp.presentation.home.HomeScreen
+import me.kire.re.homestuffapp.presentation.homestuff_navigator.components.TopAppBar
 import me.kire.re.homestuffapp.presentation.nourishment.NourishmentScreen
 import me.kire.re.homestuffapp.presentation.nourishment.NourishmentViewModel
 import me.kire.re.homestuffapp.presentation.nourishment.form.NourishmentFormScreen
@@ -82,6 +83,8 @@ fun HomeStuffNavigator() {
     selectedItem = when (backStackState?.destination?.route) {
         "homeScreen" -> 0
         "nourishmentScreen" -> 1
+        "detailsScreen" -> 2
+        "nourishmentFormScreen" -> 3
         else -> 0
     }
 
@@ -92,6 +95,18 @@ fun HomeStuffNavigator() {
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
+        topBar = {
+            TopAppBar(
+                title = "Home Stuff",
+                navigateUp = {
+                    navController.navigateUp()
+                },
+                isHomeScreen = selectedItem == 0,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp))
+            )
+        },
         bottomBar = {
             if (!isBottomBarVisible) return@Scaffold
             NavigationBar(
@@ -165,11 +180,10 @@ fun HomeStuffNavigator() {
         },
         floatingActionButtonPosition = FabPosition.End,
     ) {
-        val bottomPadding = it.calculateBottomPadding()
         NavHost(
             navController = navController,
             startDestination = "nourishmentScreen",
-            modifier = Modifier.padding(bottom = bottomPadding)
+            modifier = Modifier.padding(it)
         ) {
             composable(route = "homeScreen") {
                 HomeScreen(navigateToNourishment = {
@@ -197,9 +211,6 @@ fun HomeStuffNavigator() {
             composable(route = "nourishmentFormScreen") {
                 val viewModel: NourishmentFormViewModel = hiltViewModel()
                 NourishmentFormScreen(
-                    navigateUp = {
-                        navController.navigateUp()
-                    },
                     event = viewModel::onEvent,
                     state = viewModel.state.collectAsState().value,
                 )
@@ -210,10 +221,7 @@ fun HomeStuffNavigator() {
                     ?.get<Nourishment?>("nourishment")
                     ?.let { nourishment ->
                         DetailsScreen(
-                            nourishment = nourishment,
-                            navigateUp = {
-                                navController.navigateUp()
-                            }
+                            nourishment = nourishment
                         )
                     }
             }

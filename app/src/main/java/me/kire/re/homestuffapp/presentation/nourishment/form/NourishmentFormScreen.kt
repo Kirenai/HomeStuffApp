@@ -23,15 +23,11 @@ import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -40,7 +36,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -48,17 +43,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import me.kire.re.homestuffapp.R
 import me.kire.re.homestuffapp.presentation.common.DisplayImage
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NourishmentFormScreen(
-    navigateUp: () -> Unit,
     event: (NourishmentFormEvent) -> Unit,
     state: NourishmentFromState
 ) {
@@ -100,20 +92,6 @@ fun NourishmentFormScreen(
             .fillMaxSize()
             .statusBarsPadding()
     ) {
-        TopAppBar(
-            modifier = Modifier
-                .fillMaxWidth(),
-            title = {},
-            navigationIcon = {
-                IconButton(onClick = navigateUp) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_back_arrow),
-                        contentDescription = null
-                    )
-                }
-            },
-            actions = {}
-        )
         Box(
             Modifier.padding(10.dp)
         ) {
@@ -331,7 +309,6 @@ fun Context.createImageFile(): File {
 @Composable
 fun NourishmentFormScreenPreview() {
     NourishmentFormScreen(
-        navigateUp = {},
         event = {},
         state = NourishmentFromState()
     )
