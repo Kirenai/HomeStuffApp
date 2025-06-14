@@ -1,6 +1,5 @@
 package me.kire.re.homestuffapp.presentation.nourishment.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -19,12 +18,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
+import me.kire.re.homestuffapp.R
 import me.kire.re.homestuffapp.domain.model.Nourishment
 
 @Composable
@@ -47,7 +46,6 @@ fun NourishmentCard(
     ) {
         Row(
             modifier = Modifier
-                .background(Color(0xFFB5FFB5))
                 .fillMaxSize()
                 .padding(16.dp),
         ) {
@@ -55,9 +53,11 @@ fun NourishmentCard(
                 modifier = Modifier
                     .size(50.dp)
                     .clip(CircleShape),
-                model = ImageRequest.Builder(context = LocalContext.current)
-                    .data(nourishment.imageUrl)
-                    .build(),
+                model = if (nourishment.imageUrl.isNotEmpty()) {
+                    ImageRequest.Builder(context = LocalContext.current)
+                        .data(nourishment.imageUrl)
+                        .build()
+                } else R.drawable.ic_launcher_foreground,
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
             )

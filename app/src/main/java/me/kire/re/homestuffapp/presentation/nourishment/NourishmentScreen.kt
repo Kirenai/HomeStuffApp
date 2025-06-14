@@ -44,33 +44,33 @@ fun NourishmentScreen(
             onSearch = navigateToSearch
         )
         Spacer(modifier = Modifier.height(24.dp))
-        NourishmentList(
-            nourishments = listOf(
-                Nourishment(
-                    nourishmentId = "1",
-                    name = "Orange",
-                    stock = 3,
-                    imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
-                    description = "Fresh orange",
-                    expirationDate = "5 days",
-                    isAvailable = true,
-                ),
-                Nourishment(
-                    nourishmentId = "2",
-                    name = "Orange",
-                    stock = 3,
-                    imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
-                    description = "Fresh orange",
-                    isAvailable = true,
-                )
-            ),
-            onClick = navigateToDetails
-        )
-
 //        NourishmentList(
-//            nourishments = nourishments,
+//            nourishments = listOf(
+//                Nourishment(
+//                    nourishmentId = "1",
+//                    name = "Orange",
+//                    stock = 3,
+//                    imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
+//                    description = "Fresh orange",
+//                    expirationDate = "5 days",
+//                    isAvailable = true,
+//                ),
+//                Nourishment(
+//                    nourishmentId = "2",
+//                    name = "Orange",
+//                    stock = 3,
+//                    imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
+//                    description = "Fresh orange",
+//                    isAvailable = true,
+//                )
+//            ),
 //            onClick = navigateToDetails
 //        )
+
+        NourishmentList(
+            nourishments = nourishments,
+            onClick = navigateToDetails
+        )
     }
 
 }

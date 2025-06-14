@@ -1,10 +1,10 @@
 package me.kire.re.homestuffapp.presentation.nourishment.form
 
-data class NourishmentFromState(
+data class NourishmentFormState(
     val name: String = "",
     val description: String = "",
-    val imageUrl: String = "",
-    val nourishmentType: String = "Unit",
+    val imageUrl: String? = "",
+    val nourishmentType: String = "UNIT",
     val unit: String = "",
     val percentage: String = "",
     val isLoading: Boolean = false,

@@ -7,6 +7,7 @@ import android.net.Uri
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,11 +17,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -52,7 +53,7 @@ import java.util.Locale
 @Composable
 fun NourishmentFormScreen(
     event: (NourishmentFormEvent) -> Unit,
-    state: NourishmentFromState
+    state: NourishmentFormState
 ) {
     val context = LocalContext.current
     val file = context.createImageFile()
@@ -90,75 +91,19 @@ fun NourishmentFormScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .statusBarsPadding()
     ) {
-        Box(
-            Modifier.padding(10.dp)
-        ) {
-            Text(
-                text = "Add Nourishment",
-                style = MaterialTheme.typography.displayMedium
-            )
-        }
-
-        LazyColumn(
-            modifier = Modifier
-                .padding(10.dp)
-        ) {
+        LazyColumn {
             item {
-                OutlinedTextField(
-                    value = state.name,
-                    onValueChange = { event(NourishmentFormEvent.NameChanged(it)) },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 16.dp),
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Next
-                    ),
-                    placeholder = {
-                        Text("Name")
-                    },
-                    shape = MaterialTheme.shapes.medium,
-                    colors = TextFieldDefaults.colors(
-                        unfocusedIndicatorColor = Color.Transparent,
-                        focusedIndicatorColor = Color.Transparent,
-                        disabledIndicatorColor = Color.Transparent,
-                        errorIndicatorColor = Color.Transparent
-                    ),
-                )
-
-                Spacer(Modifier.height(16.dp))
-
-                Button(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    shape = MaterialTheme.shapes.small,
-                    onClick = {
-                        val permissionResult =
-                            ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
-                        if (permissionResult == PackageManager.PERMISSION_GRANTED) {
-                            cameraLauncher.launch(uri)
-                        } else {
-                            permissionLauncher.launch(Manifest.permission.CAMERA)
-                        }
-                    }
-                ) {
-                    Text(
-                        text = "Capture Image From Camera",
-                    )
-                }
-
                 if (capturedImageUri.value.path?.isNotEmpty() == true) {
                     Box(
                         modifier = Modifier
-                            .padding(16.dp)
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .border(8.dp, Color.Red),
                         contentAlignment = Alignment.Center
                     ) {
                         DisplayImage(
                             modifier = Modifier
-                                .size(200.dp)
+                                .size(400.dp)
                                 .clip(RoundedCornerShape(8.dp)),
                             image = capturedImageUri.value,
                             contentDescription = "Selected Image",
@@ -169,126 +114,200 @@ fun NourishmentFormScreen(
                     }
                 }
 
-                OutlinedTextField(
-                    value = state.description,
-                    onValueChange = { event(NourishmentFormEvent.DescriptionChanged(it)) },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 16.dp),
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Next
-                    ),
-                    placeholder = {
-                        Text("Description")
-                    },
-                    shape = MaterialTheme.shapes.medium,
-                    colors = TextFieldDefaults.colors(
-                        unfocusedIndicatorColor = Color.Transparent,
-                        focusedIndicatorColor = Color.Transparent,
-                        disabledIndicatorColor = Color.Transparent,
-                        errorIndicatorColor = Color.Transparent
-                    ),
-                )
+                Column(modifier = Modifier.padding(16.dp)) {
+                    OutlinedTextField(
+                        value = state.name,
+                        onValueChange = { event(NourishmentFormEvent.NameChanged(it)) },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 16.dp),
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Next
+                        ),
+                        placeholder = {
+                            Text("Name")
+                        },
+                        shape = MaterialTheme.shapes.medium,
+                        colors = TextFieldDefaults.colors(
+                            unfocusedIndicatorColor = Color.Transparent,
+                            focusedIndicatorColor = Color.Transparent,
+                            disabledIndicatorColor = Color.Transparent,
+                            errorIndicatorColor = Color.Transparent
+                        ),
+                    )
 
-                val radioOptions = listOf("Unit", "Percentage")
-                val (selectedOption, setSelectedOption) = remember {
-                    mutableStateOf(radioOptions[0])
-                }
-                Column(
-                    modifier = Modifier
-                        .selectableGroup()
-                        .padding(vertical = 8.dp)
-                ) {
-                    radioOptions.forEach { text ->
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(56.dp)
-                                .selectable(
+                    Spacer(Modifier.height(16.dp))
+
+                    Button(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        shape = MaterialTheme.shapes.small,
+                        onClick = {
+                            val permissionResult =
+                                ContextCompat.checkSelfPermission(
+                                    context,
+                                    Manifest.permission.CAMERA
+                                )
+                            if (permissionResult == PackageManager.PERMISSION_GRANTED) {
+                                cameraLauncher.launch(uri)
+                            } else {
+                                permissionLauncher.launch(Manifest.permission.CAMERA)
+                            }
+                        }
+                    ) {
+                        Text(
+                            text = "Capture Image From Camera",
+                        )
+                    }
+
+                    OutlinedTextField(
+                        value = state.description,
+                        onValueChange = { event(NourishmentFormEvent.DescriptionChanged(it)) },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 16.dp),
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Next
+                        ),
+                        placeholder = {
+                            Text("Description")
+                        },
+                        shape = MaterialTheme.shapes.medium,
+                        colors = TextFieldDefaults.colors(
+                            unfocusedIndicatorColor = Color.Transparent,
+                            focusedIndicatorColor = Color.Transparent,
+                            disabledIndicatorColor = Color.Transparent,
+                            errorIndicatorColor = Color.Transparent
+                        ),
+                    )
+
+                    val radioOptions = listOf("UNIT", "PERCENTAGE")
+                    val (selectedOption, setSelectedOption) = remember {
+                        mutableStateOf(radioOptions[0])
+                    }
+                    Column(
+                        modifier = Modifier
+                            .selectableGroup()
+                            .padding(vertical = 8.dp)
+                    ) {
+                        radioOptions.forEach { text ->
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(56.dp)
+                                    .selectable(
+                                        selected = (text == selectedOption),
+                                        onClick = {
+                                            setSelectedOption(text)
+                                        },
+                                        role = Role.RadioButton
+                                    )
+                                    .padding(horizontal = 16.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                RadioButton(
                                     selected = (text == selectedOption),
                                     onClick = {
                                         setSelectedOption(text)
                                     },
-                                    role = Role.RadioButton
                                 )
-                                .padding(horizontal = 16.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            RadioButton(
-                                selected = (text == selectedOption),
-                                onClick = {
-                                    setSelectedOption(text)
-                                },
-                            )
-                            Text(text = text)
+                                Text(text = text)
+                            }
                         }
                     }
-                }
 
-                when (selectedOption) {
-                    "Unit" -> {
-                        OutlinedTextField(
-                            value = "",
-                            onValueChange = {},
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(top = 16.dp),
-                            keyboardOptions = KeyboardOptions(
-                                keyboardType = KeyboardType.Number
-                            ),
-                            placeholder = {
-                                Text("Unit")
-                            },
-                            shape = MaterialTheme.shapes.medium,
-                            colors = TextFieldDefaults.colors(
-                                unfocusedIndicatorColor = Color.Transparent,
-                                focusedIndicatorColor = Color.Transparent,
-                                disabledIndicatorColor = Color.Transparent,
-                                errorIndicatorColor = Color.Transparent
-                            ),
+                    when (selectedOption) {
+                        "UNIT" -> {
+                            OutlinedTextField(
+                                value = state.unit,
+                                onValueChange = {
+                                    event(
+                                        NourishmentFormEvent.NourishmentTypeChanged(
+                                            nourishmentType = "UNIT",
+                                            value = it
+                                        )
+                                    )
+                                },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(top = 16.dp),
+                                keyboardOptions = KeyboardOptions(
+                                    keyboardType = KeyboardType.Number,
+                                    imeAction = ImeAction.Search
+                                ),
+                                keyboardActions = KeyboardActions(
+                                    onSearch = {
+                                        defaultKeyboardAction(ImeAction.Done)
+                                        event(NourishmentFormEvent.SaveNourishment)
+                                    }
+                                ),
+                                placeholder = {
+                                    Text("0")
+                                },
+                                shape = MaterialTheme.shapes.medium,
+                                colors = TextFieldDefaults.colors(
+                                    unfocusedIndicatorColor = Color.Transparent,
+                                    focusedIndicatorColor = Color.Transparent,
+                                    disabledIndicatorColor = Color.Transparent,
+                                    errorIndicatorColor = Color.Transparent
+                                ),
+                            )
+                        }
+                        "PERCENTAGE" -> {
+                            OutlinedTextField(
+                                value = state.percentage,
+                                onValueChange = {
+                                    event(
+                                        NourishmentFormEvent.NourishmentTypeChanged(
+                                            nourishmentType = "PERCENTAGE",
+                                            value = it
+                                        )
+                                    )
+                                },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(top = 16.dp),
+                                keyboardOptions = KeyboardOptions(
+                                    keyboardType = KeyboardType.Number,
+                                    imeAction = ImeAction.Search
+                                ),
+                                keyboardActions = KeyboardActions(
+                                    onSearch = {
+                                        defaultKeyboardAction(ImeAction.Done)
+                                        event(NourishmentFormEvent.SaveNourishment)
+                                    }
+                                ),
+                                placeholder = {
+                                    Text("0.0")
+                                },
+                                shape = MaterialTheme.shapes.medium,
+                                colors = TextFieldDefaults.colors(
+                                    unfocusedIndicatorColor = Color.Transparent,
+                                    focusedIndicatorColor = Color.Transparent,
+                                    disabledIndicatorColor = Color.Transparent,
+                                    errorIndicatorColor = Color.Transparent
+                                ),
+                            )
+                        }
+                    }
+
+                    Button(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 16.dp),
+                        shape = MaterialTheme.shapes.small,
+                        onClick = {
+                            event(NourishmentFormEvent.SaveNourishment)
+                        }
+                    ) {
+                        Text(
+                            text = "Save",
                         )
                     }
-
-                    "Percentage" -> {
-                        OutlinedTextField(
-                            value = "",
-                            onValueChange = {},
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(top = 16.dp),
-                            keyboardOptions = KeyboardOptions(
-                                keyboardType = KeyboardType.Number
-                            ),
-                            placeholder = {
-                                Text("Percentage")
-                            },
-                            shape = MaterialTheme.shapes.medium,
-                            colors = TextFieldDefaults.colors(
-                                unfocusedIndicatorColor = Color.Transparent,
-                                focusedIndicatorColor = Color.Transparent,
-                                disabledIndicatorColor = Color.Transparent,
-                                errorIndicatorColor = Color.Transparent
-                            ),
-                        )
-                    }
-                }
-
-                Button(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 16.dp),
-                    shape = MaterialTheme.shapes.small,
-                    onClick = {
-                        event(NourishmentFormEvent.SaveNourishment)
-                    }
-                ) {
-                    Text(
-                        text = "Save",
-                    )
                 }
             }
-
         }
     }
 }
@@ -310,6 +329,6 @@ fun Context.createImageFile(): File {
 fun NourishmentFormScreenPreview() {
     NourishmentFormScreen(
         event = {},
-        state = NourishmentFromState()
+        state = NourishmentFormState()
     )
 }
