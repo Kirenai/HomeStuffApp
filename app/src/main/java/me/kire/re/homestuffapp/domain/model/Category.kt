@@ -4,9 +4,11 @@ import androidx.annotation.DrawableRes
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import me.kire.re.homestuffapp.R
+import me.kire.re.homestuffapp.presentation.navigation.Route
 
 data class Category(
     val name: String,
+    val route: String? = null,
     @DrawableRes
     val icon: Int,
     val size: Int = 0,
@@ -17,6 +19,7 @@ data class Category(
 val categories = listOf(
     Category(
         name = "Food",
+        route = Route.NourishmentScreen.route,
         icon = R.drawable.ic_food,
         size = 12,
         iconWidth = 24.dp,

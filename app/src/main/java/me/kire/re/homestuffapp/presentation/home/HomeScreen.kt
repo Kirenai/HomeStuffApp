@@ -21,7 +21,9 @@ import me.kire.re.homestuffapp.presentation.common.SearchBar
 import me.kire.re.homestuffapp.presentation.home.components.CategoryList
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    navigateToCategory: (String) -> Unit
+) {
     var text by remember {
         mutableStateOf("")
     }
@@ -52,7 +54,8 @@ fun HomeScreen() {
         }
 
         CategoryList(
-            categories = categories
+            categories = categories,
+            navigateToCategory = navigateToCategory
         )
     }
 }
@@ -60,5 +63,7 @@ fun HomeScreen() {
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen()
+    HomeScreen(
+        navigateToCategory = {}
+    )
 }

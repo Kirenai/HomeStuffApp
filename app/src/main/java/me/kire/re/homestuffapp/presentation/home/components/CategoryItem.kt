@@ -1,6 +1,7 @@
 package me.kire.re.homestuffapp.presentation.home.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -29,7 +30,8 @@ import me.kire.re.homestuffapp.ui.theme.IconBoxLight
 @Composable
 fun CategoryItem(
     modifier: Modifier = Modifier,
-    category: Category
+    category: Category,
+    navigateToCategory: (String) -> Unit
 ) {
     val iconBoxColor = if (isSystemInDarkTheme()) {
         IconBoxLight
@@ -40,7 +42,8 @@ fun CategoryItem(
         modifier = modifier
             .fillMaxWidth()
             .height(72.dp)
-            .padding(horizontal = 16.dp),
+            .padding(horizontal = 16.dp)
+            .clickable { category.route?.let { navigateToCategory(it) } },
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Box(
@@ -89,6 +92,7 @@ fun CategoryItemPreview() {
             size = 12,
             iconWidth = 24.dp,
             iconHeight = 24.dp
-        )
+        ),
+        navigateToCategory = {}
     )
 }

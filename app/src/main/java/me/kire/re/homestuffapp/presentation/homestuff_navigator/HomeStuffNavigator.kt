@@ -200,7 +200,14 @@ fun HomeStuffNavigator() {
             modifier = Modifier.padding(it)
         ) {
             composable(route = Route.HomeScreen.route) {
-                HomeScreen()
+                HomeScreen(
+                    navigateToCategory = { route ->
+                        navigateToTab(
+                            navController = navController,
+                            route = route
+                        )
+                    }
+                )
             }
             composable(route = Route.NourishmentScreen.route) {
                 val viewModel: NourishmentViewModel = hiltViewModel()

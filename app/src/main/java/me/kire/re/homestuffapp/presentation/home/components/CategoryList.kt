@@ -9,7 +9,8 @@ import me.kire.re.homestuffapp.domain.model.Category
 @Composable
 fun CategoryList(
     modifier: Modifier = Modifier,
-    categories: List<Category>
+    categories: List<Category>,
+    navigateToCategory: (String) -> Unit
 ) {
     LazyColumn(
         modifier = modifier
@@ -18,7 +19,8 @@ fun CategoryList(
             items = categories,
         ) { category ->
             CategoryItem(
-                category = category
+                category = category,
+                navigateToCategory = navigateToCategory
             )
         }
 
