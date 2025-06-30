@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.automirrored.outlined.List
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
@@ -71,11 +73,17 @@ fun HomeStuffNavigator() {
             hasNews = false
         ),
         BottomNavigationItem(
+            title = "Lists",
+            selectedIcon = Icons.AutoMirrored.Filled.List,
+            unselectedIcon = Icons.AutoMirrored.Outlined.List,
+            hasNews = false
+        ),
+        BottomNavigationItem(
             title = "Nourishment",
             selectedIcon = Icons.Filled.Info,
             unselectedIcon = Icons.Outlined.Info,
             hasNews = false
-        )
+        ),
     )
 
     var selectedItem by rememberSaveable {
