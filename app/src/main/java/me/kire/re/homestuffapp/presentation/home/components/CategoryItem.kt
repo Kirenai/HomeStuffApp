@@ -23,6 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import me.kire.re.homestuffapp.R
 import me.kire.re.homestuffapp.domain.model.Category
 import me.kire.re.homestuffapp.ui.theme.IconBoxDark
 import me.kire.re.homestuffapp.ui.theme.IconBoxLight
@@ -88,8 +89,8 @@ fun CategoryItemPreview() {
     CategoryItem(
         category = Category(
             name = "Food",
-            icon = me.kire.re.homestuffapp.R.drawable.ic_food,
             size = 12,
+            icon = R.drawable.ic_food,
             iconWidth = 24.dp,
             iconHeight = 24.dp
         ),

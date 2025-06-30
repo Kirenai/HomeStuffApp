@@ -30,6 +30,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -126,9 +129,18 @@ fun HomeStuffNavigator() {
             NavigationBar(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)),
+                    .drawBehind {
+                        val strokeWidth = 1.dp.toPx()
+                        val y = 0f
+
+                        drawLine(
+                            color = Color.LightGray,
+                            start = Offset(0f, y),
+                            end = Offset(size.width, y),
+                            strokeWidth = strokeWidth
+                        )
+                    },
                 containerColor = MaterialTheme.colorScheme.background,
-                tonalElevation = 10.dp,
             ) {
                 items.forEachIndexed { index, item ->
                     NavigationBarItem(
@@ -196,7 +208,7 @@ fun HomeStuffNavigator() {
     ) {
         NavHost(
             navController = navController,
-            startDestination = Route.NourishmentScreen.route,
+            startDestination = Route.HomeScreen.route,
             modifier = Modifier.padding(it)
         ) {
             composable(route = Route.HomeScreen.route) {
