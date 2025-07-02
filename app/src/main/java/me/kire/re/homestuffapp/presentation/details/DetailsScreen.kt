@@ -14,15 +14,19 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import me.kire.re.homestuffapp.domain.model.Nourishment
+import me.kire.re.homestuffapp.presentation.details.components.PurchaseItem
 import me.kire.re.homestuffapp.presentation.details.components.TextStock
 
 @Composable
@@ -48,8 +52,7 @@ fun DetailsScreen(
                 AsyncImage(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(248.dp)
-                        .clip(MaterialTheme.shapes.medium),
+                        .height(218.dp),
                     model = ImageRequest.Builder(context = LocalContext.current)
                         .data(nourishment.imageUrl)
                         .build(),
@@ -59,11 +62,66 @@ fun DetailsScreen(
 
                 Row(
                     modifier = Modifier
-                        .padding(vertical = 16.dp)
+                        .padding(top = 20.dp, bottom = 16.dp)
                 ) {
                     Text(
                         text = nourishment.name,
-                        style = MaterialTheme.typography.displayMedium
+                        style = TextStyle.Default.copy(
+                            fontSize = MaterialTheme.typography.titleLarge.fontSize,
+                            fontWeight = FontWeight.Bold,
+                            lineHeight = 28.sp
+                        )
+
+                    )
+                }
+
+                Row(
+                    modifier = Modifier
+                        .padding(top = 4.dp, bottom = 12.dp)
+                ) {
+                    Text(
+                        text = nourishment.description,
+                    )
+                }
+
+                Row(
+                    modifier = Modifier
+                        .padding(top = 16.dp, bottom = 8.dp)
+                ) {
+                    Text(
+                        text = "Purchase History",
+                        style = TextStyle.Default.copy(
+                            fontSize = MaterialTheme.typography.titleMedium.fontSize,
+                            fontWeight = FontWeight.Bold,
+                            lineHeight = 23.sp
+                        )
+
+                    )
+                }
+
+                PurchaseItem(
+                    store = "Fresh Market",
+                    quantity = "2 kg",
+                    price = "$10.00"
+                )
+
+                PurchaseItem(
+                    store = "Local Grocer",
+                    quantity = "1.5 kg",
+                    price = "$1.75"
+                )
+
+                Row(
+                    modifier = Modifier
+                        .padding(top = 16.dp, bottom = 8.dp)
+                ) {
+                    Text(
+                        text = "Pricing Trends",
+                        style = TextStyle.Default.copy(
+                            fontSize = MaterialTheme.typography.titleMedium.fontSize,
+                            fontWeight = FontWeight.Bold,
+                            lineHeight = 23.sp
+                        )
 
                     )
                 }
@@ -117,25 +175,25 @@ fun DetailsScreen(
                         }
                     }
 
-                    Card(
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Column(
-                            modifier = Modifier
-                                .padding(16.dp)
-                        ) {
-                            Text(
-                                text = "Description"
-                            )
-                            Text(
-                                text = nourishment.description,
-                                fontWeight = FontWeight.SemiBold
-                            )
-                        }
-                    }
 
                 }
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun DetailsScreenPreview() {
+    DetailsScreen(
+        nourishment = Nourishment(
+            nourishmentId = "1",
+            name = "Orange",
+            stock = 3,
+            imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
+            description = "Fresh orange",
+            expirationDate = "5 days",
+            isAvailable = true,
+        )
+    )
 }

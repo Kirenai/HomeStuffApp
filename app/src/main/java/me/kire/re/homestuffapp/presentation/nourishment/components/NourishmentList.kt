@@ -18,15 +18,13 @@ fun NourishmentList(
     onClick: (Nourishment) -> Unit,
 ) {
     LazyColumn(
-        modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(10.dp),
-        contentPadding = PaddingValues(vertical = 4.dp)
+        modifier = modifier,
     ) {
         items(
             count = nourishments.size
         ) {
             nourishments[it].let { nourishment ->
-                NourishmentCard(
+                NourishmentItem(
                     nourishment = nourishment,
                     onClick = { onClick(nourishment) }
                 )
@@ -51,7 +49,7 @@ fun NourishmentList(
             key = nourishments.itemKey { it.nourishmentId }
         ) {
             nourishments[it]?.let { nourishment: Nourishment ->
-                NourishmentCard(
+                NourishmentItem(
                     nourishment = nourishment,
                     onClick = { onClick(nourishment) }
                 )

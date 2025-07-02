@@ -40,6 +40,7 @@ import kotlinx.coroutines.flow.flowOf
 import me.kire.re.homestuffapp.domain.model.Nourishment
 import me.kire.re.homestuffapp.presentation.common.SearchBar
 import me.kire.re.homestuffapp.presentation.nourishment.components.NourishmentList
+import me.kire.re.homestuffapp.presentation.nourishment.components.SortButton
 
 @Composable
 fun NourishmentScreen(
@@ -66,37 +67,7 @@ fun NourishmentScreen(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        Row {
-            Button(
-                onClick = {},
-                shape = RoundedCornerShape(8.dp),
-                colors = ButtonColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    disabledContainerColor = MaterialTheme.colorScheme.primaryContainer,
-                    disabledContentColor = MaterialTheme.colorScheme.primaryContainer
-                ),
-                contentPadding = PaddingValues(
-                    start = 16.dp,
-                    top = 5.5.dp,
-                    end = 5.5.dp,
-                    bottom = 8.dp
-                ),
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = "Sort"
-                    )
-                    Spacer(Modifier.padding(start = 8.dp))
-                    Icon(
-                        imageVector = Icons.Filled.KeyboardArrowDown,
-                        contentDescription = "Sort Icon"
-                    )
-                }
-            }
-        }
+        SortButton()
 
         Row(
             modifier = Modifier.fillMaxWidth()
@@ -115,66 +86,73 @@ fun NourishmentScreen(
             }
         }
 
+        NourishmentList(
+            nourishments = listOf(
+                Nourishment(
+                    nourishmentId = "1",
+                    name = "Orange",
+                    stock = 3,
+                    imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
+                    description = "Fresh orange",
+                    expirationDate = "5 days",
+                    isAvailable = true,
+                ),
+                Nourishment(
+                    nourishmentId = "2",
+                    name = "Orange",
+                    stock = 3,
+                    imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
+                    description = "Fresh orange",
+                    isAvailable = true,
+                )
+            ),
+            onClick = navigateToDetails
+        )
+
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
+            modifier = Modifier.fillMaxWidth()
         ) {
-            Column {
-                Box(
-                    modifier = Modifier
-                        .size(56.dp)
-                        .clip(RoundedCornerShape(8.dp))
-                        .background(Color.Red)
-                )
-            }
-            Column {
+            Box(
+                modifier = Modifier
+                    .padding(start = 0.dp, top = 16.dp, bottom = 8.dp),
+            ) {
                 Text(
-                    text = "Canned Tomatoes",
+                    text = "Out of Stock",
                     style = TextStyle.Default.copy(
-                        fontSize = MaterialTheme.typography.bodyLarge.fontSize,
-                        fontWeight = FontWeight.Medium
-                    )
-                )
-                Text(
-                    text = "2",
-                    style = TextStyle.Default.copy(
-                        fontSize = MaterialTheme.typography.bodyMedium.fontSize
+                        fontSize = MaterialTheme.typography.titleLarge.fontSize,
+                        fontWeight = FontWeight.Bold
                     )
                 )
             }
         }
-//        NourishmentList(
-//            nourishments = listOf(
-//                Nourishment(
-//                    nourishmentId = "1",
-//                    name = "Orange",
-//                    stock = 3,
-//                    imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
-//                    description = "Fresh orange",
-//                    expirationDate = "5 days",
-//                    isAvailable = true,
-//                ),
-//                Nourishment(
-//                    nourishmentId = "2",
-//                    name = "Orange",
-//                    stock = 3,
-//                    imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
-//                    description = "Fresh orange",
-//                    isAvailable = true,
-//                )
-//            ),
-//            onClick = navigateToDetails
-//        )
 
         NourishmentList(
-            nourishments = nourishments,
+            nourishments = listOf(
+                Nourishment(
+                    nourishmentId = "1",
+                    name = "Orange",
+                    stock = 3,
+                    imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
+                    description = "Fresh orange",
+                    expirationDate = "5 days",
+                    isAvailable = true,
+                ),
+                Nourishment(
+                    nourishmentId = "2",
+                    name = "Orange",
+                    stock = 3,
+                    imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
+                    description = "Fresh orange",
+                    isAvailable = true,
+                )
+            ),
             onClick = navigateToDetails
         )
+//        NourishmentList(
+//            nourishments = nourishments,
+//            onClick = navigateToDetails
+//        )
     }
-
 }
 
 @Preview(showBackground = true)
