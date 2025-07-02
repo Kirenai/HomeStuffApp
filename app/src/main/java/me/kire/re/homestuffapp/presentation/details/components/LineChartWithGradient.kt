@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -48,14 +49,12 @@ fun LineChartWithGradient(
 
             val spacing = width / (data.size - 1)
 
-            // Crear puntos normalizados
             val points = data.mapIndexed { i, value ->
                 val x = i * spacing
                 val y = height - ((value - minValue) / range * height)
                 Offset(x, y)
             }
 
-            // Crear path suavizado
             val smoothPath = Path().apply {
                 moveTo(points.first().x, points.first().y)
                 for (i in 1 until points.size) {
@@ -67,7 +66,6 @@ fun LineChartWithGradient(
                 lineTo(points.last().x, points.last().y)
             }
 
-            // Gradiente debajo
             val gradientPath = Path().apply {
                 addPath(smoothPath)
                 lineTo(points.last().x, height)
@@ -88,8 +86,6 @@ fun LineChartWithGradient(
                 color = lineColor,
                 style = Stroke(width = 3.dp.toPx(), cap = StrokeCap.Round)
             )
-
-
         }
 
         Row(
@@ -108,4 +104,17 @@ fun LineChartWithGradient(
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun LineChartWithGradientPreview() {
+    val sampleData = listOf(1.3f, 1.4f)
+    val xLabels = listOf("Jan", "Feb")
+
+    LineChartWithGradient(
+        data = sampleData,
+        xLabels = xLabels,
+        modifier = Modifier.padding(16.dp)
+    )
 }
