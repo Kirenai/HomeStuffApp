@@ -48,6 +48,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import me.kire.re.homestuffapp.domain.model.Nourishment
 import me.kire.re.homestuffapp.presentation.details.DetailsScreen
 import me.kire.re.homestuffapp.presentation.home.HomeScreen
+import me.kire.re.homestuffapp.presentation.home.HomeViewModel
 import me.kire.re.homestuffapp.presentation.homestuff_navigator.components.TopAppBar
 import me.kire.re.homestuffapp.presentation.navigation.Route
 import me.kire.re.homestuffapp.presentation.nourishment.NourishmentScreen
@@ -220,7 +221,10 @@ fun HomeStuffNavigator() {
             modifier = Modifier.padding(it)
         ) {
             composable(route = Route.HomeScreen.route) {
+                val viewModel: HomeViewModel = hiltViewModel()
                 HomeScreen(
+                    event = viewModel::onEvent,
+                    state = viewModel.state.value,
                     navigateToCategory = { route ->
                         navigateToTab(
                             navController = navController,

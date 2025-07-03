@@ -7,10 +7,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -22,21 +18,20 @@ import me.kire.re.homestuffapp.presentation.home.components.CategoryList
 
 @Composable
 fun HomeScreen(
+    event: (HomeEvent) -> Unit,
+    state: HomeState,
     navigateToCategory: (String) -> Unit
 ) {
-    var text by remember {
-        mutableStateOf("")
-    }
-
     Column {
         Row(
             modifier = Modifier
                 .padding(horizontal = 16.dp, vertical = 12.dp)
         ) {
             SearchBar(
-                text = text,
-                onChangeValue = { text = it },
-                onSearch = { },
+                text = state.searchText,
+                onChangeValue = { event(HomeEvent.OnSearchTextChange(it)) },
+                onSearch = {
+                },
             )
         }
 
@@ -54,7 +49,7 @@ fun HomeScreen(
         }
 
         CategoryList(
-            categories = categories,
+            categories = state.filteredCategories,
             navigateToCategory = navigateToCategory
         )
     }
@@ -64,6 +59,10 @@ fun HomeScreen(
 @Composable
 fun HomeScreenPreview() {
     HomeScreen(
+        event = {},
+        state = HomeState(
+            categories = categories
+        ),
         navigateToCategory = {}
     )
 }
