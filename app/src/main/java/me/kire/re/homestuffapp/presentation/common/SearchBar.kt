@@ -30,7 +30,7 @@ fun SearchBar(
         TextField(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(45.dp),
+                .height(48.dp),
             value = text,
             onValueChange = onChangeValue,
             placeholder = {

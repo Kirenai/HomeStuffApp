@@ -40,26 +40,26 @@ fun LineChartWithGradient(
         ) {
             if (data.isEmpty()) return@Canvas
 
-            val width = size.width
-            val height = size.height
+            val width = size.width // 300
+            val height = size.height // 400
 
-            val maxValue = data.maxOrNull() ?: 0f
-            val minValue = data.minOrNull() ?: 0f
-            val range = maxValue - minValue
+            val maxValue = data.maxOrNull() ?: 0f // 1.4f
+            val minValue = data.minOrNull() ?: 0f // 1.3f
+            val range = maxValue - minValue // 1.4f - 1.3f = 0.1f
 
-            val spacing = width / (data.size - 1)
+            val spacing = width / (data.size - 1) // 300 / (2 - 1) = 300
 
             val points = data.mapIndexed { i, value ->
-                val x = i * spacing
-                val y = height - ((value - minValue) / range * height)
+                val x = i * spacing // 0 * 300 = 0, 1 * 300 = 300
+                val y = height - ((value - minValue) / range * height) // 400 - ((1.3f - 1.3f) / 0.1f * 400) = 400, 400 - ((1.4f - 1.3f) / 0.1f * 400) = 0
                 Offset(x, y)
             }
 
             val smoothPath = Path().apply {
                 moveTo(points.first().x, points.first().y)
                 for (i in 1 until points.size) {
-                    val prev = points[i - 1]
-                    val curr = points[i]
+                    val prev = points[i - 1] // 0, 300
+                    val curr = points[i] // 300, 0
                     val midPoint = Offset((prev.x + curr.x) / 2, (prev.y + curr.y) / 2)
                     quadraticTo(prev.x, prev.y, midPoint.x, midPoint.y)
                 }

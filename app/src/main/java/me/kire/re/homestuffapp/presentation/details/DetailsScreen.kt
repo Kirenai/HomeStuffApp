@@ -46,7 +46,6 @@ fun DetailsScreen(
             contentPadding = PaddingValues(
                 start = 16.dp,
                 end = 16.dp,
-                top = 16.dp
             )
         ) {
             item {
@@ -233,7 +232,7 @@ fun DetailsScreen(
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun DetailsScreenPreview() {
     DetailsScreen(

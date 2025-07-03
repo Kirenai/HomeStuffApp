@@ -30,56 +30,6 @@ fun NourishmentItem(
     nourishment: Nourishment,
     onClick: (() -> Unit)? = null
 ) {
-//    Card(
-//        modifier = modifier
-//            .shadow(
-//                elevation = 2.dp,
-//                shape = RoundedCornerShape(10.dp),
-//            )
-//            .fillMaxWidth()
-//            .clip(RoundedCornerShape(10.dp))
-//            .clickable { onClick?.invoke() },
-//        shape = RoundedCornerShape(10.dp),
-//        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-//    ) {
-//        Row(
-//            modifier = Modifier
-//                .fillMaxSize()
-//                .padding(16.dp),
-//        ) {
-//            AsyncImage(
-//                modifier = Modifier
-//                    .size(50.dp)
-//                    .clip(CircleShape),
-//                model = if (nourishment.imageUrl.isNotEmpty()) {
-//                    ImageRequest.Builder(context = LocalContext.current)
-//                        .data(nourishment.imageUrl)
-//                        .build()
-//                } else R.drawable.ic_launcher_foreground,
-//                contentDescription = null,
-//                contentScale = ContentScale.Crop,
-//            )
-//
-//            Column(
-//                modifier = Modifier
-//                    .padding(horizontal = 15.dp),
-//                verticalArrangement = Arrangement.SpaceAround,
-//            ) {
-//                Text(
-//                    text = nourishment.name,
-//                    style = MaterialTheme.typography.titleLarge,
-//                    maxLines = 1,
-//                )
-//                Row {
-//                    Text(
-//                        text = "${nourishment.stock} in stock",
-//                        style = MaterialTheme.typography.bodyLarge,
-//                        maxLines = 1
-//                    )
-//                }
-//            }
-//        }
-
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -113,7 +63,8 @@ fun NourishmentItem(
             Text(
                 text = nourishment.stock.toString(),
                 style = TextStyle.Default.copy(
-                    fontSize = MaterialTheme.typography.bodyMedium.fontSize
+                    fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                 )
             )
         }
