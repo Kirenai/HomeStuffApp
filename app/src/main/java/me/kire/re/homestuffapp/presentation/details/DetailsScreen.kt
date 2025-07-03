@@ -34,7 +34,6 @@ import me.kire.re.homestuffapp.presentation.details.components.PurchaseItem
 fun DetailsScreen(
     nourishment: Nourishment
 ) {
-    LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxSize()
