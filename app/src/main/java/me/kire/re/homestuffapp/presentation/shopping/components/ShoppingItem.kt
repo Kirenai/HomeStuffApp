@@ -53,9 +53,9 @@ fun ShoppingItem(
                 )
                 Text(
                     text = buildAnnotatedString {
-                        append("Store: ${item.store} | ")
-                        append("Price: ${item.price} | ")
-                        append("Quantity: ${item.quantity}")
+                        append("Store: ${item.store ?: "--"} | ")
+                        append("Price: ${item.price ?: "--"} | ")
+                        append("Quantity: ${item.quantity ?: "--"}")
                     },
                     modifier = Modifier
                         .fillMaxWidth(),
