@@ -10,8 +10,10 @@ import androidx.compose.material.icons.automirrored.outlined.List
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.ShoppingCart
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.FabPosition
@@ -89,9 +91,9 @@ fun HomeStuffNavigator() {
             hasNews = false
         ),
         BottomNavigationItem(
-            title = "Shopping List",
-            selectedIcon = Icons.Filled.Info,
-            unselectedIcon = Icons.Outlined.Info,
+            title = "Shopping",
+            selectedIcon = Icons.Filled.ShoppingCart,
+            unselectedIcon = Icons.Outlined.ShoppingCart,
             hasNews = false
         ),
     )
@@ -126,7 +128,7 @@ fun HomeStuffNavigator() {
         Route.NourishmentScreen.route -> "Nourishment"
         Route.DetailsScreen.route -> "Details"
         Route.NourishmentFormScreen.route -> "Nourishment Form"
-        Route.ShoppingScreen.route -> "Shopping List"
+        Route.ShoppingScreen.route -> "Shopping"
         else -> ""
     }
 
