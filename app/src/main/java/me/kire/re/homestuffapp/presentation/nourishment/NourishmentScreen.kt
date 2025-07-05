@@ -55,7 +55,7 @@ fun NourishmentScreen(
         ),
         Nourishment(
             nourishmentId = "2",
-            name = "Orange",
+            name = "Apple",
             stock = 3,
             imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
             description = "Fresh orange",

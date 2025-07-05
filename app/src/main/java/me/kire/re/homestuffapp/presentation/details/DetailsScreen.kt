@@ -32,7 +32,8 @@ import me.kire.re.homestuffapp.presentation.details.components.PurchaseItem
 
 @Composable
 fun DetailsScreen(
-    nourishment: Nourishment
+    nourishment: Nourishment,
+    addToShopping: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -210,7 +211,7 @@ fun DetailsScreen(
                         .padding(vertical = 12.dp)
                 ) {
                     Button(
-                        onClick = {},
+                        onClick = addToShopping,
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(48.dp),
@@ -243,6 +244,7 @@ fun DetailsScreenPreview() {
             description = "Fresh orange",
             expirationDate = "5 days",
             isAvailable = true,
-        )
+        ),
+        addToShopping = {}
     )
 }

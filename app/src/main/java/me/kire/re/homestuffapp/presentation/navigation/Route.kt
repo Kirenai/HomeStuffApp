@@ -7,6 +7,8 @@ sealed class Route(
 
     data object HomeStuffNavigator : Route(route = "homeStuffNavigator")
 
+    data object MainRoute : Route(route = "mainRoute")
+
     data object HomeScreen : Route(route = "homeScreen")
 
     data object NourishmentScreen : Route(route = "nourishmentScreen")
@@ -14,4 +16,6 @@ sealed class Route(
     data object NourishmentFormScreen : Route(route = "nourishmentFormScreen")
 
     data object DetailsScreen : Route(route = "detailsScreen")
+
+    data object ShoppingScreen : Route(route = "shoppingScreen")
 }

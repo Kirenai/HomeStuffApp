@@ -46,6 +46,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import me.kire.re.homestuffapp.domain.model.Nourishment
+import me.kire.re.homestuffapp.domain.model.Shopping
 import me.kire.re.homestuffapp.presentation.details.DetailsScreen
 import me.kire.re.homestuffapp.presentation.home.HomeScreen
 import me.kire.re.homestuffapp.presentation.home.HomeViewModel
@@ -55,6 +56,8 @@ import me.kire.re.homestuffapp.presentation.nourishment.NourishmentScreen
 import me.kire.re.homestuffapp.presentation.nourishment.NourishmentViewModel
 import me.kire.re.homestuffapp.presentation.nourishment.form.NourishmentFormScreen
 import me.kire.re.homestuffapp.presentation.nourishment.form.NourishmentFormViewModel
+import me.kire.re.homestuffapp.presentation.shopping.ShoppingScreen
+import me.kire.re.homestuffapp.presentation.shopping.ShoppingViewModel
 
 data class BottomNavigationItem(
     val title: String,
@@ -85,6 +88,12 @@ fun HomeStuffNavigator() {
             unselectedIcon = Icons.Outlined.Info,
             hasNews = false
         ),
+        BottomNavigationItem(
+            title = "Shopping List",
+            selectedIcon = Icons.Filled.Info,
+            unselectedIcon = Icons.Outlined.Info,
+            hasNews = false
+        ),
     )
 
     var selectedItem by rememberSaveable {
@@ -99,6 +108,7 @@ fun HomeStuffNavigator() {
         Route.NourishmentScreen.route -> 1
         Route.DetailsScreen.route -> 2
         Route.NourishmentFormScreen.route -> 3
+        Route.ShoppingScreen.route -> 4
         else -> 0
     }
 
@@ -116,6 +126,7 @@ fun HomeStuffNavigator() {
         Route.NourishmentScreen.route -> "Nourishment"
         Route.DetailsScreen.route -> "Details"
         Route.NourishmentFormScreen.route -> "Nourishment Form"
+        Route.ShoppingScreen.route -> "Shopping List"
         else -> ""
     }
 
@@ -125,7 +136,9 @@ fun HomeStuffNavigator() {
             TopAppBar(
                 title = title,
                 navigateUp = {
-                    navController.navigateUp()
+                    if (selectedItem == 4) {
+                        navController.navigate(Route.HomeScreen.route)
+                    } else navController.navigateUp()
                 },
                 isHomeScreen = selectedItem == 0,
                 modifier = Modifier
@@ -165,6 +178,11 @@ fun HomeStuffNavigator() {
                                 1 -> navigateToTab(
                                     navController = navController,
                                     route = Route.NourishmentScreen.route
+                                )
+
+                                3 -> navigateToTab(
+                                    navController = navController,
+                                    route = Route.ShoppingScreen.route
                                 )
                             }
                         },
@@ -218,6 +236,7 @@ fun HomeStuffNavigator() {
         NavHost(
             navController = navController,
             startDestination = Route.HomeScreen.route,
+            route = Route.MainRoute.route,
             modifier = Modifier.padding(it)
         ) {
             composable(route = Route.HomeScreen.route) {
@@ -256,14 +275,37 @@ fun HomeStuffNavigator() {
                 )
             }
             composable(route = Route.DetailsScreen.route) {
+                val parentEntry = remember(navController.currentBackStackEntry) {
+                    navController.getBackStackEntry(Route.MainRoute.route)
+                }
+                val viewModel: ShoppingViewModel = hiltViewModel(parentEntry)
+
                 navController.previousBackStackEntry
                     ?.savedStateHandle
                     ?.get<Nourishment?>("nourishment")
                     ?.let { nourishment ->
                         DetailsScreen(
-                            nourishment = nourishment
+                            nourishment = nourishment,
+                            addToShopping = {
+                                viewModel.addItem(
+                                    Shopping(
+                                        itemName = nourishment.name,
+                                    )
+                                )
+                                navController.navigate(Route.ShoppingScreen.route)
+                            }
                         )
                     }
+            }
+            composable(route = Route.ShoppingScreen.route) {
+                val parentEntry = remember(navController.currentBackStackEntry) {
+                    navController.getBackStackEntry(Route.MainRoute.route)
+                }
+                val viewModel: ShoppingViewModel = hiltViewModel(parentEntry)
+
+                ShoppingScreen(
+                    viewModel.shoppingList
+                )
             }
         }
     }
