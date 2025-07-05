@@ -33,7 +33,8 @@ import me.kire.re.homestuffapp.presentation.details.components.PurchaseItem
 @Composable
 fun DetailsScreen(
     nourishment: Nourishment,
-    addToShopping: () -> Unit
+    addToShopping: () -> Unit,
+    isAlreadyAdded: Boolean = false
 ) {
     Column(
         modifier = Modifier
@@ -215,7 +216,8 @@ fun DetailsScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(48.dp),
-                        shape = RoundedCornerShape(8.dp)
+                        shape = RoundedCornerShape(8.dp),
+                        enabled = !isAlreadyAdded
                     ) {
                         Text(
                             "Add to Shopping List",

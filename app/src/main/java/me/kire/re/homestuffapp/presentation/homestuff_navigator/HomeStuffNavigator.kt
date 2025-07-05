@@ -284,6 +284,8 @@ fun HomeStuffNavigator() {
                     ?.savedStateHandle
                     ?.get<Nourishment?>("nourishment")
                     ?.let { nourishment ->
+                        val isAlreadyAdded =
+                            viewModel.shoppingList.any { shopping -> shopping.itemName == nourishment.name }
                         DetailsScreen(
                             nourishment = nourishment,
                             addToShopping = {
@@ -293,7 +295,8 @@ fun HomeStuffNavigator() {
                                     )
                                 )
                                 navController.navigate(Route.ShoppingScreen.route)
-                            }
+                            },
+                            isAlreadyAdded = isAlreadyAdded,
                         )
                     }
             }
