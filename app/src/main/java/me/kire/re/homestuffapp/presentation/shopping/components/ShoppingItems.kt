@@ -5,12 +5,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import me.kire.re.homestuffapp.domain.model.Shopping
+import me.kire.re.homestuffapp.presentation.shopping.ShoppingEvent
 
 @Composable
 fun ShoppingItems(
     modifier: Modifier = Modifier,
     shoppingItems: List<Shopping> = emptyList(),
-    navigateToEdit: (Shopping) -> Unit
+    navigateToEdit: (Shopping) -> Unit,
+    event: (ShoppingEvent) -> Unit
 ) {
     LazyColumn(
         modifier = modifier
@@ -18,7 +20,8 @@ fun ShoppingItems(
         items(shoppingItems) {
             ShoppingItem(
                 item = it,
-                navigateToEdit = navigateToEdit
+                navigateToEdit = navigateToEdit,
+                event = event
             )
         }
     }

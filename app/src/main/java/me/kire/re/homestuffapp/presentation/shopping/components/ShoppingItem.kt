@@ -23,12 +23,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import me.kire.re.homestuffapp.domain.model.Shopping
+import me.kire.re.homestuffapp.presentation.shopping.ShoppingEvent
 
 @Composable
 fun ShoppingItem(
     modifier: Modifier = Modifier,
     item: Shopping,
-    navigateToEdit: (Shopping) -> Unit
+    navigateToEdit: (Shopping) -> Unit,
+    event: (ShoppingEvent) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -80,7 +82,7 @@ fun ShoppingItem(
                 IconButton(
                     modifier = Modifier
                         .align(Alignment.End),
-                    onClick = { }
+                    onClick = { event(ShoppingEvent.DeleteItem(item)) }
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.Delete,
@@ -103,6 +105,7 @@ fun ShoppingItemPreview() {
             price = "$18.75",
             quantity = "3"
         ),
-        navigateToEdit = {}
+        navigateToEdit = {},
+        event = {}
     )
 }

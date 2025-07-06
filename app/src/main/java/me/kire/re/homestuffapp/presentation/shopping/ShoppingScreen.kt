@@ -35,7 +35,8 @@ fun ShoppingScreen(
     ) {
         ShoppingItems(
             shoppingItems = shoppingItems,
-            navigateToEdit = navigateToEdit
+            navigateToEdit = navigateToEdit,
+            event = event
         )
 
         Spacer(modifier = Modifier.weight(1f))
