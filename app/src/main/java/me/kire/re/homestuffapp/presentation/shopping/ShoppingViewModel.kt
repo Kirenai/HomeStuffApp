@@ -13,7 +13,21 @@ class ShoppingViewModel @Inject constructor() : ViewModel() {
     var shoppingList by mutableStateOf(listOf<Shopping>())
         private set
 
-    fun addItem(item: Shopping) {
+    fun onEvent(event: ShoppingEvent) {
+        when (event) {
+            is ShoppingEvent.AddItem -> addItem(event.item)
+            is ShoppingEvent.MarkAsPurchased -> markAsPurchased()
+            is ShoppingEvent.ClearItems -> TODO()
+            is ShoppingEvent.DeleteItem -> TODO()
+            is ShoppingEvent.EditItem -> TODO()
+        }
+    }
+
+    private fun markAsPurchased() {
+        shoppingList = emptyList()
+    }
+
+    private fun addItem(item: Shopping) {
         if (!shoppingList.contains(item)) {
             shoppingList = shoppingList + item
         }

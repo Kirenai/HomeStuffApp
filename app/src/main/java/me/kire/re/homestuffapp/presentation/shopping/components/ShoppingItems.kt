@@ -9,14 +9,16 @@ import me.kire.re.homestuffapp.domain.model.Shopping
 @Composable
 fun ShoppingItems(
     modifier: Modifier = Modifier,
-    shoppingItems: List<Shopping> = emptyList()
+    shoppingItems: List<Shopping> = emptyList(),
+    navigateToEdit: (Shopping) -> Unit
 ) {
     LazyColumn(
         modifier = modifier
     ) {
         items(shoppingItems) {
             ShoppingItem(
-                item = it
+                item = it,
+                navigateToEdit = navigateToEdit
             )
         }
     }

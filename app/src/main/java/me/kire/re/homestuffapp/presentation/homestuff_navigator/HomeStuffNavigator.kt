@@ -48,7 +48,6 @@ import androidx.navigation.compose.rememberNavController
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import me.kire.re.homestuffapp.domain.model.Nourishment
-import me.kire.re.homestuffapp.domain.model.Shopping
 import me.kire.re.homestuffapp.presentation.details.DetailsScreen
 import me.kire.re.homestuffapp.presentation.home.HomeScreen
 import me.kire.re.homestuffapp.presentation.home.HomeViewModel
@@ -290,15 +289,11 @@ fun HomeStuffNavigator() {
                             viewModel.shoppingList.any { shopping -> shopping.itemName == nourishment.name }
                         DetailsScreen(
                             nourishment = nourishment,
-                            addToShopping = {
-                                viewModel.addItem(
-                                    Shopping(
-                                        itemName = nourishment.name,
-                                    )
-                                )
+                            navigateToShopping = {
                                 navController.navigate(Route.ShoppingScreen.route)
                             },
                             isAlreadyAdded = isAlreadyAdded,
+                            event = viewModel::onEvent
                         )
                     }
             }
@@ -309,7 +304,14 @@ fun HomeStuffNavigator() {
                 val viewModel: ShoppingViewModel = hiltViewModel(parentEntry)
 
                 ShoppingScreen(
-                    viewModel.shoppingList
+                    viewModel.shoppingList,
+                    navigateToEdit = { shopping ->
+                        navigateToTab(
+                            navController = navController,
+                            route = Route.NourishmentFormScreen.route
+                        )
+                    },
+                    event = viewModel::onEvent
                 )
             }
         }

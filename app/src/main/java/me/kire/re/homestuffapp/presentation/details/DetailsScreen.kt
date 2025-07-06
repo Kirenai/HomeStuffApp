@@ -27,14 +27,17 @@ import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import me.kire.re.homestuffapp.domain.model.Nourishment
+import me.kire.re.homestuffapp.domain.model.Shopping
 import me.kire.re.homestuffapp.presentation.details.components.LineChartWithGradient
 import me.kire.re.homestuffapp.presentation.details.components.PurchaseItem
+import me.kire.re.homestuffapp.presentation.shopping.ShoppingEvent
 
 @Composable
 fun DetailsScreen(
     nourishment: Nourishment,
-    addToShopping: () -> Unit,
-    isAlreadyAdded: Boolean = false
+    navigateToShopping: () -> Unit,
+    isAlreadyAdded: Boolean = false,
+    event: (ShoppingEvent) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -212,7 +215,19 @@ fun DetailsScreen(
                         .padding(vertical = 12.dp)
                 ) {
                     Button(
-                        onClick = addToShopping,
+                        onClick = {
+                            if (!isAlreadyAdded) {
+                                event(
+                                    ShoppingEvent.AddItem(
+                                        Shopping(
+                                            shoppingId = nourishment.nourishmentId,
+                                            itemName = nourishment.name,
+                                        )
+                                    )
+                                )
+                                navigateToShopping()
+                            }
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(48.dp),
@@ -247,6 +262,7 @@ fun DetailsScreenPreview() {
             expirationDate = "5 days",
             isAvailable = true,
         ),
-        addToShopping = {}
+        navigateToShopping = {},
+        event = {}
     )
 }
