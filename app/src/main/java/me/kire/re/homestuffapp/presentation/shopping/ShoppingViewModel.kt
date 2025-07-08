@@ -19,7 +19,7 @@ class ShoppingViewModel @Inject constructor() : ViewModel() {
             is ShoppingEvent.MarkAsPurchased -> markAsPurchased()
             is ShoppingEvent.ClearItems -> TODO()
             is ShoppingEvent.DeleteItem -> deleteItem(event.item)
-            is ShoppingEvent.EditItem -> TODO()
+            is ShoppingEvent.EditItem -> editItem(event.item)
         }
     }
 
@@ -35,5 +35,9 @@ class ShoppingViewModel @Inject constructor() : ViewModel() {
 
     private fun deleteItem(item: Shopping) {
         shoppingList = shoppingList.filter { it != item }
+    }
+
+    private fun editItem(item: Shopping) {
+        shoppingList = shoppingList.map { if (it.shoppingId == item.shoppingId) item else it }
     }
 }

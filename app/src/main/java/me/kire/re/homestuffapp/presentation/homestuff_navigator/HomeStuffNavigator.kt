@@ -9,10 +9,8 @@ import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.automirrored.outlined.List
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.ShoppingCart
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
@@ -48,6 +46,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import me.kire.re.homestuffapp.domain.model.Nourishment
+import me.kire.re.homestuffapp.domain.model.Shopping
 import me.kire.re.homestuffapp.presentation.details.DetailsScreen
 import me.kire.re.homestuffapp.presentation.home.HomeScreen
 import me.kire.re.homestuffapp.presentation.home.HomeViewModel
@@ -59,6 +58,7 @@ import me.kire.re.homestuffapp.presentation.nourishment.form.NourishmentFormScre
 import me.kire.re.homestuffapp.presentation.nourishment.form.NourishmentFormViewModel
 import me.kire.re.homestuffapp.presentation.shopping.ShoppingScreen
 import me.kire.re.homestuffapp.presentation.shopping.ShoppingViewModel
+import me.kire.re.homestuffapp.presentation.shopping.form.ShoppingEditScreen
 
 data class BottomNavigationItem(
     val title: String,
@@ -84,12 +84,6 @@ fun HomeStuffNavigator() {
             hasNews = false
         ),
         BottomNavigationItem(
-            title = "Nourishment",
-            selectedIcon = Icons.Filled.Info,
-            unselectedIcon = Icons.Outlined.Info,
-            hasNews = false
-        ),
-        BottomNavigationItem(
             title = "Shopping",
             selectedIcon = Icons.Filled.ShoppingCart,
             unselectedIcon = Icons.Outlined.ShoppingCart,
@@ -110,6 +104,7 @@ fun HomeStuffNavigator() {
         Route.DetailsScreen.route -> 2
         Route.NourishmentFormScreen.route -> 3
         Route.ShoppingScreen.route -> 4
+        Route.ShoppingEditScreen.route -> 5
         else -> 0
     }
 
@@ -128,6 +123,7 @@ fun HomeStuffNavigator() {
         Route.DetailsScreen.route -> "Details"
         Route.NourishmentFormScreen.route -> "Nourishment Form"
         Route.ShoppingScreen.route -> "Shopping"
+        Route.ShoppingEditScreen.route -> "Edit Shopping Item"
         else -> ""
     }
 
@@ -181,7 +177,7 @@ fun HomeStuffNavigator() {
                                     route = Route.NourishmentScreen.route
                                 )
 
-                                3 -> navigateToTab(
+                                2 -> navigateToTab(
                                     navController = navController,
                                     route = Route.ShoppingScreen.route
                                 )
@@ -306,13 +302,26 @@ fun HomeStuffNavigator() {
                 ShoppingScreen(
                     viewModel.shoppingList,
                     navigateToEdit = { shopping ->
-                        navigateToTab(
+                        navigateToShoppingEdit(
                             navController = navController,
-                            route = Route.NourishmentFormScreen.route
+                            shopping = shopping
                         )
                     },
                     event = viewModel::onEvent
                 )
+            }
+            composable(route = Route.ShoppingEditScreen.route) {
+                navController.previousBackStackEntry?.savedStateHandle?.get<Shopping>("shopping")
+                    ?.let { shopping ->
+                        val parentEntry = remember(navController.currentBackStackEntry) {
+                            navController.getBackStackEntry(Route.MainRoute.route)
+                        }
+                        val viewModel: ShoppingViewModel = hiltViewModel(parentEntry)
+                        ShoppingEditScreen(
+                            shopping = shopping,
+                            event = viewModel::onEvent
+                        )
+                    }
             }
         }
     }
@@ -337,5 +346,15 @@ private fun navigateToDetails(
     navController.currentBackStackEntry?.savedStateHandle?.set("nourishment", nourishment)
     navController.navigate(
         route = Route.DetailsScreen.route
+    )
+}
+
+private fun navigateToShoppingEdit(
+    navController: NavHostController,
+    shopping: Shopping
+) {
+    navController.currentBackStackEntry?.savedStateHandle?.set("shopping", shopping)
+    navController.navigate(
+        route = Route.ShoppingEditScreen.route
     )
 }

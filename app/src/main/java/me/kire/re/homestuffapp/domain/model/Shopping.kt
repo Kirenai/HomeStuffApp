@@ -1,12 +1,16 @@
 package me.kire.re.homestuffapp.domain.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Shopping(
     val shoppingId: String,
     val itemName: String,
     val store: String? = null,
     val price: String? = null,
     val quantity: String? = null,
-)
+) : Parcelable
 
 val shoppingMock = listOf(
     Shopping(
