@@ -36,7 +36,7 @@ fun NourishmentScreen(
     navigateToDetails: (Nourishment) -> Unit,
     navigateToSearch: () -> Unit
 ) {
-    var text by remember {
+    var searchText by remember {
         mutableStateOf("")
     }
 
@@ -44,7 +44,7 @@ fun NourishmentScreen(
         mutableStateOf(false)
     }
 
-    val inStockList = listOf(
+    val loadedItems = listOf(
         Nourishment(
             nourishmentId = "1",
             name = "Orange",
@@ -61,38 +61,42 @@ fun NourishmentScreen(
             imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
             description = "Fresh orange",
             isAvailable = true,
-        )
-    )
-
-    val outOfStockList = listOf(
+        ),
         Nourishment(
-            nourishmentId = "1",
-            name = "Orange",
+            nourishmentId = "3",
+            name = "Banana",
             stock = 0,
             imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
             description = "Fresh orange",
             expirationDate = "5 days",
-            isAvailable = true,
+            isAvailable = false,
         ),
         Nourishment(
-            nourishmentId = "2",
-            name = "Orange",
+            nourishmentId = "4",
+            name = "Strawberry",
             stock = 0,
             imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
             description = "Fresh orange",
-            isAvailable = true,
+            isAvailable = false,
         )
     )
 
+    val filtered = loadedItems.filter { it.name.contains(searchText, ignoreCase = true) }
+
+    val groped = filtered.groupBy { it.isAvailable }
+
+    val inStockList = groped[true].orEmpty()
+    val outOfStockList = groped[false].orEmpty()
+
     val displayList = if (isSorted) {
-        listOf(
-            "Out of Stock" to outOfStockList,
-            "In Stock" to inStockList
+        listOfNotNull(
+            if (outOfStockList.isNotEmpty()) "Out of Stock" to outOfStockList else null,
+            if (inStockList.isNotEmpty()) "In Stock" to inStockList else null
         )
     } else {
-        listOf(
-            "In Stock" to inStockList,
-            "Out of Stock" to outOfStockList
+        listOfNotNull(
+            if (inStockList.isNotEmpty()) "In Stock" to inStockList else null,
+            if (outOfStockList.isNotEmpty()) "Out of Stock" to outOfStockList else null,
         )
     }
 
@@ -102,9 +106,9 @@ fun NourishmentScreen(
             .fillMaxSize()
     ) {
         SearchBar(
-            text = text,
+            text = searchText,
             onChangeValue = {
-                text = it
+                searchText = it
             },
             onSearch = navigateToSearch
         )
