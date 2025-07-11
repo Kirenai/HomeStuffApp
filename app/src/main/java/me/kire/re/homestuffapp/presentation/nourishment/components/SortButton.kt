@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -28,10 +30,10 @@ fun SortButton(
     ) {
         Button(
             onClick = onClick,
-            shape = RoundedCornerShape(8.dp),
+            shape = RoundedCornerShape(16.dp),
             colors = ButtonColors(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.primaryContainer,
                 disabledContainerColor = MaterialTheme.colorScheme.primaryContainer,
                 disabledContentColor = MaterialTheme.colorScheme.primaryContainer
             ),
@@ -41,17 +43,19 @@ fun SortButton(
                 end = 5.5.dp,
                 bottom = 8.dp,
             ),
-            modifier = Modifier.height(32.dp)
+            modifier = Modifier.height(32.dp).width(81.dp)
         ) {
             Row(
             ) {
                 Text(
-                    text = "Sort"
+                    text = "Sort",
+                    style = MaterialTheme.typography.bodyMedium
                 )
                 Spacer(Modifier.padding(start = 8.dp))
                 Icon(
                     imageVector = Icons.Filled.KeyboardArrowDown,
-                    contentDescription = "Sort Icon"
+                    contentDescription = "Sort Icon",
+                    Modifier.size(20.dp)
                 )
             }
         }

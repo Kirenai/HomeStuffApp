@@ -22,7 +22,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import me.kire.re.homestuffapp.presentation.Dimens.IconBoxSize
-import me.kire.re.homestuffapp.ui.theme.IconBoxDark
 
 @Composable
 fun PurchaseItem(
@@ -47,12 +46,13 @@ fun PurchaseItem(
                     modifier = Modifier
                         .size(IconBoxSize)
                         .clip(MaterialTheme.shapes.small)
-                    .background(IconBoxDark),
+                        .background(MaterialTheme.colorScheme.surfaceBright),
                     contentAlignment = Alignment.Center,
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.ShoppingCart,
                         contentDescription = "Shopping Cart",
+                        tint = MaterialTheme.colorScheme.secondary,
                     )
                 }
                 Column {

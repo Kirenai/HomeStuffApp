@@ -68,6 +68,7 @@ fun ShoppingEditScreen(
                         .height(32.dp)
                         .fillMaxWidth(),
                     style = MaterialTheme.typography.titleMedium.copy(
+                        color = MaterialTheme.colorScheme.onSurface,
                         lineHeight = 24.sp,
                     )
                 )
@@ -80,28 +81,30 @@ fun ShoppingEditScreen(
                         onClick = { quantity = maxOf(1, quantity - 1) },
                         modifier = Modifier
                             .clip(MaterialTheme.shapes.extraLarge)
-                            .background(Color.LightGray)
+                            .background(MaterialTheme.colorScheme.surfaceBright)
                             .size(28.dp)
                     ) {
                         Icon(
                             modifier = Modifier
                                 .size(width = 18.dp, height = 24.dp),
                             painter = painterResource(R.drawable.outline_remove_24),
-                            contentDescription = "Decrease quantity"
+                            contentDescription = "Decrease quantity",
+                            tint = MaterialTheme.colorScheme.secondary,
                         )
                     }
                     Text(
                         text = quantity.toString(), // Replace with actual quantity
                         style = MaterialTheme.typography.bodyLarge.copy(
                             fontSize = 20.sp,
-                            lineHeight = 24.sp
+                            lineHeight = 24.sp,
+                            color = MaterialTheme.colorScheme.onSurface,
                         )
                     )
                     IconButton(
                         onClick = { quantity = quantity.plus(1) },
                         modifier = Modifier
                             .clip(MaterialTheme.shapes.extraLarge)
-                            .background(Color.LightGray)
+                            .background(MaterialTheme.colorScheme.surfaceBright)
                             .size(28.dp)
                     ) {
                         Icon(
@@ -109,6 +112,7 @@ fun ShoppingEditScreen(
                                 .size(width = 19.dp, height = 22.dp),
                             imageVector = Icons.Outlined.Add,
                             contentDescription = "Increase quantity",
+                            tint = MaterialTheme.colorScheme.secondary,
                         )
                     }
                 }
@@ -127,6 +131,7 @@ fun ShoppingEditScreen(
                         .fillMaxWidth(),
                     style = MaterialTheme.typography.titleMedium.copy(
                         lineHeight = 24.sp,
+                        color = MaterialTheme.colorScheme.onSurface,
                     )
                 )
 
@@ -174,6 +179,7 @@ fun ShoppingEditScreen(
                         .fillMaxWidth(),
                     style = MaterialTheme.typography.titleMedium.copy(
                         lineHeight = 24.sp,
+                        color = MaterialTheme.colorScheme.onSurface,
                     )
                 )
 

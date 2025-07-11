@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -26,8 +27,8 @@ fun LineChartWithGradient(
     modifier: Modifier = Modifier,
     data: List<Float>,
     xLabels: List<String>,
-    lineColor: Color = Color(0xFF555555),
-    gradientColor: Color = Color(0xFF555555).copy(alpha = 0.3f)
+    lineColor: Color = MaterialTheme.colorScheme.primary,
+    gradientColor: Color = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
 ) {
     Column(
         modifier = modifier,

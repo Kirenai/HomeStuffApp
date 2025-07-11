@@ -51,7 +51,8 @@ fun ShoppingItem(
                     style = TextStyle.Default.copy(
                         fontSize = MaterialTheme.typography.titleMedium.fontSize,
                         fontWeight = FontWeight.Medium,
-                        lineHeight = 24.sp
+                        lineHeight = 24.sp,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 )
                 Text(
@@ -65,6 +66,7 @@ fun ShoppingItem(
                     style = MaterialTheme.typography.bodyMedium.copy(
                         fontWeight = FontWeight.Normal,
                         lineHeight = 21.sp,
+                        color = MaterialTheme.colorScheme.onSurface
                     ),
                     softWrap = true,
                     overflow = TextOverflow.Clip
@@ -87,6 +89,7 @@ fun ShoppingItem(
                     Icon(
                         imageVector = Icons.Outlined.Delete,
                         contentDescription = "Delete Item",
+                        tint = MaterialTheme.colorScheme.secondary,
                     )
                 }
             }

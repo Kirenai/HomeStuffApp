@@ -2,7 +2,6 @@ package me.kire.re.homestuffapp.presentation.home.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,8 +25,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import me.kire.re.homestuffapp.R
 import me.kire.re.homestuffapp.domain.model.Category
-import me.kire.re.homestuffapp.ui.theme.IconBoxDark
-import me.kire.re.homestuffapp.ui.theme.IconBoxLight
 
 @Composable
 fun CategoryItem(
@@ -34,11 +32,6 @@ fun CategoryItem(
     category: Category,
     navigateToCategory: (String) -> Unit
 ) {
-    val iconBoxColor = if (isSystemInDarkTheme()) {
-        IconBoxLight
-    } else IconBoxDark
-
-
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -51,7 +44,7 @@ fun CategoryItem(
             modifier = Modifier
                 .size(48.dp)
                 .clip(RoundedCornerShape(8.dp))
-                .background(iconBoxColor)
+                .background(MaterialTheme.colorScheme.surfaceBright)
                 .padding(12.dp),
             contentAlignment = Alignment.Center,
         ) {
@@ -62,6 +55,7 @@ fun CategoryItem(
                 ),
                 painter = painterResource(category.icon),
                 contentDescription = "Category Icon",
+                tint = MaterialTheme.colorScheme.secondary
             )
         }
         Column(
@@ -72,12 +66,17 @@ fun CategoryItem(
             Text(
                 modifier = Modifier.padding(vertical = 4.dp),
                 text = category.name,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Medium
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface
+                ),
             )
             Text(
                 text = "${category.size} items",
                 fontSize = 14.sp,
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             )
         }
     }

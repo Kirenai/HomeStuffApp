@@ -220,7 +220,7 @@ fun HomeStuffNavigator() {
                                 route = Route.NourishmentFormScreen.route
                             )
                         },
-                        containerColor = MaterialTheme.colorScheme.background,
+                        containerColor = MaterialTheme.colorScheme.onPrimary,
                         contentColor = MaterialTheme.colorScheme.primary,
                     ) {
                         Icon(imageVector = Icons.Default.Add, contentDescription = "Add")

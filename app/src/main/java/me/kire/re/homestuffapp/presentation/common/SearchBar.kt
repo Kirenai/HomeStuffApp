@@ -36,7 +36,9 @@ fun SearchBar(
             placeholder = {
                 Text(
                     text = "Search",
-                    style = MaterialTheme.typography.bodySmall,
+                    style = MaterialTheme.typography.bodySmall.copy(
+                        color = MaterialTheme.colorScheme.secondary
+                    ),
                 )
             },
             singleLine = true,
@@ -45,7 +47,8 @@ fun SearchBar(
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Default.Search,
-                    contentDescription = null
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.secondary
                 )
             },
             shape = MaterialTheme.shapes.medium,
