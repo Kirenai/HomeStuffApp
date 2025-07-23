@@ -1,5 +1,10 @@
 package me.kire.re.homestuffapp.presentation.home.components
 
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -17,7 +22,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,6 +34,24 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import me.kire.re.homestuffapp.R
 import me.kire.re.homestuffapp.domain.model.Category
+
+fun Modifier.shimmerEffect(cornerRadius: CornerRadius = CornerRadius(x = 12f, y = 12f)) = composed {
+    val transition = rememberInfiniteTransition(label = "shimmer effect")
+    val alpha = transition.animateFloat(
+        initialValue = 0.2f, targetValue = 0.9f, animationSpec = infiniteRepeatable(
+            animation = tween(durationMillis = 1000),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "transparency of the background color"
+    ).value
+    val color = colorResource(id = R.color.shimmer).copy(alpha = alpha)
+    drawBehind {
+        drawRoundRect(
+            color = color,
+            cornerRadius = cornerRadius
+        )
+    }
+}
 
 @Composable
 fun CategoryItem(
@@ -50,8 +77,8 @@ fun CategoryItem(
         ) {
             Icon(
                 modifier = Modifier.size(
-                    width = category.iconWidth,
-                    height = category.iconHeight
+                    width = 24.dp,
+                    height = 24.dp
                 ),
                 painter = painterResource(category.icon),
                 contentDescription = "Category Icon",
@@ -72,7 +99,7 @@ fun CategoryItem(
                 ),
             )
             Text(
-                text = "${category.size} items",
+                text = "${category.itemsCount} items",
                 fontSize = 14.sp,
                 style = MaterialTheme.typography.bodyMedium.copy(
                     color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -88,10 +115,8 @@ fun CategoryItemPreview() {
     CategoryItem(
         category = Category(
             name = "Food",
-            size = 12,
+            itemsCount = 12,
             icon = R.drawable.ic_food,
-            iconWidth = 24.dp,
-            iconHeight = 24.dp
         ),
         navigateToCategory = {}
     )

@@ -50,6 +50,8 @@ import me.kire.re.homestuffapp.domain.model.Shopping
 import me.kire.re.homestuffapp.presentation.details.DetailsScreen
 import me.kire.re.homestuffapp.presentation.home.HomeScreen
 import me.kire.re.homestuffapp.presentation.home.HomeViewModel
+import me.kire.re.homestuffapp.presentation.home.category.CategoryFormScreen
+import me.kire.re.homestuffapp.presentation.home.category.CategoryFormViewModel
 import me.kire.re.homestuffapp.presentation.homestuff_navigator.components.TopAppBar
 import me.kire.re.homestuffapp.presentation.navigation.Route
 import me.kire.re.homestuffapp.presentation.nourishment.NourishmentScreen
@@ -105,6 +107,7 @@ fun HomeStuffNavigator() {
         Route.NourishmentFormScreen.route -> 3
         Route.ShoppingScreen.route -> 4
         Route.ShoppingEditScreen.route -> 5
+        Route.CategoryFormScreen.route -> 6
         else -> 0
     }
 
@@ -124,6 +127,7 @@ fun HomeStuffNavigator() {
         Route.NourishmentFormScreen.route -> "Nourishment Form"
         Route.ShoppingScreen.route -> "Shopping"
         Route.ShoppingEditScreen.route -> "Edit Shopping Item"
+        Route.CategoryFormScreen.route -> "Create Category"
         else -> ""
     }
 
@@ -218,6 +222,20 @@ fun HomeStuffNavigator() {
                             navigateToTab(
                                 navController = navController,
                                 route = Route.NourishmentFormScreen.route
+                            )
+                        },
+                        containerColor = MaterialTheme.colorScheme.onPrimary,
+                        contentColor = MaterialTheme.colorScheme.primary,
+                    ) {
+                        Icon(imageVector = Icons.Default.Add, contentDescription = "Add")
+                    }
+                }
+                Route.HomeScreen.route -> {
+                    FloatingActionButton(
+                        onClick = {
+                            navigateToTab(
+                                navController = navController,
+                                route = Route.CategoryFormScreen.route
                             )
                         },
                         containerColor = MaterialTheme.colorScheme.onPrimary,
@@ -322,6 +340,12 @@ fun HomeStuffNavigator() {
                             event = viewModel::onEvent
                         )
                     }
+            }
+            composable(route = Route.CategoryFormScreen.route) {
+                val viewModel: CategoryFormViewModel = hiltViewModel()
+                CategoryFormScreen(
+                    event = viewModel::onEvent
+                )
             }
         }
     }

@@ -20,4 +20,6 @@ sealed class Route(
     data object ShoppingScreen : Route(route = "shoppingScreen")
 
     data object ShoppingEditScreen : Route(route = "shoppingEditScreen")
+
+    data object CategoryFormScreen : Route(route = "categoryFormScreen")
 }
