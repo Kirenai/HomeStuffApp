@@ -38,6 +38,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -230,6 +231,7 @@ fun HomeStuffNavigator() {
                         Icon(imageVector = Icons.Default.Add, contentDescription = "Add")
                     }
                 }
+
                 Route.HomeScreen.route -> {
                     FloatingActionButton(
                         onClick = {
@@ -247,27 +249,40 @@ fun HomeStuffNavigator() {
             }
         },
         floatingActionButtonPosition = FabPosition.End,
-    ) {
+    ) { paddingValues ->
         NavHost(
             navController = navController,
             startDestination = Route.HomeScreen.route,
             route = Route.MainRoute.route,
-            modifier = Modifier.padding(it)
+            modifier = Modifier.padding(paddingValues)
         ) {
             composable(route = Route.HomeScreen.route) {
                 val viewModel: HomeViewModel = hiltViewModel()
+                val categories by viewModel.categoriesWithCount.collectAsState()
+                println("categories = $categories")
+                val error: MutableLiveData<String>? = navController.currentBackStackEntry
+                    ?.savedStateHandle
+                    ?.getLiveData("category_error")
                 HomeScreen(
                     event = viewModel::onEvent,
                     state = viewModel.state.value,
-                    navigateToCategory = { route ->
+                    navigateToCategory = { categoryId ->
                         navigateToTab(
                             navController = navController,
-                            route = route
+                            route = Route.NourishmentScreen.createRoute(categoryId)
                         )
+                    },
+                    error = error,
+                    clearCategoryError = {
+                        navController.currentBackStackEntry
+                            ?.savedStateHandle
+                            ?.set("category_error", null)
                     }
                 )
             }
-            composable(route = Route.NourishmentScreen.route) {
+            composable(route = Route.NourishmentScreen.route) { backStackEntry ->
+                var categoryId = backStackEntry.arguments?.getString("categoryId")?.toLongOrNull()
+                    ?: return@composable
                 val viewModel: NourishmentViewModel = hiltViewModel()
                 val nourishments: LazyPagingItems<Nourishment> =
                     viewModel.nourishments.collectAsLazyPagingItems()
@@ -344,7 +359,17 @@ fun HomeStuffNavigator() {
             composable(route = Route.CategoryFormScreen.route) {
                 val viewModel: CategoryFormViewModel = hiltViewModel()
                 CategoryFormScreen(
-                    event = viewModel::onEvent
+                    event = viewModel::onEvent,
+                    navigateUp = { error ->
+                        error.let {
+                            navController.previousBackStackEntry
+                                ?.savedStateHandle
+                                ?.set("category_error", error)
+                        }
+
+                        navController.popBackStack()
+                    },
+                    state = viewModel.state.collectAsState().value
                 )
             }
         }

@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,13 +26,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import me.kire.re.homestuffapp.R
-import me.kire.re.homestuffapp.domain.model.Category
+import me.kire.re.homestuffapp.domain.model.CategoryWithItemCount
+import me.kire.re.homestuffapp.domain.model.categories
 
 fun Modifier.shimmerEffect(cornerRadius: CornerRadius = CornerRadius(x = 12f, y = 12f)) = composed {
     val transition = rememberInfiniteTransition(label = "shimmer effect")
@@ -56,15 +55,15 @@ fun Modifier.shimmerEffect(cornerRadius: CornerRadius = CornerRadius(x = 12f, y 
 @Composable
 fun CategoryItem(
     modifier: Modifier = Modifier,
-    category: Category,
-    navigateToCategory: (String) -> Unit
+    category: CategoryWithItemCount,
+    navigateToCategory: (Long) -> Unit
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
             .height(72.dp)
             .padding(horizontal = 16.dp)
-            .clickable { category.route?.let { navigateToCategory(it) } },
+            .clickable { navigateToCategory(category.categoryId) },
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Box(
@@ -72,18 +71,19 @@ fun CategoryItem(
                 .size(48.dp)
                 .clip(RoundedCornerShape(8.dp))
                 .background(MaterialTheme.colorScheme.surfaceBright)
-                .padding(12.dp),
+                .padding(12.dp)
+                .shimmerEffect(),
             contentAlignment = Alignment.Center,
         ) {
-            Icon(
-                modifier = Modifier.size(
-                    width = 24.dp,
-                    height = 24.dp
-                ),
-                painter = painterResource(category.icon),
-                contentDescription = "Category Icon",
-                tint = MaterialTheme.colorScheme.secondary
-            )
+//            Icon(
+//                modifier = Modifier.size(
+//                    width = 24.dp,
+//                    height = 24.dp
+//                ),
+//                painter = painterResource(category.icon),
+//                contentDescription = "Category Icon",
+//                tint = MaterialTheme.colorScheme.secondary
+//            )
         }
         Column(
             modifier = Modifier
@@ -113,11 +113,7 @@ fun CategoryItem(
 @Composable
 fun CategoryItemPreview() {
     CategoryItem(
-        category = Category(
-            name = "Food",
-            itemsCount = 12,
-            icon = R.drawable.ic_food,
-        ),
+        category = categories[0],
         navigateToCategory = {}
     )
 }

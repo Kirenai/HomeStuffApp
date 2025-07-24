@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,13 +27,27 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import me.kire.re.homestuffapp.domain.model.Category
 
 @Composable
 fun CategoryFormScreen(
     modifier: Modifier = Modifier,
-    event: (CategoryFormEvent) -> Unit
+    event: (CategoryFormEvent) -> Unit,
+    navigateUp: (String?) -> Unit,
+    state: CategoryState
 ) {
     var storeName by remember { mutableStateOf("") }
+
+    LaunchedEffect(state.error, state.success) {
+        if (state.success) {
+            navigateUp(null)
+            event(CategoryFormEvent.ClearSuccess)
+        }
+
+        state.error?.let { error ->
+            navigateUp(error)
+        }
+    }
 
     Column(
         modifier = modifier
@@ -98,7 +113,9 @@ fun CategoryFormScreen(
                 onClick = {
                     event(
                         CategoryFormEvent.OnSaveCategory(
-                            name = storeName
+                            category = Category(
+                                name = storeName
+                            )
                         )
                     )
                 },

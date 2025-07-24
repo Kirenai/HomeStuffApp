@@ -5,14 +5,18 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.MutableLiveData
 import me.kire.re.homestuffapp.domain.model.categories
 import me.kire.re.homestuffapp.presentation.common.SearchBar
 import me.kire.re.homestuffapp.presentation.home.components.CategoryList
@@ -21,8 +25,38 @@ import me.kire.re.homestuffapp.presentation.home.components.CategoryList
 fun HomeScreen(
     event: (HomeEvent) -> Unit,
     state: HomeState,
-    navigateToCategory: (String) -> Unit
+    navigateToCategory: (Long) -> Unit,
+    error: MutableLiveData<String>?,
+    clearCategoryError: () -> Unit,
 ) {
+    LaunchedEffect(error?.value) {
+        error?.value?.let { message ->
+            event(HomeEvent.OnError(message))
+
+            clearCategoryError()
+        }
+    }
+
+    if (state.error != null) {
+        AlertDialog(
+            onDismissRequest = { event(HomeEvent.OnErrorDismissed) },
+            title = { Text(text = "Error") },
+            text = { Text(text = state.error) },
+            confirmButton = {
+                TextButton(
+                    onClick = { event(HomeEvent.OnErrorDismissed) }
+                ) {
+                    Text(
+                        text = "OK",
+                        modifier = Modifier.padding(16.dp),
+                        style = MaterialTheme.typography.bodyLarge,
+                        fontWeight = FontWeight.Bold,
+                    )
+                }
+            }
+        )
+    }
+
     Column {
         Row(
             modifier = Modifier
@@ -68,6 +102,8 @@ fun HomeScreenPreview() {
         state = HomeState(
             categories = categories
         ),
-        navigateToCategory = {}
+        navigateToCategory = {},
+        error = MutableLiveData<String>(null),
+        clearCategoryError = { }
     )
 }
