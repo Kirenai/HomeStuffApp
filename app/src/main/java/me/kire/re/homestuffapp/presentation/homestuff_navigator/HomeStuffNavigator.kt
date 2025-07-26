@@ -62,6 +62,7 @@ import me.kire.re.homestuffapp.presentation.nourishment.form.NourishmentFormView
 import me.kire.re.homestuffapp.presentation.shopping.ShoppingScreen
 import me.kire.re.homestuffapp.presentation.shopping.ShoppingViewModel
 import me.kire.re.homestuffapp.presentation.shopping.form.ShoppingEditScreen
+import me.kire.re.homestuffapp.util.Constants.KEY_CATEGORY_ERROR
 
 data class BottomNavigationItem(
     val title: String,
@@ -262,7 +263,7 @@ fun HomeStuffNavigator() {
                 println("categories = $categories")
                 val error: MutableLiveData<String>? = navController.currentBackStackEntry
                     ?.savedStateHandle
-                    ?.getLiveData("category_error")
+                    ?.getLiveData(KEY_CATEGORY_ERROR)
                 HomeScreen(
                     event = viewModel::onEvent,
                     state = viewModel.state.value,
@@ -276,7 +277,7 @@ fun HomeStuffNavigator() {
                     clearCategoryError = {
                         navController.currentBackStackEntry
                             ?.savedStateHandle
-                            ?.set("category_error", null)
+                            ?.set(KEY_CATEGORY_ERROR, null)
                     }
                 )
             }
