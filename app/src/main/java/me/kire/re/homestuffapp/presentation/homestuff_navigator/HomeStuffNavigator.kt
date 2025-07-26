@@ -63,6 +63,8 @@ import me.kire.re.homestuffapp.presentation.shopping.ShoppingScreen
 import me.kire.re.homestuffapp.presentation.shopping.ShoppingViewModel
 import me.kire.re.homestuffapp.presentation.shopping.form.ShoppingEditScreen
 import me.kire.re.homestuffapp.util.Constants.KEY_CATEGORY_ERROR
+import me.kire.re.homestuffapp.util.Constants.KEY_NOURISHMENT
+import me.kire.re.homestuffapp.util.Constants.KEY_SHOPPING
 
 data class BottomNavigationItem(
     val title: String,
@@ -313,7 +315,7 @@ fun HomeStuffNavigator() {
 
                 navController.previousBackStackEntry
                     ?.savedStateHandle
-                    ?.get<Nourishment?>("nourishment")
+                    ?.get<Nourishment?>(KEY_NOURISHMENT)
                     ?.let { nourishment ->
                         val isAlreadyAdded =
                             viewModel.shoppingList.any { shopping -> shopping.itemName == nourishment.name }
@@ -345,7 +347,7 @@ fun HomeStuffNavigator() {
                 )
             }
             composable(route = Route.ShoppingEditScreen.route) {
-                navController.previousBackStackEntry?.savedStateHandle?.get<Shopping>("shopping")
+                navController.previousBackStackEntry?.savedStateHandle?.get<Shopping>(KEY_SHOPPING)
                     ?.let { shopping ->
                         val parentEntry = remember(navController.currentBackStackEntry) {
                             navController.getBackStackEntry(Route.MainRoute.route)
@@ -365,7 +367,7 @@ fun HomeStuffNavigator() {
                         error.let {
                             navController.previousBackStackEntry
                                 ?.savedStateHandle
-                                ?.set("category_error", error)
+                                ?.set(KEY_CATEGORY_ERROR, error)
                         }
 
                         navController.popBackStack()
@@ -393,7 +395,7 @@ private fun navigateToDetails(
     navController: NavHostController,
     nourishment: Nourishment
 ) {
-    navController.currentBackStackEntry?.savedStateHandle?.set("nourishment", nourishment)
+    navController.currentBackStackEntry?.savedStateHandle?.set(KEY_NOURISHMENT, nourishment)
     navController.navigate(
         route = Route.DetailsScreen.route
     )
@@ -403,7 +405,7 @@ private fun navigateToShoppingEdit(
     navController: NavHostController,
     shopping: Shopping
 ) {
-    navController.currentBackStackEntry?.savedStateHandle?.set("shopping", shopping)
+    navController.currentBackStackEntry?.savedStateHandle?.set(KEY_SHOPPING, shopping)
     navController.navigate(
         route = Route.ShoppingEditScreen.route
     )
