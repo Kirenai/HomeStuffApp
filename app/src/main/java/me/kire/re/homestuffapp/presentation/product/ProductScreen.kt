@@ -1,4 +1,4 @@
-package me.kire.re.homestuffapp.presentation.nourishment
+package me.kire.re.homestuffapp.presentation.product
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,8 +27,8 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import kotlinx.coroutines.flow.flowOf
 import me.kire.re.homestuffapp.domain.model.Nourishment
 import me.kire.re.homestuffapp.presentation.common.SearchBar
-import me.kire.re.homestuffapp.presentation.nourishment.components.ProductItem
-import me.kire.re.homestuffapp.presentation.nourishment.components.SortButton
+import me.kire.re.homestuffapp.presentation.product.components.ProductItem
+import me.kire.re.homestuffapp.presentation.product.components.SortButton
 
 @Composable
 fun ProductScreen(

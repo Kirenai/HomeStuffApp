@@ -4,7 +4,7 @@ import me.kire.re.homestuffapp.data.remote.dto.CreateNourishmentRequest
 import me.kire.re.homestuffapp.data.remote.dto.CreateNourishmentTypePercentageRequest
 import me.kire.re.homestuffapp.data.remote.dto.CreateNourishmentTypeRequest
 import me.kire.re.homestuffapp.data.remote.dto.CreateNourishmentTypeUnitRequest
-import me.kire.re.homestuffapp.presentation.nourishment.form.ProductFormState
+import me.kire.re.homestuffapp.presentation.product.form.ProductFormState
 
 fun toCreateNourishmentRequest(
     state: ProductFormState

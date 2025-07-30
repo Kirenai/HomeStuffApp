@@ -44,10 +44,10 @@ import me.kire.re.homestuffapp.presentation.home.category.CategoryFormViewModel
 import me.kire.re.homestuffapp.presentation.homestuff_navigator.components.BottomBar
 import me.kire.re.homestuffapp.presentation.homestuff_navigator.components.TopAppBar
 import me.kire.re.homestuffapp.presentation.navigation.Route
-import me.kire.re.homestuffapp.presentation.nourishment.ProductScreen
-import me.kire.re.homestuffapp.presentation.nourishment.ProductViewModel
-import me.kire.re.homestuffapp.presentation.nourishment.form.ProductFormScreen
-import me.kire.re.homestuffapp.presentation.nourishment.form.ProductFormViewModel
+import me.kire.re.homestuffapp.presentation.product.ProductScreen
+import me.kire.re.homestuffapp.presentation.product.ProductViewModel
+import me.kire.re.homestuffapp.presentation.product.form.ProductFormScreen
+import me.kire.re.homestuffapp.presentation.product.form.ProductFormViewModel
 import me.kire.re.homestuffapp.presentation.shopping.ShoppingScreen
 import me.kire.re.homestuffapp.presentation.shopping.ShoppingViewModel
 import me.kire.re.homestuffapp.presentation.shopping.form.ShoppingEditScreen

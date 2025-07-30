@@ -1,4 +1,4 @@
-package me.kire.re.homestuffapp.presentation.nourishment.form
+package me.kire.re.homestuffapp.presentation.product.form
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -6,10 +6,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import me.kire.re.homestuffapp.presentation.nourishment.form.ProductFormEvent.DescriptionChanged
-import me.kire.re.homestuffapp.presentation.nourishment.form.ProductFormEvent.NameChanged
-import me.kire.re.homestuffapp.presentation.nourishment.form.ProductFormEvent.ProductTypeChanged
-import me.kire.re.homestuffapp.presentation.nourishment.form.ProductFormEvent.SaveProduct
+import me.kire.re.homestuffapp.presentation.product.form.ProductFormEvent.DescriptionChanged
+import me.kire.re.homestuffapp.presentation.product.form.ProductFormEvent.NameChanged
+import me.kire.re.homestuffapp.presentation.product.form.ProductFormEvent.ProductTypeChanged
+import me.kire.re.homestuffapp.presentation.product.form.ProductFormEvent.SaveProduct
 import me.kire.re.homestuffapp.util.toCreateNourishmentRequest
 import javax.inject.Inject
 

@@ -1,4 +1,4 @@
-package me.kire.re.homestuffapp.presentation.nourishment.components
+package me.kire.re.homestuffapp.presentation.product.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement

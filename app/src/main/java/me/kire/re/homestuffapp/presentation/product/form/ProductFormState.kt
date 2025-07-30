@@ -1,4 +1,4 @@
-package me.kire.re.homestuffapp.presentation.nourishment.form
+package me.kire.re.homestuffapp.presentation.product.form
 
 data class ProductFormState(
     val name: String = "",

@@ -1,4 +1,4 @@
-package me.kire.re.homestuffapp.presentation.nourishment
+package me.kire.re.homestuffapp.presentation.product
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
