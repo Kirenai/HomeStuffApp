@@ -14,9 +14,9 @@ interface CategoryDao {
     fun getCategories(): Flow<List<CategoryEntity>>
 
     @Query("""
-        SELECT c.categoryId, c.name, COUNT(i.itemId) as itemsCount
+        SELECT c.categoryId, c.name, COUNT(p.productId) as itemsCount
         FROM categories c
-        LEFT JOIN items i ON c.categoryId = i.categoryId
+        LEFT JOIN products p ON c.categoryId = p.categoryId
         GROUP BY c.categoryId
     """)
     fun getCategoriesWithItemsCount(): Flow<List<CategoryWithItemCount>>

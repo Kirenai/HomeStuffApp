@@ -34,7 +34,8 @@ import me.kire.re.homestuffapp.presentation.nourishment.components.SortButton
 fun NourishmentScreen(
     nourishments: LazyPagingItems<Nourishment>,
     navigateToDetails: (Nourishment) -> Unit,
-    navigateToSearch: () -> Unit
+    navigateToSearch: () -> Unit,
+    categoryId: Long?,
 ) {
     var searchText by remember {
         mutableStateOf("")
@@ -176,6 +177,7 @@ fun NourishmentScreenPreview() {
                     )
                 )
             )
-        ).collectAsLazyPagingItems()
+        ).collectAsLazyPagingItems(),
+        categoryId = null
     )
 }

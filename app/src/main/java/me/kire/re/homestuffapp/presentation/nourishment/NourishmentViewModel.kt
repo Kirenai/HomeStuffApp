@@ -1,5 +1,6 @@
 package me.kire.re.homestuffapp.presentation.nourishment
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -12,11 +13,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NourishmentViewModel @Inject constructor(
-    private val getNourishments: GetNourishments
+    getNourishments: GetNourishments,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
+    private val categoryId = savedStateHandle.get<String>("categoryId")?.toLongOrNull()
 
-
-    val nourishments: Flow<PagingData<Nourishment>> = getNourishments()
+    val nourishments: Flow<PagingData<Nourishment>> = getNourishments(categoryId = categoryId)
         .cachedIn(viewModelScope)
 
     fun onEvent() {

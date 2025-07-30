@@ -8,5 +8,7 @@ import me.kire.re.homestuffapp.domain.model.Nourishment
 interface NourishmentRepositoryPort {
     fun getNourishments(): Flow<PagingData<Nourishment>>
 
+    fun getProductsByCategoryId(categoryId: Long): Flow<PagingData<Nourishment>>
+
     suspend fun saveNourishment(request: CreateNourishmentRequest)
 }

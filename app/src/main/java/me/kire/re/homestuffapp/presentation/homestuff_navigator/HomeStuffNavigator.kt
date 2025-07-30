@@ -26,10 +26,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import me.kire.re.homestuffapp.domain.model.Nourishment
@@ -107,9 +109,15 @@ fun HomeStuffNavigator() {
             TopAppBar(
                 title = title,
                 navigateUp = {
-                    if (selectedItem == 4) {
-                        navController.navigate(Route.HomeScreen.route)
-                    } else navController.navigateUp()
+                    println("selectedItem = $selectedItem")
+//                    if (selectedItem == 4) {
+//                        navController.navigate(Route.HomeScreen.route)
+//                    } else navController.popBackStack()
+                    when (selectedItem) {
+                        3 -> navController.navigate(Route.NourishmentScreen.route)
+                        4 -> navController.navigate(Route.HomeScreen.route)
+                        else -> navController.popBackStack()
+                    }
                 },
                 isHomeScreen = selectedItem == 0,
                 modifier = Modifier
@@ -189,9 +197,16 @@ fun HomeStuffNavigator() {
                     }
                 )
             }
-            composable(route = Route.NourishmentScreen.route) { backStackEntry ->
-                var categoryId = backStackEntry.arguments?.getString("categoryId")?.toLongOrNull()
-                    ?: return@composable
+            composable(
+                route = Route.NourishmentScreen.route,
+                arguments = listOf(
+                    navArgument("categoryId") {
+                        type = NavType.StringType
+                        nullable = true
+                        defaultValue = null
+                    })
+            ) { backStackEntry ->
+                val categoryId = backStackEntry.arguments?.getString("categoryId")?.toLongOrNull()
                 val viewModel: NourishmentViewModel = hiltViewModel()
                 val nourishments: LazyPagingItems<Nourishment> =
                     viewModel.nourishments.collectAsLazyPagingItems()
@@ -203,7 +218,8 @@ fun HomeStuffNavigator() {
                             nourishment = nourishment
                         )
                     },
-                    navigateToSearch = {}
+                    navigateToSearch = {},
+                    categoryId = categoryId
                 )
             }
             composable(route = Route.NourishmentFormScreen.route) {
@@ -289,7 +305,7 @@ fun navigateToTab(navController: NavHostController, route: String) {
     navController.navigate(route) {
         navController.graph.startDestinationRoute?.let { screenRoute ->
             popUpTo(screenRoute) {
-                saveState = true
+                saveState = false
             }
         }
         launchSingleTop = true

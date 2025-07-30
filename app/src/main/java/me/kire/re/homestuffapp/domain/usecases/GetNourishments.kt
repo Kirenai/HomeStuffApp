@@ -9,7 +9,7 @@ import javax.inject.Inject
 class GetNourishments @Inject constructor(
     private val nourishmentRepositoryPort: NourishmentRepositoryPort
 ) {
-    operator fun invoke(): Flow<PagingData<Nourishment>> {
+    operator fun invoke(categoryId: Long?): Flow<PagingData<Nourishment>> {
         return this.nourishmentRepositoryPort.getNourishments()
     }
 }

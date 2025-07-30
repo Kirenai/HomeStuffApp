@@ -66,7 +66,7 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.androidx.ui.text.google.fonts)
     implementation(libs.androidx.room.runtime)
-//    implementation(libs.androidx.room.paging)
+    implementation(libs.androidx.room.paging)
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
     kapt(libs.hilt.android.compiler)

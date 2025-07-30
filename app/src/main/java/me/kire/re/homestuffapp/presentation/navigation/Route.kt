@@ -11,9 +11,9 @@ sealed class Route(
 
     data object HomeScreen : Route(route = "homeScreen")
 
-    data object NourishmentScreen : Route(route = "nourishmentScreen/{categoryId}") {
+    data object NourishmentScreen : Route(route = "nourishmentScreen?categoryId={categoryId}") {
         fun createRoute(categoryId: Long): String {
-            return "nourishmentScreen/$categoryId"
+            return "nourishmentScreen?categoryId=$categoryId"
         }
     }
 

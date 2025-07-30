@@ -8,7 +8,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import me.kire.re.homestuffapp.data.dao.AppDatabase
 import me.kire.re.homestuffapp.data.dao.CategoryDao
-import me.kire.re.homestuffapp.data.dao.ItemDao
+import me.kire.re.homestuffapp.data.dao.ProductDao
+import me.kire.re.homestuffapp.data.dao.PurchaseDao
+import me.kire.re.homestuffapp.data.dao.migration.MIGRATION_4_5
 import javax.inject.Singleton
 
 @Module
@@ -24,16 +26,9 @@ object RoomModule {
             AppDatabase::class.java,
             "home_stuff_database"
         )
-//            .addMigrations(
-//                Migration(1, 2) {
-//                    // Migration logic from version 1 to 2
-//                    // For example, adding a new column or table
-//                },
-//                Migration(2, 3) {
-//                    // Migration logic from version 2 to 3
-//                    // For example, modifying an existing table
-//                }
-//            )
+            .addMigrations(
+                MIGRATION_4_5
+            )
             .build()
     }
 
@@ -43,5 +38,9 @@ object RoomModule {
 
     @Provides
     @Singleton
-    fun provideItemDao(database: AppDatabase): ItemDao = database.itemDao()
+    fun provideProductDao(database: AppDatabase): ProductDao = database.productDao()
+
+    @Provides
+    @Singleton
+    fun providePurchaseDao(database: AppDatabase): PurchaseDao = database.purchaseDao()
 }
