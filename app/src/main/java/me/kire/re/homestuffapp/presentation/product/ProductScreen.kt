@@ -25,15 +25,15 @@ import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import kotlinx.coroutines.flow.flowOf
-import me.kire.re.homestuffapp.domain.model.Nourishment
+import me.kire.re.homestuffapp.domain.model.Product
 import me.kire.re.homestuffapp.presentation.common.SearchBar
 import me.kire.re.homestuffapp.presentation.product.components.ProductItem
 import me.kire.re.homestuffapp.presentation.product.components.SortButton
 
 @Composable
 fun ProductScreen(
-    nourishments: LazyPagingItems<Nourishment>,
-    navigateToDetails: (Nourishment) -> Unit,
+    products: LazyPagingItems<Product>,
+    navigateToDetails: (Product) -> Unit,
     navigateToSearch: () -> Unit,
     categoryId: Long?,
 ) {
@@ -46,8 +46,8 @@ fun ProductScreen(
     }
 
     val loadedItems = listOf(
-        Nourishment(
-            nourishmentId = "1",
+        Product(
+            productId = "1",
             name = "Orange",
             stock = 3,
             imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
@@ -55,16 +55,16 @@ fun ProductScreen(
             expirationDate = "5 days",
             isAvailable = true,
         ),
-        Nourishment(
-            nourishmentId = "2",
+        Product(
+            productId = "2",
             name = "Apple",
             stock = 3,
             imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
             description = "Fresh orange",
             isAvailable = true,
         ),
-        Nourishment(
-            nourishmentId = "3",
+        Product(
+            productId = "3",
             name = "Banana",
             stock = 0,
             imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
@@ -72,8 +72,8 @@ fun ProductScreen(
             expirationDate = "5 days",
             isAvailable = false,
         ),
-        Nourishment(
-            nourishmentId = "4",
+        Product(
+            productId = "4",
             name = "Strawberry",
             stock = 0,
             imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
@@ -148,7 +148,7 @@ fun ProductScreen(
 
                 items(items) { nourishment ->
                     ProductItem(
-                        nourishment = nourishment,
+                        product = nourishment,
                         onClick = { navigateToDetails(nourishment) }
                     )
                 }
@@ -164,11 +164,11 @@ fun ProductScreenPreview() {
     ProductScreen(
         navigateToDetails = {},
         navigateToSearch = {},
-        nourishments = flowOf(
+        products = flowOf(
             PagingData.from(
                 listOf(
-                    Nourishment(
-                        nourishmentId = "1",
+                    Product(
+                        productId = "1",
                         name = "Orange",
                         stock = 3,
                         imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",

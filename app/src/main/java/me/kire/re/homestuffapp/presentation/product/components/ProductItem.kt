@@ -23,12 +23,12 @@ import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import me.kire.re.homestuffapp.R
-import me.kire.re.homestuffapp.domain.model.Nourishment
+import me.kire.re.homestuffapp.domain.model.Product
 
 @Composable
 fun ProductItem(
     modifier: Modifier = Modifier,
-    nourishment: Nourishment,
+    product: Product,
     onClick: (() -> Unit)? = null
 ) {
     Row(
@@ -44,9 +44,9 @@ fun ProductItem(
                 modifier = Modifier
                     .size(50.dp)
                     .clip(CircleShape),
-                model = if (nourishment.imageUrl.isNotEmpty()) {
+                model = if (product.imageUrl.isNotEmpty()) {
                     ImageRequest.Builder(context = LocalContext.current)
-                        .data(nourishment.imageUrl)
+                        .data(product.imageUrl)
                         .build()
                 } else R.drawable.ic_launcher_foreground,
                 contentDescription = null,
@@ -55,7 +55,7 @@ fun ProductItem(
         }
         Column {
             Text(
-                text = nourishment.name,
+                text = product.name,
                 style = TextStyle.Default.copy(
                     fontSize = MaterialTheme.typography.bodyLarge.fontSize,
                     fontWeight = FontWeight.Medium,
@@ -64,7 +64,7 @@ fun ProductItem(
                 )
             )
             Text(
-                text = nourishment.stock.toString(),
+                text = product.stock.toString(),
                 style = TextStyle.Default.copy(
                     fontSize = MaterialTheme.typography.bodyMedium.fontSize,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,

@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
-import me.kire.re.homestuffapp.domain.model.Nourishment
+import me.kire.re.homestuffapp.domain.model.Product
 import me.kire.re.homestuffapp.domain.model.Shopping
 import me.kire.re.homestuffapp.presentation.details.components.LineChartWithGradient
 import me.kire.re.homestuffapp.presentation.details.components.PurchaseItem
@@ -34,7 +34,7 @@ import me.kire.re.homestuffapp.presentation.shopping.ShoppingEvent
 
 @Composable
 fun DetailsScreen(
-    nourishment: Nourishment,
+    product: Product,
     navigateToShopping: () -> Unit,
     isAlreadyAdded: Boolean = false,
     event: (ShoppingEvent) -> Unit
@@ -58,7 +58,7 @@ fun DetailsScreen(
                         .fillMaxWidth()
                         .height(218.dp),
                     model = ImageRequest.Builder(context = LocalContext.current)
-                        .data(nourishment.imageUrl)
+                        .data(product.imageUrl)
                         .build(),
                     contentDescription = null,
                     contentScale = ContentScale.Fit
@@ -69,7 +69,7 @@ fun DetailsScreen(
                         .padding(top = 20.dp, bottom = 16.dp)
                 ) {
                     Text(
-                        text = nourishment.name,
+                        text = product.name,
                         style = TextStyle.Default.copy(
                             fontSize = MaterialTheme.typography.titleLarge.fontSize,
                             fontWeight = FontWeight.Bold,
@@ -84,7 +84,7 @@ fun DetailsScreen(
                         .padding(top = 4.dp, bottom = 12.dp)
                 ) {
                     Text(
-                        text = nourishment.description,
+                        text = product.description,
                     )
                 }
 
@@ -148,7 +148,7 @@ fun DetailsScreen(
                         )
 
                         Text(
-                            text = nourishment.name,
+                            text = product.name,
                             style = TextStyle.Default.copy(
                                 fontSize = MaterialTheme.typography.headlineLarge.fontSize,
                                 fontWeight = FontWeight.Bold,
@@ -220,8 +220,8 @@ fun DetailsScreen(
                                 event(
                                     ShoppingEvent.AddItem(
                                         Shopping(
-                                            shoppingId = nourishment.nourishmentId,
-                                            itemName = nourishment.name,
+                                            shoppingId = product.productId,
+                                            itemName = product.name,
                                         )
                                     )
                                 )
@@ -253,8 +253,8 @@ fun DetailsScreen(
 @Composable
 fun DetailsScreenPreview() {
     DetailsScreen(
-        nourishment = Nourishment(
-            nourishmentId = "1",
+        product = Product(
+            productId = "1",
             name = "Orange",
             stock = 3,
             imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",

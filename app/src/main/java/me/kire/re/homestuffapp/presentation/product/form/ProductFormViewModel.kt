@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProductFormViewModel @Inject constructor(
-    private val saveNourishment: me.kire.re.homestuffapp.domain.usecases.SaveNourishment
+    private val saveProduct: me.kire.re.homestuffapp.domain.usecases.SaveProduct
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<ProductFormState> =
@@ -52,7 +52,7 @@ class ProductFormViewModel @Inject constructor(
     private fun saveNourishment() {
         val request = toCreateNourishmentRequest(state.value)
         viewModelScope.launch {
-            saveNourishment.invoke(request)
+            saveProduct.invoke(request)
             println(_state.value)
             println("Nourishment saved: ${_state.value.name}, ${_state.value.description}")
         }

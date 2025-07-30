@@ -34,7 +34,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import me.kire.re.homestuffapp.domain.model.Nourishment
+import me.kire.re.homestuffapp.domain.model.Product
 import me.kire.re.homestuffapp.domain.model.Shopping
 import me.kire.re.homestuffapp.presentation.details.DetailsScreen
 import me.kire.re.homestuffapp.presentation.home.HomeScreen
@@ -208,14 +208,14 @@ fun HomeStuffNavigator() {
             ) { backStackEntry ->
                 val categoryId = backStackEntry.arguments?.getString("categoryId")?.toLongOrNull()
                 val viewModel: ProductViewModel = hiltViewModel()
-                val nourishments: LazyPagingItems<Nourishment> =
+                val products: LazyPagingItems<Product> =
                     viewModel.nourishments.collectAsLazyPagingItems()
                 ProductScreen(
-                    nourishments = nourishments,
-                    navigateToDetails = { nourishment ->
+                    products = products,
+                    navigateToDetails = { product ->
                         navigateToDetails(
                             navController = navController,
-                            nourishment = nourishment
+                            product = product
                         )
                     },
                     navigateToSearch = {},
@@ -237,12 +237,12 @@ fun HomeStuffNavigator() {
 
                 navController.previousBackStackEntry
                     ?.savedStateHandle
-                    ?.get<Nourishment?>(KEY_NOURISHMENT)
-                    ?.let { nourishment ->
+                    ?.get<Product?>(KEY_NOURISHMENT)
+                    ?.let { product ->
                         val isAlreadyAdded =
-                            viewModel.shoppingList.any { shopping -> shopping.itemName == nourishment.name }
+                            viewModel.shoppingList.any { shopping -> shopping.itemName == product.name }
                         DetailsScreen(
-                            nourishment = nourishment,
+                            product = product,
                             navigateToShopping = {
                                 navController.navigate(Route.ShoppingScreen.route)
                             },
@@ -315,9 +315,9 @@ fun navigateToTab(navController: NavHostController, route: String) {
 
 private fun navigateToDetails(
     navController: NavHostController,
-    nourishment: Nourishment
+    product: Product
 ) {
-    navController.currentBackStackEntry?.savedStateHandle?.set(KEY_NOURISHMENT, nourishment)
+    navController.currentBackStackEntry?.savedStateHandle?.set(KEY_NOURISHMENT, product)
     navController.navigate(
         route = Route.DetailsScreen.route
     )

@@ -9,24 +9,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemKey
-import me.kire.re.homestuffapp.domain.model.Nourishment
+import me.kire.re.homestuffapp.domain.model.Product
 
 @Composable
 fun ProductList(
     modifier: Modifier = Modifier,
-    nourishments: List<Nourishment>,
-    onClick: (Nourishment) -> Unit,
+    products: List<Product>,
+    onClick: (Product) -> Unit,
 ) {
     LazyColumn(
         modifier = modifier,
     ) {
         items(
-            count = nourishments.size
+            count = products.size
         ) {
-            nourishments[it].let { nourishment ->
+            products[it].let { product ->
                 ProductItem(
-                    nourishment = nourishment,
-                    onClick = { onClick(nourishment) }
+                    product = product,
+                    onClick = { onClick(product) }
                 )
             }
         }
@@ -36,8 +36,8 @@ fun ProductList(
 @Composable
 fun ProductList(
     modifier: Modifier = Modifier,
-    nourishments: LazyPagingItems<Nourishment>,
-    onClick: (Nourishment) -> Unit,
+    nourishments: LazyPagingItems<Product>,
+    onClick: (Product) -> Unit,
 ) {
     LazyColumn(
         modifier = modifier.fillMaxSize(),
@@ -46,12 +46,12 @@ fun ProductList(
     ) {
         items(
             count = nourishments.itemCount,
-            key = nourishments.itemKey { it.nourishmentId }
+            key = nourishments.itemKey { it.productId }
         ) {
-            nourishments[it]?.let { nourishment: Nourishment ->
+            nourishments[it]?.let { product: Product ->
                 ProductItem(
-                    nourishment = nourishment,
-                    onClick = { onClick(nourishment) }
+                    product = product,
+                    onClick = { onClick(product) }
                 )
             }
         }

@@ -8,29 +8,29 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import me.kire.re.homestuffapp.data.dao.ProductDao
 import me.kire.re.homestuffapp.data.remote.HomeStuffApi
-import me.kire.re.homestuffapp.data.remote.NourishmentPagingSource
+import me.kire.re.homestuffapp.data.remote.ProductPagingSource
 import me.kire.re.homestuffapp.data.remote.dto.CreateNourishmentRequest
-import me.kire.re.homestuffapp.domain.model.Nourishment
-import me.kire.re.homestuffapp.domain.port.NourishmentRepositoryPort
+import me.kire.re.homestuffapp.domain.model.Product
+import me.kire.re.homestuffapp.domain.port.ProductRepositoryPort
 import javax.inject.Inject
 
-class NourishmentRepositoryAdapter @Inject constructor(
+class ProductRepositoryAdapter @Inject constructor(
     private val nourishmentApis: HomeStuffApi,
     private val productDao: ProductDao
-) : NourishmentRepositoryPort {
-    override fun getNourishments(): Flow<PagingData<Nourishment>> {
+) : ProductRepositoryPort {
+    override fun getProducts(): Flow<PagingData<Product>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 10
             )
         ) {
-            NourishmentPagingSource(
+            ProductPagingSource(
                 api = nourishmentApis
             )
         }.flow
     }
 
-    override fun getProductsByCategoryId(categoryId: Long): Flow<PagingData<Nourishment>> {
+    override fun getProductsByCategoryId(categoryId: Long): Flow<PagingData<Product>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 10
@@ -38,11 +38,11 @@ class NourishmentRepositoryAdapter @Inject constructor(
         ) {
             productDao.getItemsByCategory(categoryId)
         }.flow.map {
-            it.map { item ->
-                Nourishment(
-                    nourishmentId = item.productId.toString(),
-                    name = item.name,
-                    description = item.description,
+            it.map { productEntity ->
+                Product(
+                    productId = productEntity.productId.toString(),
+                    name = productEntity.name,
+                    description = productEntity.description,
                     imageUrl = "",
                     isAvailable = true
                 )
@@ -50,7 +50,7 @@ class NourishmentRepositoryAdapter @Inject constructor(
         }
     }
 
-    override suspend fun saveNourishment(request: CreateNourishmentRequest) {
-        nourishmentApis.saveNourishment(userId = "1", categoryId = "5", nourishment = request)
+    override suspend fun saveProduct(request: CreateNourishmentRequest) {
+        nourishmentApis.saveProduct(userId = "1", categoryId = "5", nourishment = request)
     }
 }

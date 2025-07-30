@@ -1,19 +1,19 @@
 package me.kire.re.homestuffapp.presentation.product
 
-import me.kire.re.homestuffapp.domain.model.Nourishment
+import me.kire.re.homestuffapp.domain.model.Product
 
 data class ProductState(
     val searchText: String = "",
     val isSorted: Boolean = false,
-    val nourishments: List<Nourishment> = emptyList(),
-    val inStockNourishments: List<Nourishment> = emptyList(),
-    val outOfStockNourishments: List<Nourishment> = emptyList()
+    val products: List<Product> = emptyList(),
+    val inStockProducts: List<Product> = emptyList(),
+    val outOfStockProducts: List<Product> = emptyList()
 ) {
-    val filteredNourishments: List<Nourishment>
+    val filteredProducts: List<Product>
         get() = if (searchText.isBlank()) {
-            nourishments
+            products
         } else {
-            nourishments.filter { nourishment ->
+            products.filter { nourishment ->
                 nourishment.name.contains(searchText, ignoreCase = true)
             }
         }

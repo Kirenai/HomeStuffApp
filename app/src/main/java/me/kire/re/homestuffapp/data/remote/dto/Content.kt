@@ -1,6 +1,6 @@
 package me.kire.re.homestuffapp.data.remote.dto
 
-import me.kire.re.homestuffapp.domain.model.Nourishment
+import me.kire.re.homestuffapp.domain.model.Product
 
 data class Content(
     val nourishmentId: String,
@@ -10,9 +10,9 @@ data class Content(
     val isAvailable: Boolean,
     val type: Type,
 ) {
-    fun toNourishment(): Nourishment {
-        return Nourishment(
-            nourishmentId = this.nourishmentId,
+    fun toNourishment(): Product {
+        return Product(
+            productId = this.nourishmentId,
             name = this.name,
             imageUrl = this.imageUrl,
             description = this.description,

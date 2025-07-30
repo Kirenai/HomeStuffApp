@@ -7,18 +7,18 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
-import me.kire.re.homestuffapp.domain.model.Nourishment
-import me.kire.re.homestuffapp.domain.usecases.GetNourishments
+import me.kire.re.homestuffapp.domain.model.Product
+import me.kire.re.homestuffapp.domain.usecases.GetProducts
 import javax.inject.Inject
 
 @HiltViewModel
 class ProductViewModel @Inject constructor(
-    getNourishments: GetNourishments,
+    getProducts: GetProducts,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private val categoryId = savedStateHandle.get<String>("categoryId")?.toLongOrNull()
 
-    val nourishments: Flow<PagingData<Nourishment>> = getNourishments(categoryId = categoryId)
+    val nourishments: Flow<PagingData<Product>> = getProducts(categoryId = categoryId)
         .cachedIn(viewModelScope)
 
     fun onEvent() {

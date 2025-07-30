@@ -3,23 +3,23 @@ package me.kire.re.homestuffapp.data.remote
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import me.kire.re.homestuffapp.data.remote.dto.Response
-import me.kire.re.homestuffapp.domain.model.Nourishment
+import me.kire.re.homestuffapp.domain.model.Product
 
-class NourishmentPagingSource(
+class ProductPagingSource(
     private val api: HomeStuffApi
-) : PagingSource<Int, Nourishment>() {
-    override fun getRefreshKey(state: PagingState<Int, Nourishment>): Int? {
+) : PagingSource<Int, Product>() {
+    override fun getRefreshKey(state: PagingState<Int, Product>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)
             anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
         }
     }
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Nourishment> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Product> {
         val nextPageNumber = params.key ?: 1
         return try {
             val response: Response =
-                this.api.getNourishments(page = nextPageNumber, null, null, null)
+                this.api.getProducts(page = nextPageNumber, null, null, null)
 
             LoadResult.Page(
                 data = response.content.map { it.toNourishment() },

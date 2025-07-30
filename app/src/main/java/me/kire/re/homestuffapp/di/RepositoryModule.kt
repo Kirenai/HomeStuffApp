@@ -4,8 +4,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import me.kire.re.homestuffapp.data.repository.NourishmentRepositoryAdapter
-import me.kire.re.homestuffapp.domain.port.NourishmentRepositoryPort
+import me.kire.re.homestuffapp.data.repository.ProductRepositoryAdapter
+import me.kire.re.homestuffapp.domain.port.ProductRepositoryPort
 import javax.inject.Singleton
 
 @Module
@@ -13,7 +13,7 @@ import javax.inject.Singleton
 abstract class RepositoryModule {
     @Binds
     @Singleton
-    abstract fun bindNourishmentRepository(
-        nourishmentRepositoryAdapter: NourishmentRepositoryAdapter
-    ): NourishmentRepositoryPort
+    abstract fun bindProductRepository(
+        productRepositoryAdapter: ProductRepositoryAdapter
+    ): ProductRepositoryPort
 }

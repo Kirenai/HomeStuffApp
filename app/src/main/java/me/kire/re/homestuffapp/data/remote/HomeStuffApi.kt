@@ -10,7 +10,7 @@ import retrofit2.http.Query
 
 interface HomeStuffApi {
     @GET("/products/v0/nourishments")
-    suspend fun getNourishments(
+    suspend fun getProducts(
         @Query("page") page: Int?,
         @Query("size") size: Int?,
         @Query("sort") sort: String?,
@@ -18,7 +18,7 @@ interface HomeStuffApi {
     ): Response
 
     @POST("/products/v0/nourishments/user/{userId}/category/{categoryId}")
-    suspend fun saveNourishment(
+    suspend fun saveProduct(
         @Path("userId") userId: String,
         @Path("categoryId") categoryId: String,
         @Body nourishment: CreateNourishmentRequest
