@@ -6,28 +6,28 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import me.kire.re.homestuffapp.presentation.nourishment.form.NourishmentFormEvent.DescriptionChanged
-import me.kire.re.homestuffapp.presentation.nourishment.form.NourishmentFormEvent.NameChanged
-import me.kire.re.homestuffapp.presentation.nourishment.form.NourishmentFormEvent.NourishmentTypeChanged
-import me.kire.re.homestuffapp.presentation.nourishment.form.NourishmentFormEvent.SaveNourishment
+import me.kire.re.homestuffapp.presentation.nourishment.form.ProductFormEvent.DescriptionChanged
+import me.kire.re.homestuffapp.presentation.nourishment.form.ProductFormEvent.NameChanged
+import me.kire.re.homestuffapp.presentation.nourishment.form.ProductFormEvent.ProductTypeChanged
+import me.kire.re.homestuffapp.presentation.nourishment.form.ProductFormEvent.SaveProduct
 import me.kire.re.homestuffapp.util.toCreateNourishmentRequest
 import javax.inject.Inject
 
 @HiltViewModel
-class NourishmentFormViewModel @Inject constructor(
+class ProductFormViewModel @Inject constructor(
     private val saveNourishment: me.kire.re.homestuffapp.domain.usecases.SaveNourishment
 ) : ViewModel() {
 
-    private val _state: MutableStateFlow<NourishmentFormState> =
-        MutableStateFlow(NourishmentFormState())
-    val state: MutableStateFlow<NourishmentFormState> = _state
+    private val _state: MutableStateFlow<ProductFormState> =
+        MutableStateFlow(ProductFormState())
+    val state: MutableStateFlow<ProductFormState> = _state
 
-    fun onEvent(event: NourishmentFormEvent) {
+    fun onEvent(event: ProductFormEvent) {
         when (event) {
-            is SaveNourishment -> saveNourishment()
+            is SaveProduct -> saveNourishment()
             is NameChanged -> updateName(event.name)
             is DescriptionChanged -> updateDescription(event.description)
-            is NourishmentTypeChanged -> updateNourishmentType(event.nourishmentType, event.value)
+            is ProductTypeChanged -> updateNourishmentType(event.nourishmentType, event.value)
         }
     }
 

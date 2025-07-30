@@ -1,6 +1,6 @@
 package me.kire.re.homestuffapp.presentation.nourishment.form
 
-data class NourishmentFormState(
+data class ProductFormState(
     val name: String = "",
     val description: String = "",
     val imageUrl: String? = "",

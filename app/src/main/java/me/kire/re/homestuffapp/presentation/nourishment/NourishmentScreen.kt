@@ -27,7 +27,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import kotlinx.coroutines.flow.flowOf
 import me.kire.re.homestuffapp.domain.model.Nourishment
 import me.kire.re.homestuffapp.presentation.common.SearchBar
-import me.kire.re.homestuffapp.presentation.nourishment.components.NourishmentItem
+import me.kire.re.homestuffapp.presentation.nourishment.components.ProductItem
 import me.kire.re.homestuffapp.presentation.nourishment.components.SortButton
 
 @Composable
@@ -147,7 +147,7 @@ fun NourishmentScreen(
                 }
 
                 items(items) { nourishment ->
-                    NourishmentItem(
+                    ProductItem(
                         nourishment = nourishment,
                         onClick = { navigateToDetails(nourishment) }
                     )

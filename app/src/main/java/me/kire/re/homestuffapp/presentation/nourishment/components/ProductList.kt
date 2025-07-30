@@ -12,7 +12,7 @@ import androidx.paging.compose.itemKey
 import me.kire.re.homestuffapp.domain.model.Nourishment
 
 @Composable
-fun NourishmentList(
+fun ProductList(
     modifier: Modifier = Modifier,
     nourishments: List<Nourishment>,
     onClick: (Nourishment) -> Unit,
@@ -24,7 +24,7 @@ fun NourishmentList(
             count = nourishments.size
         ) {
             nourishments[it].let { nourishment ->
-                NourishmentItem(
+                ProductItem(
                     nourishment = nourishment,
                     onClick = { onClick(nourishment) }
                 )
@@ -34,7 +34,7 @@ fun NourishmentList(
 }
 
 @Composable
-fun NourishmentList(
+fun ProductList(
     modifier: Modifier = Modifier,
     nourishments: LazyPagingItems<Nourishment>,
     onClick: (Nourishment) -> Unit,
@@ -49,7 +49,7 @@ fun NourishmentList(
             key = nourishments.itemKey { it.nourishmentId }
         ) {
             nourishments[it]?.let { nourishment: Nourishment ->
-                NourishmentItem(
+                ProductItem(
                     nourishment = nourishment,
                     onClick = { onClick(nourishment) }
                 )

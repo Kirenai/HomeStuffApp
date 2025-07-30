@@ -4,10 +4,10 @@ import me.kire.re.homestuffapp.data.remote.dto.CreateNourishmentRequest
 import me.kire.re.homestuffapp.data.remote.dto.CreateNourishmentTypePercentageRequest
 import me.kire.re.homestuffapp.data.remote.dto.CreateNourishmentTypeRequest
 import me.kire.re.homestuffapp.data.remote.dto.CreateNourishmentTypeUnitRequest
-import me.kire.re.homestuffapp.presentation.nourishment.form.NourishmentFormState
+import me.kire.re.homestuffapp.presentation.nourishment.form.ProductFormState
 
 fun toCreateNourishmentRequest(
-    state: NourishmentFormState
+    state: ProductFormState
 ): CreateNourishmentRequest {
     val type: CreateNourishmentTypeRequest = when (state.nourishmentType) {
         "UNIT" -> CreateNourishmentTypeUnitRequest(

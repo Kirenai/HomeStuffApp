@@ -51,9 +51,9 @@ import java.util.Date
 import java.util.Locale
 
 @Composable
-fun NourishmentFormScreen(
-    event: (NourishmentFormEvent) -> Unit,
-    state: NourishmentFormState
+fun ProductFormScreen(
+    event: (ProductFormEvent) -> Unit,
+    state: ProductFormState
 ) {
     val context = LocalContext.current
     val file = context.createImageFile()
@@ -117,7 +117,7 @@ fun NourishmentFormScreen(
                 Column(modifier = Modifier.padding(16.dp)) {
                     OutlinedTextField(
                         value = state.name,
-                        onValueChange = { event(NourishmentFormEvent.NameChanged(it)) },
+                        onValueChange = { event(ProductFormEvent.NameChanged(it)) },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 16.dp),
@@ -163,7 +163,7 @@ fun NourishmentFormScreen(
 
                     OutlinedTextField(
                         value = state.description,
-                        onValueChange = { event(NourishmentFormEvent.DescriptionChanged(it)) },
+                        onValueChange = { event(ProductFormEvent.DescriptionChanged(it)) },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 16.dp),
@@ -224,7 +224,7 @@ fun NourishmentFormScreen(
                                 value = state.unit,
                                 onValueChange = {
                                     event(
-                                        NourishmentFormEvent.NourishmentTypeChanged(
+                                        ProductFormEvent.ProductTypeChanged(
                                             nourishmentType = "UNIT",
                                             value = it
                                         )
@@ -240,7 +240,7 @@ fun NourishmentFormScreen(
                                 keyboardActions = KeyboardActions(
                                     onSearch = {
                                         defaultKeyboardAction(ImeAction.Done)
-                                        event(NourishmentFormEvent.SaveNourishment)
+                                        event(ProductFormEvent.SaveProduct)
                                     }
                                 ),
                                 placeholder = {
@@ -260,7 +260,7 @@ fun NourishmentFormScreen(
                                 value = state.percentage,
                                 onValueChange = {
                                     event(
-                                        NourishmentFormEvent.NourishmentTypeChanged(
+                                        ProductFormEvent.ProductTypeChanged(
                                             nourishmentType = "PERCENTAGE",
                                             value = it
                                         )
@@ -276,7 +276,7 @@ fun NourishmentFormScreen(
                                 keyboardActions = KeyboardActions(
                                     onSearch = {
                                         defaultKeyboardAction(ImeAction.Done)
-                                        event(NourishmentFormEvent.SaveNourishment)
+                                        event(ProductFormEvent.SaveProduct)
                                     }
                                 ),
                                 placeholder = {
@@ -299,7 +299,7 @@ fun NourishmentFormScreen(
                             .padding(top = 16.dp),
                         shape = MaterialTheme.shapes.small,
                         onClick = {
-                            event(NourishmentFormEvent.SaveNourishment)
+                            event(ProductFormEvent.SaveProduct)
                         }
                     ) {
                         Text(
@@ -327,8 +327,8 @@ fun Context.createImageFile(): File {
 @Preview(showBackground = true)
 @Composable
 fun NourishmentFormScreenPreview() {
-    NourishmentFormScreen(
+    ProductFormScreen(
         event = {},
-        state = NourishmentFormState()
+        state = ProductFormState()
     )
 }

@@ -26,7 +26,7 @@ import me.kire.re.homestuffapp.R
 import me.kire.re.homestuffapp.domain.model.Nourishment
 
 @Composable
-fun NourishmentItem(
+fun ProductItem(
     modifier: Modifier = Modifier,
     nourishment: Nourishment,
     onClick: (() -> Unit)? = null

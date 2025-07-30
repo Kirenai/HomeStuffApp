@@ -46,8 +46,8 @@ import me.kire.re.homestuffapp.presentation.homestuff_navigator.components.TopAp
 import me.kire.re.homestuffapp.presentation.navigation.Route
 import me.kire.re.homestuffapp.presentation.nourishment.NourishmentScreen
 import me.kire.re.homestuffapp.presentation.nourishment.NourishmentViewModel
-import me.kire.re.homestuffapp.presentation.nourishment.form.NourishmentFormScreen
-import me.kire.re.homestuffapp.presentation.nourishment.form.NourishmentFormViewModel
+import me.kire.re.homestuffapp.presentation.nourishment.form.ProductFormScreen
+import me.kire.re.homestuffapp.presentation.nourishment.form.ProductFormViewModel
 import me.kire.re.homestuffapp.presentation.shopping.ShoppingScreen
 import me.kire.re.homestuffapp.presentation.shopping.ShoppingViewModel
 import me.kire.re.homestuffapp.presentation.shopping.form.ShoppingEditScreen
@@ -223,8 +223,8 @@ fun HomeStuffNavigator() {
                 )
             }
             composable(route = Route.NourishmentFormScreen.route) {
-                val viewModel: NourishmentFormViewModel = hiltViewModel()
-                NourishmentFormScreen(
+                val viewModel: ProductFormViewModel = hiltViewModel()
+                ProductFormScreen(
                     event = viewModel::onEvent,
                     state = viewModel.state.collectAsState().value,
                 )
