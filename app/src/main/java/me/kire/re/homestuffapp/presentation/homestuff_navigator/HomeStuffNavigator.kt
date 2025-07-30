@@ -44,8 +44,8 @@ import me.kire.re.homestuffapp.presentation.home.category.CategoryFormViewModel
 import me.kire.re.homestuffapp.presentation.homestuff_navigator.components.BottomBar
 import me.kire.re.homestuffapp.presentation.homestuff_navigator.components.TopAppBar
 import me.kire.re.homestuffapp.presentation.navigation.Route
-import me.kire.re.homestuffapp.presentation.nourishment.NourishmentScreen
-import me.kire.re.homestuffapp.presentation.nourishment.NourishmentViewModel
+import me.kire.re.homestuffapp.presentation.nourishment.ProductScreen
+import me.kire.re.homestuffapp.presentation.nourishment.ProductViewModel
 import me.kire.re.homestuffapp.presentation.nourishment.form.ProductFormScreen
 import me.kire.re.homestuffapp.presentation.nourishment.form.ProductFormViewModel
 import me.kire.re.homestuffapp.presentation.shopping.ShoppingScreen
@@ -207,10 +207,10 @@ fun HomeStuffNavigator() {
                     })
             ) { backStackEntry ->
                 val categoryId = backStackEntry.arguments?.getString("categoryId")?.toLongOrNull()
-                val viewModel: NourishmentViewModel = hiltViewModel()
+                val viewModel: ProductViewModel = hiltViewModel()
                 val nourishments: LazyPagingItems<Nourishment> =
                     viewModel.nourishments.collectAsLazyPagingItems()
-                NourishmentScreen(
+                ProductScreen(
                     nourishments = nourishments,
                     navigateToDetails = { nourishment ->
                         navigateToDetails(

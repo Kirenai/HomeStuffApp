@@ -12,7 +12,7 @@ import me.kire.re.homestuffapp.domain.usecases.GetNourishments
 import javax.inject.Inject
 
 @HiltViewModel
-class NourishmentViewModel @Inject constructor(
+class ProductViewModel @Inject constructor(
     getNourishments: GetNourishments,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {

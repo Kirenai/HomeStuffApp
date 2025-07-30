@@ -326,7 +326,7 @@ fun Context.createImageFile(): File {
 
 @Preview(showBackground = true)
 @Composable
-fun NourishmentFormScreenPreview() {
+fun ProductFormScreenPreview() {
     ProductFormScreen(
         event = {},
         state = ProductFormState()

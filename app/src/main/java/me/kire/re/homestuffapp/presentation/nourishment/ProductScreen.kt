@@ -31,7 +31,7 @@ import me.kire.re.homestuffapp.presentation.nourishment.components.ProductItem
 import me.kire.re.homestuffapp.presentation.nourishment.components.SortButton
 
 @Composable
-fun NourishmentScreen(
+fun ProductScreen(
     nourishments: LazyPagingItems<Nourishment>,
     navigateToDetails: (Nourishment) -> Unit,
     navigateToSearch: () -> Unit,
@@ -160,8 +160,8 @@ fun NourishmentScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun NourishmentScreenPreview() {
-    NourishmentScreen(
+fun ProductScreenPreview() {
+    ProductScreen(
         navigateToDetails = {},
         navigateToSearch = {},
         nourishments = flowOf(

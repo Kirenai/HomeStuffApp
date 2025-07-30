@@ -2,7 +2,7 @@ package me.kire.re.homestuffapp.presentation.nourishment
 
 import me.kire.re.homestuffapp.domain.model.Nourishment
 
-data class NourishmentState(
+data class ProductState(
     val searchText: String = "",
     val isSorted: Boolean = false,
     val nourishments: List<Nourishment> = emptyList(),
