@@ -40,7 +40,7 @@ fun BottomBar(
             hasNews = false
         ),
         BottomNavigationItem(
-            title = "Lists",
+            title = "Products",
             selectedIcon = Icons.AutoMirrored.Filled.List,
             unselectedIcon = Icons.AutoMirrored.Outlined.List,
             hasNews = false
