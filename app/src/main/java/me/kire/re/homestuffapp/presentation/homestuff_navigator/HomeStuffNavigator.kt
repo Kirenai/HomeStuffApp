@@ -94,9 +94,9 @@ fun HomeStuffNavigator() {
 
     title = when (backStackState?.destination?.route) {
         Route.HomeScreen.route -> "Home"
-        Route.NourishmentScreen.route -> "Nourishment"
+        Route.NourishmentScreen.route -> "Product"
         Route.DetailsScreen.route -> "Details"
-        Route.NourishmentFormScreen.route -> "Nourishment Form"
+        Route.NourishmentFormScreen.route -> "Product Form"
         Route.ShoppingScreen.route -> "Shopping"
         Route.ShoppingEditScreen.route -> "Edit Shopping Item"
         Route.CategoryFormScreen.route -> "Create Category"

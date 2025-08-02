@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import me.kire.re.homestuffapp.domain.model.enums.UnitType
 
 @Entity(
     tableName = "products",
@@ -30,5 +31,8 @@ data class ProductEntity(
     val name: String,
     val description: String,
     val imageUrl: String? = null,
-    val categoryId: Long
+    val categoryId: Long,
+    val isAvailable: Boolean = true,
+    val amountPerUnit: Double = 1.0,
+    val unit: UnitType,
 )

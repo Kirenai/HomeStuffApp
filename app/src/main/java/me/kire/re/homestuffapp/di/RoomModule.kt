@@ -11,6 +11,7 @@ import me.kire.re.homestuffapp.data.dao.CategoryDao
 import me.kire.re.homestuffapp.data.dao.ProductDao
 import me.kire.re.homestuffapp.data.dao.PurchaseDao
 import me.kire.re.homestuffapp.data.dao.migration.MIGRATION_4_5
+import me.kire.re.homestuffapp.data.dao.migration.MIGRATION_5_6
 import javax.inject.Singleton
 
 @Module
@@ -27,7 +28,7 @@ object RoomModule {
             "home_stuff_database"
         )
             .addMigrations(
-                MIGRATION_4_5
+                MIGRATION_4_5, MIGRATION_5_6
             )
             .build()
     }

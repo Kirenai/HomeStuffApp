@@ -2,14 +2,21 @@ package me.kire.re.homestuffapp.data.dao
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import me.kire.re.homestuffapp.data.dao.converter.UnitTypeConvertor
 import me.kire.re.homestuffapp.data.entity.CategoryEntity
 import me.kire.re.homestuffapp.data.entity.ProductEntity
 import me.kire.re.homestuffapp.data.entity.PurchaseEntity
 
 @Database(
     entities = [CategoryEntity::class, ProductEntity::class, PurchaseEntity::class],
-    version = 5,
+    version = 6,
     exportSchema = false,
+)
+@TypeConverters(
+    value = [
+        UnitTypeConvertor::class,
+    ]
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun categoryDao(): CategoryDao
