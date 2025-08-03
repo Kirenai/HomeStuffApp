@@ -13,6 +13,7 @@ class GetProducts @Inject constructor(
         if (categoryId != null) {
             return this.productRepositoryPort.getProductsByCategoryId(categoryId = categoryId)
         } else {
+            // TODO: select all products when categoryId is null, as default behavior
             throw IllegalArgumentException("Category ID cannot be null")
         }
     }

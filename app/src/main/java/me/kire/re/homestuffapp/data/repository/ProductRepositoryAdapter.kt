@@ -37,7 +37,7 @@ class ProductRepositoryAdapter @Inject constructor(
                 pageSize = 10
             ),
         ) {
-            productDao.getItemsByCategory(categoryId)
+            productDao.getProductsByCategory(categoryId)
         }.flow.map {
             it.map { productEntity ->
                 Product(
