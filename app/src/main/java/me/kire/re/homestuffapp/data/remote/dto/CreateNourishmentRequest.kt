@@ -8,6 +8,6 @@ data class CreateNourishmentRequest(
     val imageUrl: String?,
 //    val type: CreateNourishmentTypeRequest,
     val categoryId: Long? = null,
-    val amountPerUnit: Double? = 1.0,
+    val amountPerUnit: Float? = 1.0f,
     val unit: UnitType,
 )

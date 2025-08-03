@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import me.kire.re.homestuffapp.domain.model.Product
 import me.kire.re.homestuffapp.domain.model.enums.UnitType
 
 @Entity(
@@ -33,6 +34,19 @@ data class ProductEntity(
     val imageUrl: String? = null,
     val categoryId: Long,
     val isAvailable: Boolean = true,
-    val amountPerUnit: Double = 1.0,
+    val amountPerUnit: Float = 1.0f,
     val unit: UnitType,
-)
+) {
+    fun toDomainModel(): Product {
+        return Product(
+            productId = productId.toString(),
+            name = name,
+            description = description,
+            imageUrl = imageUrl,
+            isAvailable = isAvailable,
+            amountPerUnit = amountPerUnit,
+            unit = unit,
+            categoryId = categoryId
+        )
+    }
+}

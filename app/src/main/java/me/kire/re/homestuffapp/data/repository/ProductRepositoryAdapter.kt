@@ -7,6 +7,7 @@ import androidx.paging.map
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import me.kire.re.homestuffapp.data.dao.ProductDao
+import me.kire.re.homestuffapp.data.entity.ProductEntity
 import me.kire.re.homestuffapp.data.remote.HomeStuffApi
 import me.kire.re.homestuffapp.data.remote.ProductPagingSource
 import me.kire.re.homestuffapp.domain.model.Product
@@ -39,15 +40,8 @@ class ProductRepositoryAdapter @Inject constructor(
         ) {
             productDao.getProductsByCategory(categoryId)
         }.flow.map {
-            it.map { productEntity ->
-                Product(
-                    productId = productEntity.productId.toString(),
-                    name = productEntity.name,
-                    description = productEntity.description,
-                    imageUrl = "",
-                    isAvailable = true,
-                    categoryId = productEntity.categoryId
-                )
+            it.map { productEntity: ProductEntity ->
+                productEntity.toDomainModel()
             }
         }
     }

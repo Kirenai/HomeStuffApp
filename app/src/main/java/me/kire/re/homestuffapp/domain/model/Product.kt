@@ -14,7 +14,7 @@ data class Product(
     val description: String,
     val isAvailable: Boolean = true,
     val expirationDate: String? = null,
-    val amountPerUnit: Double? = null,
+    val amountPerUnit: Float? = null,
     val unit: UnitType = UnitType.UNIT,
     val categoryId: Long,
 ) : Parcelable {

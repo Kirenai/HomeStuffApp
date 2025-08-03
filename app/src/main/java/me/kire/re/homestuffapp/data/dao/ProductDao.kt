@@ -9,7 +9,11 @@ import me.kire.re.homestuffapp.data.entity.ProductEntity
 
 @Dao
 interface ProductDao {
-    @Query("SELECT * FROM products WHERE categoryId = :categoryId")
+    @Query("""
+        SELECT productId, name, description, imageUrl, categoryId, isAvailable, amountPerUnit, unit 
+        FROM products 
+        WHERE categoryId = :categoryId
+    """)
     fun getProductsByCategory(categoryId: Long): PagingSource<Int, ProductEntity>
 
     @Insert(onConflict = OnConflictStrategy.ABORT)

@@ -31,6 +31,7 @@ fun ProductItem(
     product: Product,
     onClick: (() -> Unit)? = null
 ) {
+    println("Product: $product")
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -64,7 +65,7 @@ fun ProductItem(
                 )
             )
             Text(
-                text = product.stock.toString(),
+                text = product.amountPerUnit.toString(),
                 style = TextStyle.Default.copy(
                     fontSize = MaterialTheme.typography.bodyMedium.fontSize,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,

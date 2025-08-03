@@ -41,7 +41,7 @@ class ProductFormViewModel @Inject constructor(
     }
 
     private fun updateAmount(amount: String) {
-        _state.update { it.copy(amountPerUnit = amount.toDouble()) }
+        _state.update { it.copy(amountPerUnit = amount.toFloat()) }
     }
 
     private fun updateUnit(unitType: UnitType) {
@@ -49,7 +49,7 @@ class ProductFormViewModel @Inject constructor(
     }
 
     private fun saveNourishment(categoryId: Long) {
-        val productState = _state.value
+        val productState: ProductFormState = _state.value
         viewModelScope.launch {
             saveProduct.invoke(
                 Product(

@@ -11,7 +11,7 @@ fun toProductEntity(
         description = product.description,
         imageUrl = product.imageUrl,
         isAvailable = product.isAvailable,
-        amountPerUnit = product.amountPerUnit ?: 1.0,
+        amountPerUnit = product.amountPerUnit ?: 1.0f,
         unit = product.unit,
         categoryId = product.categoryId,
     )
