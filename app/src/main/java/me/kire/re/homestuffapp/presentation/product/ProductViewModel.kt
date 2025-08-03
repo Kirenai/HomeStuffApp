@@ -18,7 +18,7 @@ class ProductViewModel @Inject constructor(
 ) : ViewModel() {
     private val categoryId = savedStateHandle.get<String>("categoryId")?.toLongOrNull()
 
-    val nourishments: Flow<PagingData<Product>> = getProducts(categoryId = categoryId)
+    val nourishments: Flow<PagingData<Product>> = getProducts.invoke(categoryId = categoryId)
         .cachedIn(viewModelScope)
 
     fun onEvent() {

@@ -261,6 +261,7 @@ fun DetailsScreenPreview() {
             description = "Fresh orange",
             expirationDate = "5 days",
             isAvailable = true,
+            categoryId = 1L
         ),
         navigateToShopping = {},
         event = {}

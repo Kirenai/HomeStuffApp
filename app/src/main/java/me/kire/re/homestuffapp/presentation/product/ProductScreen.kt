@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemKey
 import kotlinx.coroutines.flow.flowOf
 import me.kire.re.homestuffapp.domain.model.Product
 import me.kire.re.homestuffapp.presentation.common.SearchBar
@@ -41,50 +42,66 @@ fun ProductScreen(
         mutableStateOf("")
     }
 
+    products.itemKey {
+        println("Item key: ${it.productId}")
+    }
+
     var isSorted by remember {
         mutableStateOf(false)
     }
 
-    val loadedItems = listOf(
-        Product(
-            productId = "1",
-            name = "Orange",
-            stock = 3,
-            imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
-            description = "Fresh orange",
-            expirationDate = "5 days",
-            isAvailable = true,
-        ),
-        Product(
-            productId = "2",
-            name = "Apple",
-            stock = 3,
-            imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
-            description = "Fresh orange",
-            isAvailable = true,
-        ),
-        Product(
-            productId = "3",
-            name = "Banana",
-            stock = 0,
-            imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
-            description = "Fresh orange",
-            expirationDate = "5 days",
-            isAvailable = false,
-        ),
-        Product(
-            productId = "4",
-            name = "Strawberry",
-            stock = 0,
-            imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
-            description = "Fresh orange",
-            isAvailable = false,
-        )
-    )
+//    val loadedItems = listOf(
+//        Product(
+//            productId = "1",
+//            name = "Orange",
+//            stock = 3,
+//            imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
+//            description = "Fresh orange",
+//            expirationDate = "5 days",
+//            isAvailable = true,
+//            categoryId = 1L
+//        ),
+//        Product(
+//            productId = "2",
+//            name = "Apple",
+//            stock = 3,
+//            imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
+//            description = "Fresh orange",
+//            isAvailable = true,
+//            categoryId = 2L
+//        ),
+//        Product(
+//            productId = "3",
+//            name = "Banana",
+//            stock = 0,
+//            imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
+//            description = "Fresh orange",
+//            expirationDate = "5 days",
+//            isAvailable = false,
+//            categoryId = 3L
+//        ),
+//        Product(
+//            productId = "4",
+//            name = "Strawberry",
+//            stock = 0,
+//            imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
+//            description = "Fresh orange",
+//            isAvailable = false,
+//            categoryId = 4L
+//        )
+//    )
 
-    val filtered = loadedItems.filter { it.name.contains(searchText, ignoreCase = true) }
+    val filteredProduct = remember(products.itemSnapshotList.items, searchText) {
+        products.itemSnapshotList.items.filter {
+            it.name.contains(searchText, ignoreCase = true)
+        }
+    }
 
-    val groped = filtered.groupBy { it.isAvailable }
+    println("Filtered products: ${filteredProduct.size}")
+
+//    val filtered = loadedItems.filter { it.name.contains(searchText, ignoreCase = true) }
+
+    val groped = filteredProduct.groupBy { it.isAvailable }
 
     val inStockList = groped[true].orEmpty()
     val outOfStockList = groped[false].orEmpty()
@@ -174,6 +191,7 @@ fun ProductScreenPreview() {
                         imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
                         description = "Fresh orange",
                         isAvailable = true,
+                        categoryId = 1L,
                     )
                 )
             )

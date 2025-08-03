@@ -17,7 +17,11 @@ sealed class Route(
         }
     }
 
-    data object NourishmentFormScreen : Route(route = "nourishmentFormScreen")
+    data object NourishmentFormScreen : Route(route = "nourishmentFormScreen?categoryId={categoryId}") {
+        fun createRoute(categoryId: Long): String {
+            return "nourishmentFormScreen?categoryId=$categoryId"
+        }
+    }
 
     data object DetailsScreen : Route(route = "detailsScreen")
 

@@ -114,7 +114,22 @@ fun HomeStuffNavigator() {
 //                        navController.navigate(Route.HomeScreen.route)
 //                    } else navController.popBackStack()
                     when (selectedItem) {
-                        3 -> navController.navigate(Route.NourishmentScreen.route)
+                        3 -> {
+                            val categoryId = navController.currentBackStackEntry
+                                ?.arguments?.getString("categoryId")?.toLongOrNull()
+                            println("categoryId TAB.navigationUp = $categoryId")
+                            if (categoryId != null) {
+                                navController.popBackStack(
+                                    Route.NourishmentScreen.createRoute(
+                                        categoryId
+                                    ),
+                                    inclusive = false
+                                )
+                            } else {
+                                navController.popBackStack()
+                            }
+                        }
+
                         4 -> navController.navigate(Route.HomeScreen.route)
                         else -> navController.popBackStack()
                     }
@@ -135,17 +150,23 @@ fun HomeStuffNavigator() {
         floatingActionButton = {
             when (navController.currentDestination?.route) {
                 Route.NourishmentScreen.route -> {
-                    FloatingActionButton(
-                        onClick = {
-                            navigateToTab(
-                                navController = navController,
-                                route = Route.NourishmentFormScreen.route
-                            )
-                        },
-                        containerColor = MaterialTheme.colorScheme.onPrimary,
-                        contentColor = MaterialTheme.colorScheme.primary,
-                    ) {
-                        Icon(imageVector = Icons.Default.Add, contentDescription = "Add")
+                    val categoryId = navController.currentBackStackEntry
+                        ?.arguments?.getString("categoryId")?.toLongOrNull()
+                    println("categoryId FAB = $categoryId")
+                    categoryId?.let {
+                        FloatingActionButton(
+                            onClick = {
+                                navController.navigate(
+                                    Route.NourishmentFormScreen.createRoute(
+                                        categoryId = it
+                                    )
+                                )
+                            },
+                            containerColor = MaterialTheme.colorScheme.onPrimary,
+                            contentColor = MaterialTheme.colorScheme.primary,
+                        ) {
+                            Icon(imageVector = Icons.Default.Add, contentDescription = "Add")
+                        }
                     }
                 }
 
@@ -207,6 +228,7 @@ fun HomeStuffNavigator() {
                     })
             ) { backStackEntry ->
                 val categoryId = backStackEntry.arguments?.getString("categoryId")?.toLongOrNull()
+                println("categoryId NS = $categoryId")
                 val viewModel: ProductViewModel = hiltViewModel()
                 val products: LazyPagingItems<Product> =
                     viewModel.nourishments.collectAsLazyPagingItems()
@@ -222,12 +244,25 @@ fun HomeStuffNavigator() {
                     categoryId = categoryId
                 )
             }
-            composable(route = Route.NourishmentFormScreen.route) {
+            composable(
+                route = Route.NourishmentFormScreen.route,
+                arguments = listOf(
+                    navArgument("categoryId") {
+                        type = NavType.StringType
+                        nullable = true
+                        defaultValue = null
+                    })
+            ) { backStackEntry ->
+                val categoryId = backStackEntry.arguments?.getString("categoryId")?.toLongOrNull()
+                println("categoryId NFS = $categoryId")
                 val viewModel: ProductFormViewModel = hiltViewModel()
-                ProductFormScreen(
-                    event = viewModel::onEvent,
-                    state = viewModel.state.collectAsState().value,
-                )
+                categoryId?.let {id ->
+                    ProductFormScreen(
+                        event = viewModel::onEvent,
+                        state = viewModel.state.collectAsState().value,
+                        categoryId = id
+                    )
+                }
             }
             composable(route = Route.DetailsScreen.route) {
                 val parentEntry = remember(navController.currentBackStackEntry) {
@@ -305,7 +340,7 @@ fun navigateToTab(navController: NavHostController, route: String) {
     navController.navigate(route) {
         navController.graph.startDestinationRoute?.let { screenRoute ->
             popUpTo(screenRoute) {
-                saveState = false
+                saveState = true
             }
         }
         launchSingleTop = true

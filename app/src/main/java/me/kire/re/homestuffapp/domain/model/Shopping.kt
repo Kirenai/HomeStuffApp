@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Shopping(
-    val shoppingId: String,
+    val shoppingId: String? = null,
     val itemName: String,
     val store: String? = null,
     val price: String? = null,

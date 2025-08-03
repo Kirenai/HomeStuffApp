@@ -44,7 +44,7 @@ fun ProductItem(
                 modifier = Modifier
                     .size(50.dp)
                     .clip(CircleShape),
-                model = if (product.imageUrl.isNotEmpty()) {
+                model = if (product.hasImageUrl()) {
                     ImageRequest.Builder(context = LocalContext.current)
                         .data(product.imageUrl)
                         .build()

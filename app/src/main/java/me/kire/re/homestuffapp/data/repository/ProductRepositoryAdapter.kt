@@ -9,9 +9,10 @@ import kotlinx.coroutines.flow.map
 import me.kire.re.homestuffapp.data.dao.ProductDao
 import me.kire.re.homestuffapp.data.remote.HomeStuffApi
 import me.kire.re.homestuffapp.data.remote.ProductPagingSource
-import me.kire.re.homestuffapp.data.remote.dto.CreateNourishmentRequest
 import me.kire.re.homestuffapp.domain.model.Product
 import me.kire.re.homestuffapp.domain.port.ProductRepositoryPort
+import me.kire.re.homestuffapp.util.mapper.toProductEntity
+import me.kire.re.homestuffapp.util.toCreateNourishmentRequest
 import javax.inject.Inject
 
 class ProductRepositoryAdapter @Inject constructor(
@@ -44,13 +45,21 @@ class ProductRepositoryAdapter @Inject constructor(
                     name = productEntity.name,
                     description = productEntity.description,
                     imageUrl = "",
-                    isAvailable = true
+                    isAvailable = true,
+                    categoryId = productEntity.categoryId
                 )
             }
         }
     }
 
-    override suspend fun saveProduct(request: CreateNourishmentRequest) {
+    override suspend fun saveProduct(product: Product) {
+        val request = toCreateNourishmentRequest(product = product)
         nourishmentApis.saveProduct(userId = "1", categoryId = "5", nourishment = request)
+    }
+
+    override suspend fun saveProductRoom(product: Product) {
+        val productEntity = toProductEntity(product = product)
+        println("Saving product to Room: $productEntity")
+        this.productDao.insert(productEntity)
     }
 }

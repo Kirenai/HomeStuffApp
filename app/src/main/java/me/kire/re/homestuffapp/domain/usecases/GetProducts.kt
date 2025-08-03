@@ -10,6 +10,10 @@ class GetProducts @Inject constructor(
     private val productRepositoryPort: ProductRepositoryPort
 ) {
     operator fun invoke(categoryId: Long?): Flow<PagingData<Product>> {
-        return this.productRepositoryPort.getProducts()
+        if (categoryId != null) {
+            return this.productRepositoryPort.getProductsByCategoryId(categoryId = categoryId)
+        } else {
+            throw IllegalArgumentException("Category ID cannot be null")
+        }
     }
 }

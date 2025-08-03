@@ -17,7 +17,8 @@ data class Content(
             imageUrl = this.imageUrl,
             description = this.description,
             isAvailable = this.isAvailable,
-            type = this.type.toNourishmentType(),
+//            type = this.type.toNourishmentType(),
+            categoryId = 1L
         )
     }
 }

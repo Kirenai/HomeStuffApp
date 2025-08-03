@@ -6,11 +6,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import me.kire.re.homestuffapp.domain.model.Product
+import me.kire.re.homestuffapp.domain.model.enums.UnitType
 import me.kire.re.homestuffapp.presentation.product.form.ProductFormEvent.DescriptionChanged
 import me.kire.re.homestuffapp.presentation.product.form.ProductFormEvent.NameChanged
-import me.kire.re.homestuffapp.presentation.product.form.ProductFormEvent.ProductTypeChanged
 import me.kire.re.homestuffapp.presentation.product.form.ProductFormEvent.SaveProduct
-import me.kire.re.homestuffapp.util.toCreateNourishmentRequest
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,10 +24,11 @@ class ProductFormViewModel @Inject constructor(
 
     fun onEvent(event: ProductFormEvent) {
         when (event) {
-            is SaveProduct -> saveNourishment()
+            is SaveProduct -> saveNourishment(event.categoryId)
             is NameChanged -> updateName(event.name)
             is DescriptionChanged -> updateDescription(event.description)
-            is ProductTypeChanged -> updateNourishmentType(event.nourishmentType, event.value)
+            is ProductFormEvent.UnitOnChanged -> updateUnit(event.unitType)
+            is ProductFormEvent.AmountOnChanged -> updateAmount(event.amount)
         }
     }
 
@@ -39,22 +40,28 @@ class ProductFormViewModel @Inject constructor(
         _state.update { it.copy(description = description) }
     }
 
-    private fun updateNourishmentType(nourishmentType: String, value: String) {
-        _state.update {
-            it.copy(
-                nourishmentType = nourishmentType,
-                unit = if (nourishmentType == "UNIT") value else it.unit,
-                percentage = if (nourishmentType == "PERCENTAGE") value else it.percentage
-            )
-        }
+    private fun updateAmount(amount: String) {
+        _state.update { it.copy(amountPerUnit = amount.toDouble()) }
     }
 
-    private fun saveNourishment() {
-        val request = toCreateNourishmentRequest(state.value)
+    private fun updateUnit(unitType: UnitType) {
+        _state.update { it.copy(unit = unitType) }
+    }
+
+    private fun saveNourishment(categoryId: Long) {
+        val productState = _state.value
         viewModelScope.launch {
-            saveProduct.invoke(request)
-            println(_state.value)
-            println("Nourishment saved: ${_state.value.name}, ${_state.value.description}")
+            saveProduct.invoke(
+                Product(
+                    name = productState.name,
+                    description = productState.description,
+                    amountPerUnit = productState.amountPerUnit,
+                    unit = productState.unit,
+                    categoryId = categoryId
+                )
+            )
+            println(productState)
+            println("Nourishment saved: ${productState.name}, ${productState.description}")
         }
     }
 }
