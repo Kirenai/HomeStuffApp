@@ -21,4 +21,27 @@ data class Product(
     fun hasImageUrl(): Boolean {
         return !imageUrl.isNullOrEmpty()
     }
+
+    fun concatenateAmountAndUnit(): String {
+        return if (amountPerUnit != null) {
+            when (unit) {
+                UnitType.PIECE -> "$amountPerUnit piece${if (amountPerUnit > 1) "s" else ""}"
+                UnitType.KILOGRAM -> "$amountPerUnit kg"
+                UnitType.LITER -> "$amountPerUnit l"
+                UnitType.MILLILITER -> "$amountPerUnit ml"
+                UnitType.BOTTLE -> "$amountPerUnit bottle${if (amountPerUnit > 1) "s" else ""}"
+                UnitType.CAN -> "$amountPerUnit can${if (amountPerUnit > 1) "s" else ""}"
+                UnitType.UNIT -> "${amountPerUnit.toInt()} unit${if (amountPerUnit > 1) "s" else ""}"
+                UnitType.GRAM -> TODO()
+                UnitType.BOX -> TODO()
+                UnitType.PACKET -> TODO()
+                UnitType.JAR -> TODO()
+                UnitType.CUP -> TODO()
+                UnitType.TABLESPOON -> TODO()
+                UnitType.TEASPOON -> TODO()
+            }
+        } else {
+            ""
+        }
+    }
 }

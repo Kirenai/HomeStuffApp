@@ -41,7 +41,7 @@ class ProductFormViewModel @Inject constructor(
     }
 
     private fun updateAmount(amount: String) {
-        _state.update { it.copy(amountPerUnit = amount.toFloat()) }
+        _state.update { it.copy(amountPerUnit = amount) }
     }
 
     private fun updateUnit(unitType: UnitType) {
@@ -55,7 +55,7 @@ class ProductFormViewModel @Inject constructor(
                 Product(
                     name = productState.name,
                     description = productState.description,
-                    amountPerUnit = productState.amountPerUnit,
+                    amountPerUnit = productState.amountPerUnit?.toFloat(),
                     unit = productState.unit,
                     categoryId = categoryId
                 )

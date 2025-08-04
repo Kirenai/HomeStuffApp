@@ -207,7 +207,7 @@ fun ProductFormScreen(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             OutlinedTextField(
-                value = state.amountPerUnit?.toString() ?: "",
+                value = state.amountPerUnit ?: "",
                 onValueChange = {
                     event(
                         ProductFormEvent.AmountOnChanged(
