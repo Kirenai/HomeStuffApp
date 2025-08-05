@@ -185,7 +185,7 @@ fun ProductScreenPreview() {
             PagingData.from(
                 listOf(
                     Product(
-                        productId = "1",
+                        productId = 1,
                         name = "Orange",
                         stock = 3,
                         imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",

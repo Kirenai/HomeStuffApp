@@ -102,11 +102,12 @@ fun ShoppingItem(
 fun ShoppingItemPreview() {
     ShoppingItem(
         item = Shopping(
-            shoppingId = "1",
+            shoppingId = 1L,
             itemName = "Toilet Paper",
             store = "Discount Warehouse",
             price = "$18.75",
-            quantity = "3"
+            quantity = "3",
+            productId = 1L,
         ),
         navigateToEdit = {},
         event = {}

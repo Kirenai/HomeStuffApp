@@ -37,6 +37,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import me.kire.re.homestuffapp.domain.model.Product
 import me.kire.re.homestuffapp.domain.model.Shopping
 import me.kire.re.homestuffapp.presentation.details.DetailsScreen
+import me.kire.re.homestuffapp.presentation.details.DetailsViewModel
 import me.kire.re.homestuffapp.presentation.home.HomeScreen
 import me.kire.re.homestuffapp.presentation.home.HomeViewModel
 import me.kire.re.homestuffapp.presentation.home.category.CategoryFormScreen
@@ -268,23 +269,27 @@ fun HomeStuffNavigator() {
                 val parentEntry = remember(navController.currentBackStackEntry) {
                     navController.getBackStackEntry(Route.MainRoute.route)
                 }
-                val viewModel: ShoppingViewModel = hiltViewModel(parentEntry)
+                val shoppingViewModel: ShoppingViewModel = hiltViewModel(parentEntry)
 
-                navController.previousBackStackEntry
+                val product = navController.previousBackStackEntry
                     ?.savedStateHandle
                     ?.get<Product?>(KEY_NOURISHMENT)
-                    ?.let { product ->
-                        val isAlreadyAdded =
-                            viewModel.shoppingList.any { shopping -> shopping.itemName == product.name }
-                        DetailsScreen(
-                            product = product,
-                            navigateToShopping = {
-                                navController.navigate(Route.ShoppingScreen.route)
-                            },
-                            isAlreadyAdded = isAlreadyAdded,
-                            event = viewModel::onEvent
-                        )
-                    }
+
+                product?.let {
+                    val viewModel: DetailsViewModel = hiltViewModel()
+                    val isAlreadyAdded =
+                        shoppingViewModel.shoppingList.any { shopping -> shopping.itemName == product.name }
+                    DetailsScreen(
+                        product = product,
+                        navigateToShopping = {
+                            navController.navigate(Route.ShoppingScreen.route)
+                        },
+                        isAlreadyAdded = isAlreadyAdded,
+                        event = shoppingViewModel::onEvent,
+                        lastTwoPurchases = viewModel.lastTwoPurchases.value,
+                        charData = viewModel.charData.value
+                    )
+                }
             }
             composable(route = Route.ShoppingScreen.route) {
                 val parentEntry = remember(navController.currentBackStackEntry) {
@@ -354,7 +359,7 @@ private fun navigateToDetails(
 ) {
     navController.currentBackStackEntry?.savedStateHandle?.set(KEY_NOURISHMENT, product)
     navController.navigate(
-        route = Route.DetailsScreen.route
+        route = Route.DetailsScreen.createRoute(productId = product.productId)
     )
 }
 

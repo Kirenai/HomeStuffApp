@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
+import me.kire.re.homestuffapp.data.entity.PurchaseEntity
 import me.kire.re.homestuffapp.domain.model.Product
 import me.kire.re.homestuffapp.domain.model.Shopping
 import me.kire.re.homestuffapp.presentation.details.components.LineChartWithGradient
@@ -37,8 +38,12 @@ fun DetailsScreen(
     product: Product,
     navigateToShopping: () -> Unit,
     isAlreadyAdded: Boolean = false,
-    event: (ShoppingEvent) -> Unit
+    event: (ShoppingEvent) -> Unit,
+    lastTwoPurchases: List<PurchaseEntity>,
+    charData: List<Float>,
 ) {
+    println("Last two purchases size: ${lastTwoPurchases.size}")
+    println("Chard data size: ${charData.size}")
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -103,17 +108,38 @@ fun DetailsScreen(
                     )
                 }
 
-                PurchaseItem(
-                    store = "Fresh Market",
-                    quantity = "2 kg",
-                    price = "$10.00"
-                )
-
-                PurchaseItem(
-                    store = "Local Grocer",
-                    quantity = "1.5 kg",
-                    price = "$1.75"
-                )
+                if (lastTwoPurchases.isNotEmpty()) {
+                    lastTwoPurchases.forEach { purchase ->
+                        PurchaseItem(
+                            store = purchase.storeName,
+                            quantity = "${purchase.weightKg}",
+                            price = "$${purchase.price}"
+                        )
+                    }
+                } else {
+                    Text(
+                        text = "No purchase history available.",
+                        style = TextStyle.Default.copy(
+                            fontSize = MaterialTheme.typography.bodyLarge.fontSize,
+                            fontWeight = FontWeight.Normal,
+                            lineHeight = 24.sp,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
+                        ),
+                        modifier = Modifier
+                            .padding(vertical = 8.dp)
+                    )
+                }
+//                PurchaseItem(
+//                    store = "Fresh Market",
+//                    quantity = "2 kg",
+//                    price = "$10.00"
+//                )
+//
+//                PurchaseItem(
+//                    store = "Local Grocer",
+//                    quantity = "1.5 kg",
+//                    price = "$1.75"
+//                )
 
                 Row(
                     modifier = Modifier
@@ -194,10 +220,7 @@ fun DetailsScreen(
                             1.25f,
                             1.35f,
                             1.1f,
-                            1.6f,
-                            1.3f,
-                            1.5f,
-                            1.3f
+                            1.4f,
                         )
                         val xLabels = listOf("Jan", "Feb", "Mar")
                         LineChartWithGradient(
@@ -222,6 +245,7 @@ fun DetailsScreen(
                                         Shopping(
                                             shoppingId = product.productId,
                                             itemName = product.name,
+                                            productId = product.productId
                                         )
                                     )
                                 )
@@ -254,7 +278,7 @@ fun DetailsScreen(
 fun DetailsScreenPreview() {
     DetailsScreen(
         product = Product(
-            productId = "1",
+            productId = 1,
             name = "Orange",
             stock = 3,
             imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
@@ -264,6 +288,8 @@ fun DetailsScreenPreview() {
             categoryId = 1L
         ),
         navigateToShopping = {},
-        event = {}
+        event = {},
+        lastTwoPurchases = emptyList(),
+        charData = emptyList()
     )
 }

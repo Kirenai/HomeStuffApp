@@ -6,7 +6,7 @@ import me.kire.re.homestuffapp.domain.model.enums.UnitType
 
 @Parcelize
 data class Product(
-    val productId: String = "",
+    val productId: Long = 1,
     val name: String,
 //    val title: String? = null,
     val stock: Int? = null,

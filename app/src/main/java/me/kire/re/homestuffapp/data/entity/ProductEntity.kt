@@ -39,7 +39,7 @@ data class ProductEntity(
 ) {
     fun toDomainModel(): Product {
         return Product(
-            productId = productId.toString(),
+            productId = productId,
             name = name,
             description = description,
             imageUrl = imageUrl,

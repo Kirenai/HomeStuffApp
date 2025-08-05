@@ -276,8 +276,9 @@ fun ShoppingEditScreen(
 fun ShoppingEditScreenPreview() {
     ShoppingEditScreen(
         shopping = Shopping(
-            shoppingId = "1",
+            shoppingId = 1L,
             itemName = "Sample Item",
+            productId = 1L,
         ),
         event = {}
     )

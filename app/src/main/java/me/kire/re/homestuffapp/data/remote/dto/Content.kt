@@ -12,7 +12,7 @@ data class Content(
 ) {
     fun toNourishment(): Product {
         return Product(
-            productId = this.nourishmentId,
+            productId = this.nourishmentId.toLong(),
             name = this.name,
             imageUrl = this.imageUrl,
             description = this.description,

@@ -23,7 +23,11 @@ sealed class Route(
         }
     }
 
-    data object DetailsScreen : Route(route = "detailsScreen")
+    data object DetailsScreen : Route(route = "detailsScreen/{productId}") {
+        fun createRoute(productId: Long): String {
+            return "detailsScreen/$productId"
+        }
+    }
 
     data object ShoppingScreen : Route(route = "shoppingScreen")
 
