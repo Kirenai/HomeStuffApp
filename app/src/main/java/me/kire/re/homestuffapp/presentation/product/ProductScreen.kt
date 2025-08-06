@@ -118,6 +118,19 @@ fun ProductScreen(
         )
     }
 
+    if (displayList.isEmpty()) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = androidx.compose.ui.Alignment.Center
+        ) {
+            Text(
+                text = "No products found",
+                style = MaterialTheme.typography.bodyLarge
+            )
+        }
+        return
+    }
+
     Column(
         modifier = Modifier
             .padding(start = 16.dp, end = 16.dp)
