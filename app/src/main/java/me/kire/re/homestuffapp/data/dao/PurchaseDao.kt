@@ -24,7 +24,7 @@ interface PurchaseDao {
         SELECT price, strftime('%m', timestamp / 1000, 'unixepoch') AS month
         FROM purchases 
         WHERE productId = :productId 
-        ORDER BY timestamp DESC 
+        ORDER BY timestamp ASC
         LIMIT 15
         """
     )
