@@ -36,7 +36,6 @@ fun ProductScreen(
     products: LazyPagingItems<Product>,
     navigateToDetails: (Product) -> Unit,
     navigateToSearch: () -> Unit,
-    categoryId: Long?,
 ) {
     var searchText by remember {
         mutableStateOf("")
@@ -50,47 +49,6 @@ fun ProductScreen(
         mutableStateOf(false)
     }
 
-//    val loadedItems = listOf(
-//        Product(
-//            productId = "1",
-//            name = "Orange",
-//            stock = 3,
-//            imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
-//            description = "Fresh orange",
-//            expirationDate = "5 days",
-//            isAvailable = true,
-//            categoryId = 1L
-//        ),
-//        Product(
-//            productId = "2",
-//            name = "Apple",
-//            stock = 3,
-//            imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
-//            description = "Fresh orange",
-//            isAvailable = true,
-//            categoryId = 2L
-//        ),
-//        Product(
-//            productId = "3",
-//            name = "Banana",
-//            stock = 0,
-//            imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
-//            description = "Fresh orange",
-//            expirationDate = "5 days",
-//            isAvailable = false,
-//            categoryId = 3L
-//        ),
-//        Product(
-//            productId = "4",
-//            name = "Strawberry",
-//            stock = 0,
-//            imageUrl = "https://cdn-icons-png.flaticon.com/512/1728/1728765.png",
-//            description = "Fresh orange",
-//            isAvailable = false,
-//            categoryId = 4L
-//        )
-//    )
-
     val filteredProduct = remember(products.itemSnapshotList.items, searchText) {
         products.itemSnapshotList.items.filter {
             it.name.contains(searchText, ignoreCase = true)
@@ -98,8 +56,6 @@ fun ProductScreen(
     }
 
     println("Filtered products: ${filteredProduct.size}")
-
-//    val filtered = loadedItems.filter { it.name.contains(searchText, ignoreCase = true) }
 
     val groped = filteredProduct.groupBy { it.isAvailable }
 
@@ -116,19 +72,6 @@ fun ProductScreen(
             if (inStockList.isNotEmpty()) "In Stock" to inStockList else null,
             if (outOfStockList.isNotEmpty()) "Out of Stock" to outOfStockList else null,
         )
-    }
-
-    if (displayList.isEmpty()) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = androidx.compose.ui.Alignment.Center
-        ) {
-            Text(
-                text = "No products found",
-                style = MaterialTheme.typography.bodyLarge
-            )
-        }
-        return
     }
 
     Column(
@@ -151,6 +94,19 @@ fun ProductScreen(
                 isSorted = !isSorted
             }
         )
+
+        if (displayList.isEmpty()) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = androidx.compose.ui.Alignment.Center
+            ) {
+                Text(
+                    text = "No products found",
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            }
+            return
+        }
 
         LazyColumn(
             modifier = Modifier
@@ -209,6 +165,5 @@ fun ProductScreenPreview() {
                 )
             )
         ).collectAsLazyPagingItems(),
-        categoryId = null
     )
 }

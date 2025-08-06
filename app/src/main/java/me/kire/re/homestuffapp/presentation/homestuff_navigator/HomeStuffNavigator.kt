@@ -228,8 +228,6 @@ fun HomeStuffNavigator() {
                         defaultValue = null
                     })
             ) { backStackEntry ->
-                val categoryId = backStackEntry.arguments?.getString("categoryId")?.toLongOrNull()
-                println("categoryId NS = $categoryId")
                 val viewModel: ProductViewModel = hiltViewModel()
                 val products: LazyPagingItems<Product> =
                     viewModel.nourishments.collectAsLazyPagingItems()
@@ -242,7 +240,6 @@ fun HomeStuffNavigator() {
                         )
                     },
                     navigateToSearch = {},
-                    categoryId = categoryId
                 )
             }
             composable(
