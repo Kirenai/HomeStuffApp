@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 import me.kire.re.homestuffapp.data.entity.PurchaseEntity
+import me.kire.re.homestuffapp.domain.model.PurchasePriceAndMonth
 
 @Dao
 interface PurchaseDao {
@@ -20,13 +21,14 @@ interface PurchaseDao {
 
     @Query(
         """
-        SELECT price 
+        SELECT price, strftime('%m', timestamp / 1000, 'unixepoch') AS month
         FROM purchases 
         WHERE productId = :productId 
-        ORDER BY timestamp DESC LIMIT 15
+        ORDER BY timestamp DESC 
+        LIMIT 15
         """
     )
-    fun getLast15Prices(productId: Long): Flow<List<Float>>
+    fun getLast15Prices(productId: Long): Flow<List<PurchasePriceAndMonth>>
 
     @Insert
     suspend fun insertAll(purchases: List<PurchaseEntity>)

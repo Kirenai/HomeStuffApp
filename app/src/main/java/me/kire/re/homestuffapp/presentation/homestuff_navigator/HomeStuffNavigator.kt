@@ -279,6 +279,9 @@ fun HomeStuffNavigator() {
                     val viewModel: DetailsViewModel = hiltViewModel()
                     val isAlreadyAdded =
                         shoppingViewModel.shoppingList.any { shopping -> shopping.itemName == product.name }
+                    val charData by viewModel.charData.collectAsState()
+                    val months by viewModel.months.collectAsState()
+                    val lastTwoPurchases by viewModel.lastTwoPurchases.collectAsState()
                     DetailsScreen(
                         product = product,
                         navigateToShopping = {
@@ -286,8 +289,9 @@ fun HomeStuffNavigator() {
                         },
                         isAlreadyAdded = isAlreadyAdded,
                         event = shoppingViewModel::onEvent,
-                        lastTwoPurchases = viewModel.lastTwoPurchases.value,
-                        charData = viewModel.charData.value
+                        lastTwoPurchases = lastTwoPurchases,
+                        charData = charData,
+                        months = months
                     )
                 }
             }

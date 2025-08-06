@@ -21,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -51,6 +52,20 @@ fun ShoppingEditScreen(
                 .fillMaxWidth()
         ) {
             Column {
+                Row(
+                    modifier = Modifier
+                        .padding(top = 16.dp, bottom = 16.dp)
+                ) {
+                    Text(
+                        text = shopping.itemName,
+                        style = TextStyle.Default.copy(
+                            fontSize = MaterialTheme.typography.titleLarge.fontSize,
+                            fontWeight = FontWeight.Bold,
+                            lineHeight = 28.sp,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                    )
+                }
                 Text(
                     text = "Quantity",
                     modifier = Modifier

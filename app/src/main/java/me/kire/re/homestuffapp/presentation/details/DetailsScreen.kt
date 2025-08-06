@@ -28,6 +28,7 @@ import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import me.kire.re.homestuffapp.data.entity.PurchaseEntity
 import me.kire.re.homestuffapp.domain.model.Product
+import me.kire.re.homestuffapp.domain.model.PurchasePriceAndMonth
 import me.kire.re.homestuffapp.domain.model.Shopping
 import me.kire.re.homestuffapp.presentation.details.components.LineChartWithGradient
 import me.kire.re.homestuffapp.presentation.details.components.PurchaseItem
@@ -40,7 +41,8 @@ fun DetailsScreen(
     isAlreadyAdded: Boolean = false,
     event: (ShoppingEvent) -> Unit,
     lastTwoPurchases: List<PurchaseEntity>,
-    charData: List<Float>,
+    charData: List<PurchasePriceAndMonth>,
+    months: List<String>
 ) {
     println("Last two purchases size: ${lastTwoPurchases.size}")
     println("Chard data size: ${charData.size}")
@@ -78,7 +80,8 @@ fun DetailsScreen(
                         style = TextStyle.Default.copy(
                             fontSize = MaterialTheme.typography.titleLarge.fontSize,
                             fontWeight = FontWeight.Bold,
-                            lineHeight = 28.sp
+                            lineHeight = 28.sp,
+                            color = MaterialTheme.colorScheme.onSurface
                         )
 
                     )
@@ -205,30 +208,52 @@ fun DetailsScreen(
                             )
                         }
 
-                        val chartData = listOf(
-                            1.3f,
-                            1.4f,
-                            1.25f,
-                            1.35f,
-                            1.1f,
-                            1.6f,
-                            1.3f,
-                            1.5f,
-                            1.3f,
-                            1.3f,
-                            1.4f,
-                            1.25f,
-                            1.35f,
-                            1.1f,
-                            1.4f,
-                        )
-                        val xLabels = listOf("Jan", "Feb", "Mar")
-                        LineChartWithGradient(
-                            data = chartData,
-                            xLabels = xLabels,
-                            modifier = Modifier
-                                .padding(vertical = 16.dp)
-                        )
+                        if (charData.isNotEmpty() && charData.size >= 3) {
+                            val chartData = charData.map { it.price }
+                            val xLabels = months
+                            LineChartWithGradient(
+                                data = chartData,
+                                xLabels = xLabels,
+                                modifier = Modifier
+                                    .padding(vertical = 16.dp)
+                            )
+                        } else {
+                            Text(
+                                text = "No pricing data available. Needed at least 3 prices.",
+                                style = TextStyle.Default.copy(
+                                    fontSize = MaterialTheme.typography.bodyLarge.fontSize,
+                                    fontWeight = FontWeight.Normal,
+                                    lineHeight = 24.sp,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
+                                ),
+                                modifier = Modifier
+                                    .padding(vertical = 8.dp)
+                            )
+                        }
+//                        val chartData = listOf(
+//                            1.3f,
+//                            1.4f,
+//                            1.25f,
+//                            1.35f,
+//                            1.1f,
+//                            1.6f,
+//                            1.3f,
+//                            1.5f,
+//                            1.3f,
+//                            1.3f,
+//                            1.4f,
+//                            1.25f,
+//                            1.35f,
+//                            1.1f,
+//                            1.4f,
+//                        )
+//                        val xLabels = listOf("Jan", "Feb", "Mar")
+//                        LineChartWithGradient(
+//                            data = chartData,
+//                            xLabels = xLabels,
+//                            modifier = Modifier
+//                                .padding(vertical = 16.dp)
+//                        )
                     }
                 }
 
@@ -290,6 +315,7 @@ fun DetailsScreenPreview() {
         navigateToShopping = {},
         event = {},
         lastTwoPurchases = emptyList(),
-        charData = emptyList()
+        charData = emptyList(),
+        months = emptyList()
     )
 }
