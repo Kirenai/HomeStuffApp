@@ -37,4 +37,7 @@ interface ProductDao {
     @Update
     suspend fun updateProducts(products: List<ProductEntity>)
 
+    @Query("DELETE FROM products WHERE productId = :productId")
+    suspend fun deleteProduct(productId: Long)
+
 }

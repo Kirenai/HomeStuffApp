@@ -1,5 +1,6 @@
 package me.kire.re.homestuffapp.presentation.product.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -34,8 +35,9 @@ fun ProductItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp)
-            .clickable { onClick?.invoke() },
+            .background(MaterialTheme.colorScheme.surface)
+            .clickable { onClick?.invoke() }
+            .padding(vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {

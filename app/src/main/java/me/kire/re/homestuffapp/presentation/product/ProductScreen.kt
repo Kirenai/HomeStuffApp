@@ -28,14 +28,16 @@ import androidx.paging.compose.itemKey
 import kotlinx.coroutines.flow.flowOf
 import me.kire.re.homestuffapp.domain.model.Product
 import me.kire.re.homestuffapp.presentation.common.SearchBar
-import me.kire.re.homestuffapp.presentation.product.components.ProductItem
 import me.kire.re.homestuffapp.presentation.product.components.SortButton
+import me.kire.re.homestuffapp.presentation.product.components.SwipeToDeleteItem
+import me.kire.re.homestuffapp.presentation.product.form.ProductEvent
 
 @Composable
 fun ProductScreen(
     products: LazyPagingItems<Product>,
     navigateToDetails: (Product) -> Unit,
     navigateToSearch: () -> Unit,
+    event: (ProductEvent) -> Unit,
 ) {
     var searchText by remember {
         mutableStateOf("")
@@ -132,16 +134,21 @@ fun ProductScreen(
                     }
                 }
 
-                items(items) { nourishment ->
-                    ProductItem(
+                items(items, key = { it.productId }) { nourishment ->
+                    SwipeToDeleteItem(
                         product = nourishment,
-                        onClick = { navigateToDetails(nourishment) }
+                        onClick = {
+                            navigateToDetails(nourishment)
+                        },
+                        event = event,
                     )
                 }
 
             }
         }
     }
+
+
 }
 
 @Preview(showBackground = true)
@@ -165,5 +172,6 @@ fun ProductScreenPreview() {
                 )
             )
         ).collectAsLazyPagingItems(),
+        event = {}
     )
 }

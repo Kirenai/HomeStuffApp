@@ -240,6 +240,7 @@ fun HomeStuffNavigator() {
                         )
                     },
                     navigateToSearch = {},
+                    event = viewModel::onEvent
                 )
             }
             composable(

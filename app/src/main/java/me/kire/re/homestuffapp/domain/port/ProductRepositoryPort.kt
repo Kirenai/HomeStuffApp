@@ -12,4 +12,6 @@ interface ProductRepositoryPort {
     suspend fun saveProduct(product: Product)
 
     suspend fun saveProductRoom(product: Product)
+
+    suspend fun deleteProduct(productId: Long)
 }

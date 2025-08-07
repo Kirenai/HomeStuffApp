@@ -56,4 +56,8 @@ class ProductRepositoryAdapter @Inject constructor(
         println("Saving product to Room: $productEntity")
         this.productDao.insert(productEntity)
     }
+
+    override suspend fun deleteProduct(productId: Long) {
+        this.productDao.deleteProduct(productId = productId)
+    }
 }
