@@ -8,10 +8,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -28,6 +33,55 @@ fun ShoppingScreen(
     navigateToEdit: (Shopping) -> Unit,
     event: (ShoppingEvent) -> Unit
 ) {
+    var showDialog by remember { mutableStateOf(false) }
+
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false},
+            title = {
+                Text(
+                    text = "Mark Items as Purchased",
+                    style = MaterialTheme.typography.headlineSmall
+                )
+            },
+            text = {
+                Text(
+                    text = "Are you sure you want to mark all items as purchased? This action cannot be undone.",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        event(ShoppingEvent.MarkAsPurchased)
+                        showDialog = false
+                    }
+                ) {
+                    Text(
+                        text = "Yes, Mark as Purchased",
+                        style = MaterialTheme.typography.bodyLarge.copy(
+                            fontWeight = FontWeight.Bold,
+                            lineHeight = 24.sp
+                        )
+                    )
+                }
+            },
+            dismissButton = {
+                Button(
+                    onClick = { showDialog = false }
+                ) {
+                    Text(
+                        text = "No, Cancel",
+                        style = MaterialTheme.typography.bodyLarge.copy(
+                            fontWeight = FontWeight.Bold,
+                            lineHeight = 24.sp
+                        )
+                    )
+                }
+            }
+        )
+    }
+
     Column(
         modifier = Modifier
             .padding(horizontal = 16.dp)
@@ -48,7 +102,7 @@ fun ShoppingScreen(
             verticalAlignment = Alignment.Bottom,
         ) {
             Button(
-                onClick = { event(ShoppingEvent.MarkAsPurchased) },
+                onClick = { showDialog = true },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(48.dp),
