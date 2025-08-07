@@ -318,7 +318,10 @@ fun HomeStuffNavigator() {
                         val viewModel: ShoppingViewModel = hiltViewModel(parentEntry)
                         ShoppingEditScreen(
                             shopping = shopping,
-                            event = viewModel::onEvent
+                            event = viewModel::onEvent,
+                            navigateUp = {
+                                navController.popBackStack()
+                            }
                         )
                     }
             }

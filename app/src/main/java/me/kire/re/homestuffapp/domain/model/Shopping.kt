@@ -2,6 +2,7 @@ package me.kire.re.homestuffapp.domain.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
+import me.kire.re.homestuffapp.domain.model.enums.UnitType
 
 @Parcelize
 data class Shopping(
@@ -10,6 +11,7 @@ data class Shopping(
     val store: String? = null,
     val price: String? = null,
     val quantity: String? = null,
+    val unit: UnitType? = null,
     val productId: Long,
 ) : Parcelable
 

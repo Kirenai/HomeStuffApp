@@ -1,15 +1,18 @@
 package me.kire.re.homestuffapp.presentation.shopping.form
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -29,13 +32,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import me.kire.re.homestuffapp.domain.model.Shopping
+import me.kire.re.homestuffapp.domain.model.enums.UnitType
+import me.kire.re.homestuffapp.domain.model.enums.toShortString
 import me.kire.re.homestuffapp.presentation.shopping.ShoppingEvent
 
 @Composable
 fun ShoppingEditScreen(
     modifier: Modifier = Modifier,
     shopping: Shopping,
-    event: (ShoppingEvent) -> Unit
+    event: (ShoppingEvent) -> Unit,
+    navigateUp: () -> Unit,
 ) {
     var quantity by remember { mutableStateOf(shopping.quantity ?: "") }
     var storeName by remember { mutableStateOf(shopping.store ?: "") }
@@ -121,36 +127,54 @@ fun ShoppingEditScreen(
 //                    }
 //                }
 
-                TextField(
-                    modifier = Modifier
-                        .height(48.dp)
+                Row(
+                    modifier = modifier
                         .fillMaxWidth(),
-                    value = quantity,
-                    onValueChange = {
-                        quantity = it
-                    },
-                    placeholder = {
-                        Text(
-                            text = "15",
-                            style = MaterialTheme.typography.bodySmall,
-                        )
-                    },
-                    maxLines = 1,
-                    shape = MaterialTheme.shapes.medium,
-                    colors = TextFieldDefaults.colors(
-                        unfocusedIndicatorColor = Color.Transparent,
-                        focusedIndicatorColor = Color.Transparent,
-                        disabledIndicatorColor = Color.Transparent,
-                        errorIndicatorColor = Color.Transparent
-                    ),
-                    textStyle = MaterialTheme.typography.bodySmall,
-                    keyboardOptions = KeyboardOptions(
-                        imeAction = ImeAction.Next,
-                        keyboardType = KeyboardType.Number
-                    ),
-                )
+                ) {
+                    OutlinedTextField(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        value = quantity,
+                        onValueChange = {
+                            quantity = it
+                        },
+                        placeholder = {
+                            Text(
+                                text = "15",
+                                style = MaterialTheme.typography.bodySmall,
+                            )
+                        },
+                        shape = MaterialTheme.shapes.medium,
+                        colors = TextFieldDefaults.colors(
+                            unfocusedIndicatorColor = Color.Transparent,
+                            focusedIndicatorColor = Color.Transparent,
+                            disabledIndicatorColor = Color.Transparent,
+                            errorIndicatorColor = Color.Transparent
+                        ),
+                        textStyle = MaterialTheme.typography.bodySmall,
+                        keyboardOptions = KeyboardOptions(
+                            imeAction = ImeAction.Next,
+                            keyboardType = KeyboardType.Number
+                        ),
+                        singleLine = true,
+                        suffix = {
+                            Box(
+                                modifier = Modifier
+                                    .wrapContentHeight(Alignment.CenterVertically)
+                            ) {
+                                shopping.unit?.let { unit: UnitType ->
+                                    Text(
+                                        text = unit.toShortString(),
+                                        style = MaterialTheme.typography.bodyMedium,
+                                    )
+                                }
+                            }
+                        }
+                    )
+                }
             }
         }
+
         Row(
             modifier = Modifier
                 .padding(vertical = 12.dp)
@@ -170,7 +194,6 @@ fun ShoppingEditScreen(
 
                 TextField(
                     modifier = Modifier
-                        .height(48.dp)
                         .fillMaxWidth(),
                     value = storeName,
                     onValueChange = {
@@ -218,8 +241,7 @@ fun ShoppingEditScreen(
 
                 TextField(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp),
+                        .fillMaxWidth(),
                     value = price,
                     onValueChange = {
                         price = it
@@ -266,6 +288,7 @@ fun ShoppingEditScreen(
                             )
                         )
                     )
+                    navigateUp()
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -294,7 +317,9 @@ fun ShoppingEditScreenPreview() {
             shoppingId = 1L,
             itemName = "Sample Item",
             productId = 1L,
+            unit = UnitType.UNIT
         ),
-        event = {}
+        event = {},
+        navigateUp = {}
     )
 }

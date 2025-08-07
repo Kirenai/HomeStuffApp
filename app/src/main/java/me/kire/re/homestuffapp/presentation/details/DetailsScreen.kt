@@ -270,7 +270,8 @@ fun DetailsScreen(
                                         Shopping(
                                             shoppingId = product.productId,
                                             itemName = product.name,
-                                            productId = product.productId
+                                            productId = product.productId,
+                                            unit = product.unit
                                         )
                                     )
                                 )
