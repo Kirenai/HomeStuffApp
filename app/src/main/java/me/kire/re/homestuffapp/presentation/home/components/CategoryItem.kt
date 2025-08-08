@@ -61,6 +61,7 @@ fun CategoryItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.surface)
             .height(72.dp)
             .padding(horizontal = 16.dp)
             .clickable { navigateToCategory(category.categoryId) },

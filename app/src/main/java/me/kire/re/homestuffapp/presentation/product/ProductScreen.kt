@@ -29,7 +29,8 @@ import kotlinx.coroutines.flow.flowOf
 import me.kire.re.homestuffapp.domain.model.Product
 import me.kire.re.homestuffapp.presentation.common.SearchBar
 import me.kire.re.homestuffapp.presentation.product.components.SortButton
-import me.kire.re.homestuffapp.presentation.product.components.SwipeToDeleteItem
+import me.kire.re.homestuffapp.presentation.common.SwipeToDeleteItem
+import me.kire.re.homestuffapp.presentation.product.components.ProductItem
 import me.kire.re.homestuffapp.presentation.product.form.ProductEvent
 
 @Composable
@@ -134,14 +135,20 @@ fun ProductScreen(
                     }
                 }
 
-                items(items, key = { it.productId }) { nourishment ->
+                items(items, key = { it.productId }) { product ->
                     SwipeToDeleteItem(
-                        product = nourishment,
-                        onClick = {
-                            navigateToDetails(nourishment)
+                        onEventDelete = {
+                            event(ProductEvent.OnDeleteProduct(productId = product.productId))
                         },
-                        event = event,
-                    )
+                        postfix = "Product"
+                    ) {
+                        ProductItem(
+                            product = product,
+                            onClick = {
+                                navigateToDetails(product)
+                            }
+                        )
+                    }
                 }
 
             }

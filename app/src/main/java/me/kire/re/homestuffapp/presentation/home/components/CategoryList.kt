@@ -5,6 +5,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import me.kire.re.homestuffapp.domain.model.CategoryWithItemCount
+import me.kire.re.homestuffapp.presentation.common.SwipeToDeleteItem
 
 @Composable
 fun CategoryList(
@@ -18,10 +19,15 @@ fun CategoryList(
         items(
             items = categories,
         ) { category ->
-            CategoryItem(
-                category = category,
-                navigateToCategory = navigateToCategory
-            )
+            SwipeToDeleteItem(
+                onEventDelete = {},
+                postfix = "Category",
+            ) {
+                CategoryItem(
+                    category = category,
+                    navigateToCategory = navigateToCategory
+                )
+            }
         }
 
     }

@@ -1,4 +1,4 @@
-package me.kire.re.homestuffapp.presentation.product.components
+package me.kire.re.homestuffapp.presentation.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -24,15 +24,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import me.kire.re.homestuffapp.domain.model.Product
-import me.kire.re.homestuffapp.presentation.product.form.ProductEvent
 
+/**
+ * Componente para eliminar un elemento con un gesto de deslizamiento.
+ * Este componente muestra un diálogo de confirmación antes de eliminar el elemento.
+ * @param modifier Modificador opcional para personalizar el estilo del componente.
+ * @param onEventDelete Función que se llama cuando se confirma la eliminación del elemento.
+ * @param postfix Cadena que se muestra en el diálogo de confirmación para indicar el tipo de elemento a eliminar.
+ * @param content Contenido que se muestra dentro del componente de deslizamiento.
+ */
 @Composable
 fun SwipeToDeleteItem(
     modifier: Modifier = Modifier,
-    product: Product,
-    onClick: (() -> Unit)? = null,
-    event: (ProductEvent) -> Unit
+    onEventDelete: () -> Unit,
+    postfix: String,
+    content: @Composable () -> Unit
 ) {
     var showDialog by remember { mutableStateOf(false) }
 
@@ -53,19 +59,19 @@ fun SwipeToDeleteItem(
             },
             title = {
                 Text(
-                    "Delete Product",
+                    "Delete $postfix",
                     style = MaterialTheme.typography.headlineSmall
                 )
             },
             text = {
                 Text(
-                    "Are you sure you want to delete this product?",
+                    "Are you sure you want to delete this ${postfix}?",
                     style = MaterialTheme.typography.bodyLarge
                 )
             },
             confirmButton = {
                 TextButton(onClick = {
-                    event(ProductEvent.OnDeleteProduct(productId = product.productId))
+                    onEventDelete()
                 }) {
                     Text(
                         "Delete",
@@ -103,12 +109,12 @@ fun SwipeToDeleteItem(
             ) {
                 Icon(
                     imageVector = Icons.Default.Delete,
-                    contentDescription = "Eliminar",
+                    contentDescription = "Delete",
                 )
             }
         },
     ) {
-        ProductItem(product = product, onClick = onClick)
+        content.invoke()
     }
 
 }
