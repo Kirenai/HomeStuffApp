@@ -11,6 +11,9 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemKey
 import me.kire.re.homestuffapp.domain.model.Product
 
+/**
+ * Unused, but kept for reference.
+ */
 @Composable
 fun ProductList(
     modifier: Modifier = Modifier,
@@ -33,6 +36,9 @@ fun ProductList(
     }
 }
 
+/**
+ * Unused, but kept for reference.
+ */
 @Composable
 fun ProductList(
     modifier: Modifier = Modifier,
