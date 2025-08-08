@@ -6,12 +6,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import me.kire.re.homestuffapp.domain.model.CategoryWithItemCount
 import me.kire.re.homestuffapp.presentation.common.SwipeToDeleteItem
+import me.kire.re.homestuffapp.presentation.home.HomeEvent
 
 @Composable
 fun CategoryList(
     modifier: Modifier = Modifier,
     categories: List<CategoryWithItemCount>,
-    navigateToCategory: (Long) -> Unit
+    navigateToCategory: (Long) -> Unit,
+    event: (HomeEvent) -> Unit
 ) {
     LazyColumn(
         modifier = modifier
@@ -20,7 +22,9 @@ fun CategoryList(
             items = categories,
         ) { category ->
             SwipeToDeleteItem(
-                onEventDelete = {},
+                onEventDelete = {
+                    event(HomeEvent.OnDeleteCategory(categoryId = category.categoryId))
+                },
                 postfix = "Category",
             ) {
                 CategoryItem(
@@ -29,6 +33,5 @@ fun CategoryList(
                 )
             }
         }
-
     }
 }

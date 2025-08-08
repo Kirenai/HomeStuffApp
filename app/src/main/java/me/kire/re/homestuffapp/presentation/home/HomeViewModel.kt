@@ -10,13 +10,16 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import me.kire.re.homestuffapp.domain.model.CategoryWithItemCount
+import me.kire.re.homestuffapp.domain.usecases.category.DeleteCategory
 import me.kire.re.homestuffapp.domain.usecases.category.GetCategories
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getCategoriesUseCase: GetCategories,
+    private val deleteCategory: DeleteCategory
 ) : ViewModel() {
     private val _state = mutableStateOf(
         HomeState()
@@ -36,6 +39,11 @@ class HomeViewModel @Inject constructor(
             is HomeEvent.OnSearchTextChange -> onSearchTextChange(event.newText)
             is HomeEvent.OnErrorDismissed -> clearError()
             is HomeEvent.OnError -> setError(event.message)
+            is HomeEvent.OnDeleteCategory -> {
+                viewModelScope.launch {
+                    deleteBy(event.categoryId)
+                }
+            }
         }
     }
 
@@ -62,5 +70,9 @@ class HomeViewModel @Inject constructor(
 
     private fun setError(message: String) {
         _state.value = _state.value.copy(error = message)
+    }
+
+    private suspend fun deleteBy(categoryId: Long) {
+        this.deleteCategory(categoryId = categoryId)
     }
 }

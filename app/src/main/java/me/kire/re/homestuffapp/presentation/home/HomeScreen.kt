@@ -89,7 +89,8 @@ fun HomeScreen(
 
         CategoryList(
             categories = state.filteredCategories,
-            navigateToCategory = navigateToCategory
+            navigateToCategory = navigateToCategory,
+            event = event,
         )
     }
 }
