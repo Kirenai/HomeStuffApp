@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 import me.kire.re.homestuffapp.data.entity.CategoryEntity
 import me.kire.re.homestuffapp.domain.model.CategoryWithItemCount
@@ -26,4 +27,7 @@ interface CategoryDao {
 
     @Query("DELETE FROM categories WHERE categoryId = :categoryId")
     suspend fun deleteCategory(categoryId: Long)
+
+    @Update
+    suspend fun updateCategoryName(category: CategoryEntity)
 }

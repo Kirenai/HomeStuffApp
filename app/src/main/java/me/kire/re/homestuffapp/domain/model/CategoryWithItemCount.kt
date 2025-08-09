@@ -1,6 +1,6 @@
 package me.kire.re.homestuffapp.domain.model
 
-class CategoryWithItemCount(
+data class CategoryWithItemCount(
     val categoryId: Long,
     val name: String,
     val itemsCount: Int,
