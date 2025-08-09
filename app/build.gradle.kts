@@ -10,11 +10,11 @@ plugins {
 }
 
 android {
-    namespace = "me.kire.re.homestuffapp"
+    namespace = "me.re.homestuffapp"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "me.kire.re.homestuffapp"
+        applicationId = "me.re.homestuffapp"
         minSdk = 30
         targetSdk = 35
         versionCode = 1
