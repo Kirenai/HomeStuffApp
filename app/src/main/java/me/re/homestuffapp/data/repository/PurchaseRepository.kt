@@ -35,7 +35,7 @@ class PurchaseRepository @Inject constructor(
             val purchase =
                 findPurchaseByProductId(productId = product.productId, purchases = purchases)
             product.copy(
-                amountPerUnit = product.amountPerUnit.plus(other = purchase.price)
+                amountPerUnit = product.amountPerUnit.plus(other = purchase.weightKg)
             )
         }
         newProducts.forEach {
