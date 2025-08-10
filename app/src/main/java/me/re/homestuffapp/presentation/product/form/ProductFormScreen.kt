@@ -20,7 +20,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -64,7 +63,8 @@ import java.util.Locale
 fun ProductFormScreen(
     event: (ProductFormEvent) -> Unit,
     state: ProductFormState,
-    categoryId: Long
+    categoryId: Long,
+    navigateUp: () -> Unit,
 ) {
     val context = LocalContext.current
     val file = context.createImageFile()
@@ -219,15 +219,7 @@ fun ProductFormScreen(
                     .weight(1f),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Search
-                ),
-                keyboardActions = KeyboardActions(
-                    onSearch = {
-                        defaultKeyboardAction(ImeAction.Done)
-                        event(ProductFormEvent.SaveProduct(
-                            categoryId = categoryId
-                        ))
-                    }
+                    imeAction = ImeAction.Done
                 ),
                 placeholder = {
                     Text("15")
@@ -298,6 +290,7 @@ fun ProductFormScreen(
                             categoryId = categoryId
                         )
                     )
+                    navigateUp()
                 }
             ) {
                 Text(
@@ -329,6 +322,7 @@ fun ProductFormScreenPreview() {
     ProductFormScreen(
         event = {},
         state = ProductFormState(),
-        categoryId = 1L
+        categoryId = 1L,
+        navigateUp = {}
     )
 }

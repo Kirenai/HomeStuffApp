@@ -52,7 +52,7 @@ fun ProductList(
     ) {
         items(
             count = nourishments.itemCount,
-            key = nourishments.itemKey { it.productId }
+            key = nourishments.itemKey { it.productId!! }
         ) {
             nourishments[it]?.let { product: Product ->
                 ProductItem(

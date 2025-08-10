@@ -12,7 +12,7 @@ data class Shopping(
     val price: String? = null,
     val quantity: String? = null,
     val unit: UnitType? = null,
-    val productId: Long,
+    val productId: Long? = null,
 ) : Parcelable
 
 val shoppingMock = listOf(

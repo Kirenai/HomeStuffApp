@@ -35,7 +35,7 @@ class ProductViewModel @Inject constructor(
         }
     }
 
-    private suspend fun delete(productId: Long) {
+    private suspend fun delete(productId: Long?) {
         this.deleteProduct.invoke(productId = productId)
     }
 }

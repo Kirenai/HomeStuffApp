@@ -6,7 +6,7 @@ import me.re.homestuffapp.domain.model.enums.UnitType
 
 @Parcelize
 data class Product(
-    val productId: Long = 1,
+    val productId: Long? = null,
     val name: String,
 //    val title: String? = null,
     val stock: Int? = null,

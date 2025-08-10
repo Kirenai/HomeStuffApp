@@ -259,7 +259,10 @@ fun HomeStuffNavigator() {
                     ProductFormScreen(
                         event = viewModel::onEvent,
                         state = viewModel.state.collectAsState().value,
-                        categoryId = id
+                        categoryId = id,
+                        navigateUp = {
+                            navController.navigateUp()
+                        }
                     )
                 }
             }
@@ -363,9 +366,11 @@ private fun navigateToDetails(
     product: Product
 ) {
     navController.currentBackStackEntry?.savedStateHandle?.set(KEY_NOURISHMENT, product)
-    navController.navigate(
-        route = Route.DetailsScreen.createRoute(productId = product.productId)
-    )
+    product.productId?.let {
+        navController.navigate(
+            route = Route.DetailsScreen.createRoute(productId = product.productId)
+        )
+    }
 }
 
 private fun navigateToShoppingEdit(

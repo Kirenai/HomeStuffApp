@@ -17,6 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -101,7 +102,7 @@ fun ProductScreen(
         if (displayList.isEmpty()) {
             Box(
                 modifier = Modifier.fillMaxSize(),
-                contentAlignment = androidx.compose.ui.Alignment.Center
+                contentAlignment = Alignment.Center
             ) {
                 Text(
                     text = "No products found",
@@ -135,7 +136,7 @@ fun ProductScreen(
                     }
                 }
 
-                items(items, key = { it.productId }) { product ->
+                items(items, key = { it.productId!! }) { product: Product ->
                     SwipeToDeleteItem(
                         onEventDelete = {
                             event(ProductEvent.OnDeleteProduct(productId = product.productId))
