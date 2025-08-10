@@ -29,7 +29,8 @@ fun CategoryList(
             ) {
                 CategoryItem(
                     category = category,
-                    navigateToCategory = navigateToCategory
+                    navigateToCategory = navigateToCategory,
+                    event = event
                 )
             }
         }

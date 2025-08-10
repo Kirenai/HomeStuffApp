@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import me.re.homestuffapp.R
+import me.re.homestuffapp.domain.model.Category
 import me.re.homestuffapp.domain.model.CategoryWithItemCount
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -46,7 +47,7 @@ fun CategoryEditBottomSheet(
     scope: CoroutineScope,
     category: CategoryWithItemCount,
     onDismiss: () -> Unit,
-    onCategoryUpdated: () -> Unit
+    onCategoryUpdated: (Category) -> Unit
 ) {
     var storeName by remember { mutableStateOf(category.name) }
     var discard by remember { mutableStateOf(false) }
@@ -143,7 +144,12 @@ fun CategoryEditBottomSheet(
                         onClick = {
                             scope.launch { sheetState.hide() }.invokeOnCompletion {
                                 if (sheetState.isVisible.not()) {
-                                    onCategoryUpdated()
+                                    onCategoryUpdated(
+                                        Category(
+                                            categoryId = category.categoryId,
+                                            name = storeName,
+                                        )
+                                    )
                                 }
                             }
                         },

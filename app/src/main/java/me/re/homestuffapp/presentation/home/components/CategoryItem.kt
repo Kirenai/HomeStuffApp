@@ -46,6 +46,7 @@ import androidx.compose.ui.unit.sp
 import me.re.homestuffapp.R
 import me.re.homestuffapp.domain.model.CategoryWithItemCount
 import me.re.homestuffapp.domain.model.categories
+import me.re.homestuffapp.presentation.home.HomeEvent
 import me.re.homestuffapp.presentation.home.category.components.CategoryEditBottomSheet
 
 fun Modifier.shimmerEffect(cornerRadius: CornerRadius = CornerRadius(x = 12f, y = 12f)) = composed {
@@ -71,7 +72,8 @@ fun Modifier.shimmerEffect(cornerRadius: CornerRadius = CornerRadius(x = 12f, y 
 fun CategoryItem(
     modifier: Modifier = Modifier,
     category: CategoryWithItemCount,
-    navigateToCategory: (Long) -> Unit
+    navigateToCategory: (Long) -> Unit,
+    event: (HomeEvent) -> Unit
 ) {
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true,
@@ -89,7 +91,8 @@ fun CategoryItem(
             scope = scope,
             category = category,
             onDismiss = { showBottomSheet = false },
-            onCategoryUpdated = {
+            onCategoryUpdated = { newCategory ->
+                event(HomeEvent.OnUpdateCategoryName(category = newCategory))
                 showBottomSheet = false
             }
         )
@@ -183,6 +186,7 @@ fun CategoryItem(
 fun CategoryItemPreview() {
     CategoryItem(
         category = categories[0],
-        navigateToCategory = {}
+        navigateToCategory = {},
+        event = {}
     )
 }

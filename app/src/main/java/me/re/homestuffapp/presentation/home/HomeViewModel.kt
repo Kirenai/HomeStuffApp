@@ -11,15 +11,18 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import me.re.homestuffapp.domain.model.Category
 import me.re.homestuffapp.domain.model.CategoryWithItemCount
 import me.re.homestuffapp.domain.usecases.category.DeleteCategory
 import me.re.homestuffapp.domain.usecases.category.GetCategories
+import me.re.homestuffapp.domain.usecases.category.UpdateCategory
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getCategoriesUseCase: GetCategories,
-    private val deleteCategory: DeleteCategory
+    private val deleteCategory: DeleteCategory,
+    private val updateCategoryUsesCase: UpdateCategory
 ) : ViewModel() {
     private val _state = mutableStateOf(
         HomeState()
@@ -42,6 +45,12 @@ class HomeViewModel @Inject constructor(
             is HomeEvent.OnDeleteCategory -> {
                 viewModelScope.launch {
                     deleteBy(event.categoryId)
+                }
+            }
+
+            is HomeEvent.OnUpdateCategoryName -> {
+                viewModelScope.launch {
+                    updateCategory(category = event.category)
                 }
             }
         }
@@ -74,5 +83,9 @@ class HomeViewModel @Inject constructor(
 
     private suspend fun deleteBy(categoryId: Long) {
         this.deleteCategory(categoryId = categoryId)
+    }
+
+    private suspend fun updateCategory(category: Category) {
+        this.updateCategoryUsesCase.invoke(category = category)
     }
 }
