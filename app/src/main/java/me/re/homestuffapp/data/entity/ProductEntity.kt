@@ -28,7 +28,7 @@ import me.re.homestuffapp.domain.model.enums.UnitType
     ]
 )
 data class ProductEntity(
-    @PrimaryKey(autoGenerate = true) val productId: Long = 0,
+    @PrimaryKey(autoGenerate = true) val productId: Long? = null,
     val name: String,
     val description: String,
     val imageUrl: String? = null,

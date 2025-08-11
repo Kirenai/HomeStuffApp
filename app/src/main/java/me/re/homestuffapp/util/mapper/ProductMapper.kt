@@ -7,6 +7,7 @@ fun toProductEntity(
     product: Product
 ): ProductEntity {
     return ProductEntity(
+        productId = product.productId,
         name = product.name,
         description = product.description,
         imageUrl = product.imageUrl,

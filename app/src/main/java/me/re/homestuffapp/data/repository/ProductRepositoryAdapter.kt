@@ -60,4 +60,9 @@ class ProductRepositoryAdapter @Inject constructor(
     override suspend fun deleteProduct(productId: Long) {
         this.productDao.deleteProduct(productId = productId)
     }
+
+    override suspend fun updateProduct(product: Product) {
+        val productEntity: ProductEntity = toProductEntity(product = product)
+        this.productDao.updateProducts(products = listOf(productEntity))
+    }
 }

@@ -29,7 +29,8 @@ fun ProductList(
             products[it].let { product ->
                 ProductItem(
                     product = product,
-                    onClick = { onClick(product) }
+                    onClick = { onClick(product) },
+                    event = {}
                 )
             }
         }
@@ -57,7 +58,8 @@ fun ProductList(
             nourishments[it]?.let { product: Product ->
                 ProductItem(
                     product = product,
-                    onClick = { onClick(product) }
+                    onClick = { onClick(product) },
+                    event = {}
                 )
             }
         }

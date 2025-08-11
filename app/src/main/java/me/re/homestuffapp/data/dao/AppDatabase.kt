@@ -10,7 +10,7 @@ import me.re.homestuffapp.data.entity.PurchaseEntity
 
 @Database(
     entities = [CategoryEntity::class, ProductEntity::class, PurchaseEntity::class],
-    version = 6,
+    version = 7,
     exportSchema = false,
 )
 @TypeConverters(

@@ -45,7 +45,7 @@ class PurchaseRepository @Inject constructor(
     }
 
     private fun findPurchaseByProductId(
-        productId: Long,
+        productId: Long?,
         purchases: List<PurchaseEntity>
     ): PurchaseEntity {
         return purchases.firstOrNull {

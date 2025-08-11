@@ -147,7 +147,8 @@ fun ProductScreen(
                             product = product,
                             onClick = {
                                 navigateToDetails(product)
-                            }
+                            },
+                            event = event,
                         )
                     }
                 }
