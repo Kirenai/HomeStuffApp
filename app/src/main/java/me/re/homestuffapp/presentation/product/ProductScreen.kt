@@ -1,5 +1,7 @@
 package me.re.homestuffapp.presentation.product
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,7 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -18,6 +20,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,6 +34,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.launch
 import me.re.homestuffapp.domain.model.Product
 import me.re.homestuffapp.presentation.common.SearchBar
 import me.re.homestuffapp.presentation.common.SwipeToDeleteItem
@@ -163,23 +167,35 @@ fun ProductScreen(
                     }
                 }
 
-                items(items, key = { it.productId!! }) { product: Product ->
-                    SwipeToDeleteItem(
-                        onEventDelete = {
-                            event(ProductEvent.OnDeleteProduct(productId = product.productId))
-                        },
-                        postfix = "Product"
+                itemsIndexed(items, key = { _, it -> it.productId!! }) { index, product: Product ->
+                    var visible by remember { mutableStateOf(false) }
+                    val scope = rememberCoroutineScope()
+                    LaunchedEffect(Unit) {
+                        scope.launch {
+                            delay(100L * index)
+                            visible = true
+                        }
+                    }
+                    AnimatedVisibility(
+                        visible = visible,
+                        enter = fadeIn()
                     ) {
-                        ProductItem(
-                            product = product,
-                            onClick = {
-                                navigateToDetails(product)
+                        SwipeToDeleteItem(
+                            onEventDelete = {
+                                event(ProductEvent.OnDeleteProduct(productId = product.productId))
                             },
-                            event = event,
-                        )
+                            postfix = "Product"
+                        ) {
+                            ProductItem(
+                                product = product,
+                                onClick = {
+                                    navigateToDetails(product)
+                                },
+                                event = event,
+                            )
+                        }
                     }
                 }
-
             }
         }
     }
