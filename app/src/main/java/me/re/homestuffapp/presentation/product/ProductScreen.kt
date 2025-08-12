@@ -10,9 +10,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,16 +24,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flowOf
 import me.re.homestuffapp.domain.model.Product
 import me.re.homestuffapp.presentation.common.SearchBar
-import me.re.homestuffapp.presentation.product.components.SortButton
 import me.re.homestuffapp.presentation.common.SwipeToDeleteItem
 import me.re.homestuffapp.presentation.product.components.ProductItem
+import me.re.homestuffapp.presentation.product.components.SortButton
 import me.re.homestuffapp.presentation.product.form.ProductEvent
 
 @Composable
@@ -78,11 +82,34 @@ fun ProductScreen(
         )
     }
 
+    var showLoading by remember { mutableStateOf(true) }
+    val isLoading = products.loadState.refresh is LoadState.Loading
+
+    LaunchedEffect(isLoading) {
+        if (isLoading) {
+            showLoading = true
+        } else {
+            delay(timeMillis = 500)
+            showLoading = false
+        }
+    }
+
     Column(
         modifier = Modifier
             .padding(start = 16.dp, end = 16.dp)
             .fillMaxSize()
     ) {
+        // Mostrar loading al menos 0.5 segundos
+        if (showLoading) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
+            return
+        }
+
         SearchBar(
             text = searchText,
             onChangeValue = {
