@@ -318,11 +318,14 @@ fun ProductEditBottomSheet(
                         )
                     )
 
-                    Row {
+                    Row(
+                        modifier = Modifier
+                            .height(48.dp)
+                    ) {
                         OutlinedTextField(
                             modifier = Modifier
-                                .height(48.dp)
                                 .fillMaxWidth()
+                                .height(48.dp)
                                 .weight(1f),
                             value = amountPerUnit,
                             onValueChange = {
@@ -347,7 +350,8 @@ fun ProductEditBottomSheet(
                             suffix = {
                                 Text(
                                     text = unit.toShortString(),
-                                    modifier = Modifier.padding(end = 8.dp)
+                                    modifier = Modifier.padding(end = 8.dp),
+                                    style = MaterialTheme.typography.bodySmall
                                 )
                             }
                         )
