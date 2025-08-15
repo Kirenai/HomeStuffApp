@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -39,6 +38,7 @@ import kotlinx.coroutines.launch
 import me.re.homestuffapp.R
 import me.re.homestuffapp.domain.model.Category
 import me.re.homestuffapp.domain.model.CategoryWithItemCount
+import me.re.homestuffapp.presentation.common.DiscardAlertDialog
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -52,50 +52,17 @@ fun CategoryEditBottomSheet(
     var storeName by remember { mutableStateOf(category.name) }
     var discard by remember { mutableStateOf(false) }
 
-    if (discard) {
-        AlertDialog(
-            onDismissRequest = {
-                discard = false
-            },
-            title = {
-                Text(
-                    text = "Discard Changes",
-                    style = MaterialTheme.typography.titleLarge.copy(
-                        fontWeight = FontWeight.Medium,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                )
-            },
-            text = {
-                Text(
-                    text = "Are you sure you want to discard the changes?",
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                )
-            },
-            confirmButton = {
-                Button(
-                    onClick = {
-                        scope.launch { sheetState.hide() }.invokeOnCompletion {
-                            if (sheetState.isVisible.not()) {
-                                onDismiss()
-                            }
-                        }
-                    }
-                ) {
-                    Text("Discard")
-                }
-            },
-            dismissButton = {
-                Button(
-                    onClick = { discard = false }
-                ) {
-                    Text("Keep Editing")
+    DiscardAlertDialog(
+        isDiscard = discard,
+        onDismissRequest = { discard = false },
+        onHideClick = {
+            scope.launch { sheetState.hide() }.invokeOnCompletion {
+                if (sheetState.isVisible.not()) {
+                    onDismiss()
                 }
             }
-        )
-    }
+        }
+    )
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
