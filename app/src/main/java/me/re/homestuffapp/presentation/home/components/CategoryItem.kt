@@ -132,7 +132,6 @@ fun CategoryItem(
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
             Text(
-                modifier = Modifier.padding(vertical = 4.dp),
                 text = category.name,
                 style = MaterialTheme.typography.bodyLarge.copy(
                     fontWeight = FontWeight.Bold,
