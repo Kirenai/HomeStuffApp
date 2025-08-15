@@ -55,7 +55,7 @@ fun CategoryEditBottomSheet(
     DiscardAlertDialog(
         isDiscard = discard,
         onDismissRequest = { discard = false },
-        onHideClick = {
+        onConfirmClick = {
             scope.launch { sheetState.hide() }.invokeOnCompletion {
                 if (sheetState.isVisible.not()) {
                     onDismiss()

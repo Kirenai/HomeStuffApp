@@ -13,7 +13,7 @@ fun DiscardAlertDialog(
     modifier: Modifier = Modifier,
     isDiscard: Boolean,
     onDismissRequest: () -> Unit,
-    onHideClick: () -> Unit,
+    onConfirmClick: () -> Unit,
 ) {
     if (isDiscard) {
         AlertDialog(
@@ -41,7 +41,7 @@ fun DiscardAlertDialog(
             confirmButton = {
                 Button(
                     onClick = {
-                        onHideClick()
+                        onConfirmClick()
                     }
                 ) {
                     Text("Discard")
