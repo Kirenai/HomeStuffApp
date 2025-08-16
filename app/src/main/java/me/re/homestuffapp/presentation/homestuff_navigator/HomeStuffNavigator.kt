@@ -12,7 +12,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -25,6 +24,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -197,7 +197,7 @@ fun HomeStuffNavigator() {
         ) {
             composable(route = Route.HomeScreen.route) {
                 val viewModel: HomeViewModel = hiltViewModel()
-                val categories by viewModel.categoriesWithCount.collectAsState()
+                val categories by viewModel.categoriesWithCount.collectAsStateWithLifecycle()
                 println("categories = $categories")
                 val error: MutableLiveData<String>? = navController.currentBackStackEntry
                     ?.savedStateHandle
@@ -255,10 +255,11 @@ fun HomeStuffNavigator() {
                 val categoryId = backStackEntry.arguments?.getString("categoryId")?.toLongOrNull()
                 println("categoryId NFS = $categoryId")
                 val viewModel: ProductFormViewModel = hiltViewModel()
+                val state by viewModel.state.collectAsStateWithLifecycle()
                 categoryId?.let {id ->
                     ProductFormScreen(
                         event = viewModel::onEvent,
-                        state = viewModel.state.collectAsState().value,
+                        state = state,
                         categoryId = id,
                         navigateUp = {
                             navController.navigateUp()
@@ -280,9 +281,9 @@ fun HomeStuffNavigator() {
                     val viewModel: DetailsViewModel = hiltViewModel()
                     val isAlreadyAdded =
                         shoppingViewModel.shoppingList.any { shopping -> shopping.itemName == product.name }
-                    val charData by viewModel.charData.collectAsState()
-                    val months by viewModel.months.collectAsState()
-                    val lastTwoPurchases by viewModel.lastTwoPurchases.collectAsState()
+                    val charData by viewModel.charData.collectAsStateWithLifecycle()
+                    val months by viewModel.months.collectAsStateWithLifecycle()
+                    val lastTwoPurchases by viewModel.lastTwoPurchases.collectAsStateWithLifecycle()
                     DetailsScreen(
                         product = product,
                         navigateToShopping = {
@@ -331,6 +332,7 @@ fun HomeStuffNavigator() {
             }
             composable(route = Route.CategoryFormScreen.route) {
                 val viewModel: CategoryFormViewModel = hiltViewModel()
+                val state by viewModel.state.collectAsStateWithLifecycle()
                 CategoryFormScreen(
                     event = viewModel::onEvent,
                     navigateUp = { error ->
@@ -342,7 +344,7 @@ fun HomeStuffNavigator() {
 
                         navController.popBackStack()
                     },
-                    state = viewModel.state.collectAsState().value
+                    state = state
                 )
             }
         }

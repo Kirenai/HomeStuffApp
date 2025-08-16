@@ -24,16 +24,16 @@ class DetailsViewModel @Inject constructor(
     private val productId = savedStateHandle.get<String>("productId")?.toLongOrNull()
 
     val lastTwoPurchases = getLastTwoPurchases.invoke(productId = productId)
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), emptyList())
 
     val charData = getLast15Prices.invoke(productId = productId)
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), emptyList())
 
     val months = charData
         .map { list ->
             list.map { data ->
                 Month.of(data.month.toInt()).getDisplayName(TextStyle.SHORT, Locale.ENGLISH)
             }.distinct().sorted()
-        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), emptyList())
 
 }
